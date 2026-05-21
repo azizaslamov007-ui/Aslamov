@@ -2,153 +2,118 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AB Trade - Трейдинг Калькулятор</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Aslamov Trade</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { width:100%; height:100%; background:#0f111a; font-family:'Segoe UI',sans-serif; }
   body {
     min-height: 100vh;
-    background: #0f111a;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px 16px;
-    font-family: 'Segoe UI', sans-serif;
+    padding: 20px 16px;
   }
   .card {
-    width: 100%;
-    max-width: 400px;
-    background: linear-gradient(170deg,#1a1f2e,#141824);
-    border-radius: 24px;
-    padding: 24px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-    border: 1px solid #252c3d;
+    width:100%; max-width:420px;
+    background:linear-gradient(170deg,#1a1f2e,#141824);
+    border-radius:20px; padding:22px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.6);
+    border:1px solid #252c3d;
   }
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
-  }
+  .header { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
   .logo {
-    width:48px; height:48px; border-radius:14px;
-    background: linear-gradient(135deg,#a16207,#eab308);
+    width:46px; height:46px; border-radius:12px; flex-shrink:0;
+    background:linear-gradient(135deg,#1d4ed8,#3b82f6);
     display:flex; align-items:center; justify-content:center;
-    font-weight:900; font-size:15px; color:#000;
-    box-shadow: 0 4px 14px rgba(234,179,8,0.4);
-    flex-shrink: 0;
+    font-weight:900; font-size:14px; color:#fff;
+    box-shadow:0 4px 14px rgba(59,130,246,0.4);
   }
-  .header-sub { color:#eab308; font-size:10px; letter-spacing:2.5px; font-weight:700; }
-  .header-title { color:#e2e8f0; font-size:19px; font-weight:700; }
-  .section-label {
-    color:#64748b; font-size:10px; letter-spacing:2.5px; margin-bottom:10px;
-  }
-  .dir-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+  .header-sub { color:#3b82f6; font-size:10px; letter-spacing:2px; font-weight:700; }
+  .header-title { color:#e2e8f0; font-size:18px; font-weight:700; margin-top:2px; }
+  .section-label { color:#64748b; font-size:10px; letter-spacing:2.5px; margin-bottom:8px; }
+  .dir-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
   .dir-btn {
-    padding:14px 0; border-radius:12px; border:none; cursor:pointer;
-    font-weight:800; font-size:15px; letter-spacing:1.5px;
-    transition: all 0.18s;
-    background:#1e2535; color:#334155; border:1px solid #252c3d;
+    padding:13px 0; border-radius:12px; border:1px solid #252c3d; cursor:pointer;
+    font-weight:800; font-size:14px; letter-spacing:1.5px;
+    background:#1e2535; color:#334155; font-family:inherit; transition:all 0.18s;
   }
-  .dir-btn.active-buy {
-    background: linear-gradient(135deg,#14532d,#16a34a);
-    color:#fff; border:1px solid #16a34a;
-    box-shadow: 0 4px 18px rgba(22,163,74,0.3);
-  }
-  .dir-btn.active-sell {
-    background: linear-gradient(135deg,#7f1d1d,#dc2626);
-    color:#fff; border:1px solid #dc2626;
-    box-shadow: 0 4px 18px rgba(220,38,38,0.3);
-  }
-  .input-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
-  .input-label { color:#475569; font-size:10px; letter-spacing:2px; margin-bottom:6px; }
+  .dir-btn.active-buy { background:linear-gradient(135deg,#14532d,#16a34a); color:#fff; border-color:#16a34a; box-shadow:0 4px 16px rgba(22,163,74,0.3); }
+  .dir-btn.active-sell { background:linear-gradient(135deg,#7f1d1d,#dc2626); color:#fff; border-color:#dc2626; box-shadow:0 4px 16px rgba(220,38,38,0.3); }
+  .input-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+  .input-label { color:#475569; font-size:10px; letter-spacing:2px; margin-bottom:5px; }
   input[type=number] {
-    width:100%;
-    background:#0f1622; border:1px solid #252c3d;
-    border-radius:12px; padding:13px 12px;
-    color:#e2e8f0; font-size:22px; font-weight:700;
-    outline:none; font-family:inherit;
-    -moz-appearance: textfield;
+    width:100%; background:#0f1622; border:1px solid #252c3d;
+    border-radius:10px; padding:12px 10px;
+    color:#e2e8f0; font-size:20px; font-weight:700;
+    outline:none; font-family:inherit; -moz-appearance:textfield;
   }
   input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
-  input[type=number]:focus { border-color:#eab308; }
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; }
+  input[type=number]:focus { border-color:#3b82f6; }
   .range-bar {
     display:flex; justify-content:space-between; align-items:center;
     background:#0f1622; border:1px solid #252c3d;
-    border-radius:10px; padding:9px 14px; margin-bottom:14px;
+    border-radius:10px; padding:8px 12px; margin-bottom:12px;
   }
   .range-text { color:#64748b; font-size:12px; }
   .range-val { color:#e2e8f0; font-weight:800; }
-  .range-badge {
-    font-size:11px; padding:2px 10px; border-radius:6px; font-weight:700;
-  }
+  .range-badge { font-size:11px; padding:2px 10px; border-radius:6px; font-weight:700; }
   .badge-good { background:rgba(22,163,74,0.12); color:#4ade80; }
   .badge-warn { background:rgba(251,191,36,0.12); color:#fbbf24; }
   .error-box {
     background:rgba(220,38,38,0.08); border:1px solid rgba(220,38,38,0.25);
-    border-radius:10px; padding:10px 14px; margin-bottom:12px;
+    border-radius:10px; padding:10px 14px; margin-bottom:10px;
     color:#f87171; font-size:13px; display:none;
   }
   .calc-btn {
-    width:100%; padding:15px 0;
-    background:linear-gradient(135deg,#a16207,#eab308);
+    width:100%; padding:14px 0;
+    background:linear-gradient(135deg,#1d4ed8,#3b82f6);
     border:none; border-radius:12px; cursor:pointer;
-    color:#000; font-weight:900; font-size:14px; letter-spacing:2px;
-    box-shadow:0 4px 20px rgba(234,179,8,0.25); font-family:inherit;
-    margin-bottom: 0;
-    transition: opacity 0.15s;
+    color:#fff; font-weight:900; font-size:14px; letter-spacing:2px;
+    box-shadow:0 4px 20px rgba(59,130,246,0.3); font-family:inherit;
   }
   .calc-btn:active { opacity:0.85; }
-  .results { display:none; margin-top:20px; }
-  .results-label { color:#64748b; font-size:10px; letter-spacing:2.5px; margin-bottom:12px; }
+  .results { display:none; margin-top:16px; }
+  .results-label { color:#64748b; font-size:10px; letter-spacing:2.5px; margin-bottom:10px; }
   .result-row {
     display:flex; align-items:center; justify-content:space-between;
     background:#0f1622; border:1px solid #252c3d;
-    border-radius:14px; padding:14px 16px; margin-bottom:10px;
+    border-radius:12px; padding:12px 14px; margin-bottom:8px;
   }
-  .row-label {
-    padding:5px 12px; border-radius:8px;
-    font-size:12px; font-weight:700;
-  }
-  .lbl-razvrot  { background:rgba(239,68,68,0.13);  border:1px solid rgba(239,68,68,0.35);  color:#ef4444; }
-  .lbl-korr     { background:rgba(129,140,248,0.13); border:1px solid rgba(129,140,248,0.35); color:#818cf8; }
-  .lbl-konsol   { background:rgba(167,139,250,0.13); border:1px solid rgba(167,139,250,0.35); color:#a78bfa; }
-  .row-right { display:flex; align-items:center; gap:10px; }
-  .row-price { font-size:22px; font-weight:800; }
+  .row-label { padding:4px 10px; border-radius:8px; font-size:12px; font-weight:700; }
+  .lbl-razvrot { background:rgba(239,68,68,0.13); border:1px solid rgba(239,68,68,0.35); color:#ef4444; }
+  .lbl-korr    { background:rgba(129,140,248,0.13); border:1px solid rgba(129,140,248,0.35); color:#818cf8; }
+  .lbl-konsol  { background:rgba(167,139,250,0.13); border:1px solid rgba(167,139,250,0.35); color:#a78bfa; }
+  .row-right { display:flex; align-items:center; gap:8px; }
+  .row-price { font-size:20px; font-weight:800; }
   .price-buy  { color:#16a34a; }
   .price-sell { color:#dc2626; }
-  .sig-badge {
-    padding:4px 10px; border-radius:7px;
-    font-size:11px; font-weight:800; letter-spacing:1px; color:#fff;
-  }
+  .sig-badge { padding:4px 9px; border-radius:7px; font-size:11px; font-weight:800; letter-spacing:1px; color:#fff; }
   .sig-buy  { background:rgba(22,163,74,0.88); }
   .sig-sell { background:rgba(185,28,28,0.88); }
-  .footer {
-    text-align:center; margin-top:14px;
-    color:#1e2535; font-size:11px; letter-spacing:1.5px;
-  }
+  .footer { text-align:center; margin-top:14px; color:#2a3550; font-size:11px; letter-spacing:1.5px; }
 </style>
 </head>
 <body>
+
 <div class="card">
-  <!-- Header -->
   <div class="header">
-    <div class="logo">AB</div>
+    <div class="logo">AT</div>
     <div>
       <div class="header-sub">XAUUSD · GOLD/USD</div>
-      <div class="header-title">Трейдинг Калькулятор</div>
+      <div class="header-title">Aslamov Trade</div>
     </div>
   </div>
 
-  <!-- Direction -->
   <div class="section-label">НАПРАВЛЕНИЕ РЫНКА</div>
   <div class="dir-grid">
     <button class="dir-btn active-buy" id="btn-buy" onclick="setDir('BUY')">▲ BUY</button>
     <button class="dir-btn" id="btn-sell" onclick="setDir('SELL')">▼ SELL</button>
   </div>
 
-  <!-- Inputs -->
   <div class="section-label">ДИАПАЗОН ДНЯ</div>
   <div class="input-grid">
     <div>
@@ -170,7 +135,6 @@
 
   <button class="calc-btn" onclick="calc()">⚡ HISOBLA</button>
 
-  <!-- Results -->
   <div class="results" id="results">
     <div class="results-label">ТОЧКИ ВХОДА</div>
     <div class="result-row">
@@ -197,9 +161,15 @@
   </div>
 </div>
 
-<div class="footer">© AB TRADE KG · @ab_tradekg</div>
+<div class="footer">© Aslamov Trade · @ab_tradekg</div>
 
 <script>
+  try {
+    window.Telegram.WebApp.expand();
+    window.Telegram.WebApp.setHeaderColor('#0f111a');
+    window.Telegram.WebApp.setBackgroundColor('#0f111a');
+  } catch(e) {}
+
   let direction = "BUY";
 
   function setDir(d) {
@@ -227,12 +197,6 @@
     document.getElementById("error-box").style.display = "none";
   }
 
-  function showError(msg) {
-    const el = document.getElementById("error-box");
-    el.textContent = msg;
-    el.style.display = "block";
-  }
-
   function setRow(priceId, sigId, price, signal) {
     const pel = document.getElementById(priceId);
     const sel = document.getElementById(sigId);
@@ -245,30 +209,27 @@
   function calc() {
     const h = parseFloat(document.getElementById("inp-high").value);
     const l = parseFloat(document.getElementById("inp-low").value);
-    if (isNaN(h) || isNaN(l)) { showError("HIGH va LOW kiriting!"); return; }
-    if (h === l)               { showError("HIGH va LOW bir xil bo'lmasin!"); return; }
-    document.getElementById("error-box").style.display = "none";
+    const err = document.getElementById("error-box");
+    if (isNaN(h) || isNaN(l)) { err.textContent="HIGH va LOW kiriting!"; err.style.display="block"; return; }
+    if (h === l) { err.textContent="HIGH va LOW bir xil bo'lmasin!"; err.style.display="block"; return; }
+    err.style.display = "none";
 
-    const H = Math.max(h, l);
-    const L = Math.min(h, l);
-    const R = H - L;
-
-    let razvrot, razvrot_sig, korr, korr_sig, konsol, konsol_sig;
+    const H = Math.max(h, l), L = Math.min(h, l), R = H - L;
+    let razvrot, rs, korr, ks, konsol, kns;
 
     if (direction === "BUY") {
-      razvrot = H + R * 0.38;  razvrot_sig = "SELL";
-      korr    = L + R * 0.25;  korr_sig    = "BUY";
-      konsol  = L + R * 0.12;  konsol_sig  = "BUY";
+      razvrot=H+R*0.38; rs="SELL";
+      korr=L+R*0.25;    ks="BUY";
+      konsol=L+R*0.12;  kns="BUY";
     } else {
-      razvrot = L - R * 0.38;  razvrot_sig = "BUY";
-      korr    = H - R * 0.25;  korr_sig    = "SELL";
-      konsol  = H - R * 0.12;  konsol_sig  = "SELL";
+      razvrot=L-R*0.38; rs="BUY";
+      korr=H-R*0.25;    ks="SELL";
+      konsol=H-R*0.12;  kns="SELL";
     }
 
-    setRow("p-razvrot", "s-razvrot", razvrot, razvrot_sig);
-    setRow("p-korr",    "s-korr",    korr,    korr_sig);
-    setRow("p-konsol",  "s-konsol",  konsol,  konsol_sig);
-
+    setRow("p-razvrot","s-razvrot",razvrot,rs);
+    setRow("p-korr","s-korr",korr,ks);
+    setRow("p-konsol","s-konsol",konsol,kns);
     document.getElementById("results").style.display = "block";
   }
 </script>
