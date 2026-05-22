@@ -33,6 +33,7 @@
     border-radius:20px; padding:22px;
     box-shadow:0 8px 40px rgba(0,0,0,0.6);
     border:1px solid #252c3d;
+    margin-bottom: 16px;
   }
   .page { display:none; }
   .page.active { display:block; }
@@ -135,7 +136,36 @@
   .risk-sub { color:#475569; font-size:10px; margin-top:3px; }
 
   .divider { height:1px; background:#1a2535; margin:8px 0; }
-  .footer { text-align:center; margin-top:14px; color:#2a3550; font-size:11px; letter-spacing:1.5px; }
+
+  /* ── PSYCHOLOGY BLOCKS (NEW) ── */
+  .psy-container {
+    width:100%; max-width:420px;
+    display:flex; flex-direction:column; gap:12px;
+    margin-top:4px; margin-bottom:16px;
+  }
+  .psy-box {
+    border-radius:16px; padding:16px;
+    border:1px solid #252c3d;
+  }
+  .psy-warning {
+    background: linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(251,191,36,0.05) 100%);
+    border-left: 4px solid #dc2626;
+  }
+  .psy-motivation {
+    background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(29,78,216,0.05) 100%);
+    border-left: 4px solid #10b981;
+  }
+  .psy-title {
+    font-size:12px; font-weight:800; letter-spacing:1.5px; margin-bottom:6px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .title-warn { color:#f87171; }
+  .title-motiv { color:#4ade80; }
+  .psy-text {
+    color:#94a3b8; font-size:12.5px; line-height:1.6; font-weight:500;
+  }
+
+  .footer { text-align:center; margin-top:4px; color:#2a3550; font-size:11px; letter-spacing:1.5px; }
 </style>
 </head>
 <body>
@@ -266,6 +296,22 @@
     </div>
   </div>
 
+</div>
+
+<div class="psy-container">
+  <div class="psy-box psy-warning">
+    <div class="psy-title title-warn">⚠️ QAT'IY OGOHLANTIRISH</div>
+    <div class="psy-text">
+      Bozor hech kimni kechirmaydi va his-tuyg‘ularga ishonmaydi. Har bir ochilgan bitim — bu qat'iy reja. Agar risk-menejment qoidalariga amal qilmasangiz, bozor sizni bir zumda jazolaydi. Kalkulyator faqat raqamlarni beradi, lekin intizom sizning mas'uliyatingizdir!
+    </div>
+  </div>
+
+  <div class="psy-box psy-motivation">
+    <div class="psy-title title-motiv">🚀 RAG'BAT VA MOTIVATSIYA</div>
+    <div class="psy-text">
+      Bugungi kichik qadamlar — ertangi katta moliyaviy erkinlikning poydevoridir. Har bir tahlil qilingan diapazon va to‘g‘ri hisoblangan lot sizni professional treyderlikka yaqinlashtiradi. Eng kuchli treyderlar — tizim bilan ishlaydiganlardir. Olg‘a!
+    </div>
+  </div>
 </div>
 
 <div class="footer">© Aslamov Trade · @ab_tradekg</div>
