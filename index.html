@@ -10,15 +10,15 @@
   html, body { width:100%; background:#0f111a; font-family:'Segoe UI',sans-serif; }
   body { display:flex; flex-direction:column; align-items:center; padding:16px; min-height:100vh; }
 
-  /* TABS */
+  /* TABS SYSTEM */
   .tabs {
-    display:grid; grid-template-columns:1fr 1fr;
-    gap:6px; width:100%; max-width:420px; margin-bottom:14px;
+    display:grid; grid-template-columns:1fr 1fr 1fr;
+    gap:5px; width:100%; max-width:420px; margin-bottom:14px;
   }
   .tab-btn {
     padding:11px 0; border-radius:12px; border:1px solid #252c3d;
     background:#1e2535; color:#64748b; font-family:inherit;
-    font-weight:700; font-size:13px; cursor:pointer; transition:all 0.18s;
+    font-weight:700; font-size:12px; cursor:pointer; transition:all 0.18s;
   }
   .tab-btn.active {
     background:linear-gradient(135deg,#1d4ed8,#3b82f6);
@@ -26,7 +26,7 @@
     box-shadow:0 4px 14px rgba(59,130,246,0.3);
   }
 
-  /* CARD */
+  /* MAIN CARD */
   .card {
     width:100%; max-width:420px;
     background:linear-gradient(170deg,#1a1f2e,#141824);
@@ -38,6 +38,7 @@
   .page { display:none; }
   .page.active { display:block; }
 
+  /* HEADERS */
   .header { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
   .logo {
     width:46px; height:46px; border-radius:12px; flex-shrink:0;
@@ -46,11 +47,14 @@
   }
   .logo-blue { background:linear-gradient(135deg,#1d4ed8,#3b82f6); box-shadow:0 4px 14px rgba(59,130,246,0.4); }
   .logo-green { background:linear-gradient(135deg,#065f46,#10b981); box-shadow:0 4px 14px rgba(16,185,129,0.4); }
+  .logo-gold { background:linear-gradient(135deg,#b45309,#f59e0b); box-shadow:0 4px 14px rgba(245,158,11,0.4); }
   .header-sub { font-size:10px; letter-spacing:2px; font-weight:700; }
   .sub-blue { color:#3b82f6; }
   .sub-green { color:#10b981; }
+  .sub-gold { color:#f59e0b; }
   .header-title { color:#e2e8f0; font-size:18px; font-weight:700; margin-top:2px; }
 
+  /* INPUTS & FIELDS */
   .section-label { color:#64748b; font-size:10px; letter-spacing:2.5px; margin-bottom:8px; }
   .dir-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
   .dir-btn {
@@ -100,8 +104,9 @@
   .calc-btn:active { opacity:0.85; }
   .btn-blue { background:linear-gradient(135deg,#1d4ed8,#3b82f6); box-shadow:0 4px 20px rgba(59,130,246,0.3); }
   .btn-green { background:linear-gradient(135deg,#065f46,#10b981); box-shadow:0 4px 20px rgba(16,185,129,0.3); }
+  .btn-gold { background:linear-gradient(135deg,#d97706,#f59e0b); box-shadow:0 4px 20px rgba(245,158,11,0.3); }
 
-  /* RESULTS - kalkulyator */
+  /* RESULTS STYLES */
   .results { display:none; margin-top:16px; }
   .results-label { color:#64748b; font-size:10px; letter-spacing:2.5px; margin-bottom:10px; }
   .result-row {
@@ -121,7 +126,7 @@
   .sig-buy  { background:rgba(22,163,74,0.88); }
   .sig-sell { background:rgba(185,28,28,0.88); }
 
-  /* RESULTS - risk */
+  /* RISK & LIVE RESULTS */
   .risk-results { display:none; margin-top:16px; }
   .risk-card {
     background:#0f1622; border:1px solid #252c3d;
@@ -134,36 +139,36 @@
   .risk-value.yellow { color:#fbbf24; }
   .risk-value.red { color:#f87171; }
   .risk-sub { color:#475569; font-size:10px; margin-top:3px; }
-
   .divider { height:1px; background:#1a2535; margin:8px 0; }
 
-  /* ── PSYCHOLOGY BLOCKS (NEW) ── */
+  /* LIVE PRICE WIDGET */
+  .live-price-box {
+    background:#0f1622; border:1px solid #252c3d; border-radius:12px;
+    padding:16px; text-align:center; margin-bottom:16px;
+  }
+  .live-title { color:#64748b; font-size:11px; letter-spacing:1.5px; margin-bottom:4px; }
+  .live-val { font-size:28px; font-weight:900; color:#f59e0b; transition:color 0.2s; }
+
+  /* ALERT BOX ANIMATION */
+  .alert-active-box {
+    background: rgba(234,179,8,0.15); border: 2px dashed #eab308;
+    border-radius:12px; padding:12px; text-align:center; margin-top:14px;
+    color:#fef08a; font-size:13px; font-weight:700; display:none;
+  }
+
+  /* PSYCHOLOGY BLOCKS */
   .psy-container {
     width:100%; max-width:420px;
     display:flex; flex-direction:column; gap:12px;
     margin-top:4px; margin-bottom:16px;
   }
-  .psy-box {
-    border-radius:16px; padding:16px;
-    border:1px solid #252c3d;
-  }
-  .psy-warning {
-    background: linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(251,191,36,0.05) 100%);
-    border-left: 4px solid #dc2626;
-  }
-  .psy-motivation {
-    background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(29,78,216,0.05) 100%);
-    border-left: 4px solid #10b981;
-  }
-  .psy-title {
-    font-size:12px; font-weight:800; letter-spacing:1.5px; margin-bottom:6px;
-    display:flex; align-items:center; gap:6px;
-  }
+  .psy-box { border-radius:16px; padding:16px; border:1px solid #252c3d; }
+  .psy-warning { background: linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(251,191,36,0.05) 100%); border-left: 4px solid #dc2626; }
+  .psy-motivation { background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(29,78,216,0.05) 100%); border-left: 4px solid #10b981; }
+  .psy-title { font-size:12px; font-weight:800; letter-spacing:1.5px; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
   .title-warn { color:#f87171; }
   .title-motiv { color:#4ade80; }
-  .psy-text {
-    color:#94a3b8; font-size:12.5px; line-height:1.6; font-weight:500;
-  }
+  .psy-text { color:#94a3b8; font-size:12.5px; line-height:1.6; font-weight:500; }
 
   .footer { text-align:center; margin-top:4px; color:#2a3550; font-size:11px; letter-spacing:1.5px; }
 </style>
@@ -173,6 +178,7 @@
 <div class="tabs">
   <button class="tab-btn active" id="tab-btn-trade" onclick="showTab('trade')">📊 Kalkulyator</button>
   <button class="tab-btn" id="tab-btn-risk" onclick="showTab('risk')">💰 Risk</button>
+  <button class="tab-btn" id="tab-btn-alert" onclick="showTab('alert')">🔔 Ogohlantirish</button>
 </div>
 
 <div class="card">
@@ -185,56 +191,33 @@
         <div class="header-title">Aslamov Trade</div>
       </div>
     </div>
-
     <div class="section-label">BOZOR YO'NALISHI</div>
     <div class="dir-grid">
       <button class="dir-btn active-buy" id="btn-buy" onclick="setDir('BUY')">▲ BUY</button>
       <button class="dir-btn" id="btn-sell" onclick="setDir('SELL')">▼ SELL</button>
     </div>
-
     <div class="section-label">KUNLIK DIAPAZON</div>
     <div class="input-grid">
       <div>
         <div class="input-label">HIGH</div>
-        <input type="number" id="inp-high" placeholder="4680" oninput="onInput()" onkeydown="if(event.key==='Enter')calc()"/>
+        <input type="number" id="inp-high" placeholder="4680" oninput="onInput()"/>
       </div>
       <div>
         <div class="input-label">LOW</div>
-        <input type="number" id="inp-low" placeholder="4657" oninput="onInput()" onkeydown="if(event.key==='Enter')calc()"/>
+        <input type="number" id="inp-low" placeholder="4657" oninput="onInput()"/>
       </div>
     </div>
-
     <div class="range-bar" id="range-bar" style="display:none">
       <span class="range-text">Range: <span class="range-val" id="range-val"></span></span>
       <span class="range-badge" id="range-badge"></span>
     </div>
-
     <div class="error-box" id="error-box"></div>
     <button class="calc-btn btn-blue" onclick="calc()">⚡ HISOBLA</button>
-
     <div class="results" id="results">
       <div class="results-label">KIRISH NUQTALARI</div>
-      <div class="result-row">
-        <span class="row-label lbl-razvrot">Razvrot</span>
-        <div class="row-right">
-          <span class="row-price" id="p-razvrot"></span>
-          <span class="sig-badge" id="s-razvrot"></span>
-        </div>
-      </div>
-      <div class="result-row">
-        <span class="row-label lbl-korr">Korreksiya</span>
-        <div class="row-right">
-          <span class="row-price" id="p-korr"></span>
-          <span class="sig-badge" id="s-korr"></span>
-        </div>
-      </div>
-      <div class="result-row">
-        <span class="row-label lbl-konsol">Konsolidatsiya</span>
-        <div class="row-right">
-          <span class="row-price" id="p-konsol"></span>
-          <span class="sig-badge" id="s-konsol"></span>
-        </div>
-      </div>
+      <div class="result-row"><span class="row-label lbl-razvrot">Razvrot</span><div class="row-right"><span class="row-price" id="p-razvrot"></span><span class="sig-badge" id="s-razvrot"></span></div></div>
+      <div class="result-row"><span class="row-label lbl-korr">Korreksiya</span><div class="row-right"><span class="row-price" id="p-korr"></span><span class="sig-badge" id="s-korr"></span></div></div>
+      <div class="result-row"><span class="row-label lbl-konsol">Konsolidatsiya</span><div class="row-right"><span class="row-price" id="p-konsol"></span><span class="sig-badge" id="s-konsol"></span></div></div>
     </div>
   </div>
 
@@ -246,53 +229,42 @@
         <div class="header-title">Risk Kalkulyator</div>
       </div>
     </div>
-
-    <div class="input-full">
-      <div class="input-label">DEPOSIT ($)</div>
-      <input type="number" id="r-deposit" placeholder="1000" onkeydown="if(event.key==='Enter')calcRisk()"/>
-    </div>
-    <div class="input-full">
-      <div class="input-label">RISK (%)</div>
-      <input type="number" id="r-risk" placeholder="1" onkeydown="if(event.key==='Enter')calcRisk()"/>
-    </div>
-    <div class="input-full">
-      <div class="input-label">STOP LOSS (pips)</div>
-      <input type="number" id="r-sl" placeholder="20" onkeydown="if(event.key==='Enter')calcRisk()"/>
-    </div>
-
+    <div class="input-full"><div class="input-label">DEPOSIT ($)</div><input type="number" id="r-deposit" placeholder="1000"/></div>
+    <div class="input-full"><div class="input-label">RISK (%)</div><input type="number" id="r-risk" placeholder="1"/></div>
+    <div class="input-full"><div class="input-label">STOP LOSS (pips)</div><input type="number" id="r-sl" placeholder="20"/></div>
     <div class="error-box" id="r-error"></div>
     <button class="calc-btn btn-green" onclick="calcRisk()">⚡ HISOBLA</button>
-
     <div class="risk-results" id="risk-results">
       <div class="results-label">NATIJA</div>
+      <div class="risk-card"><div class="risk-row"><span class="risk-label">Xavf miqdori</span><span class="risk-value red" id="r-dollar"></span></div><div class="risk-sub">Depositingizning <span id="r-pct"></span>% qismi</div></div>
+      <div class="risk-card"><div class="risk-row"><span class="risk-label">Lot hajmi</span><span class="risk-value green" id="r-lot"></span></div><div class="risk-sub">XAUUSD uchun optimal lot hajmi</div></div>
+      <div class="risk-card"><div class="risk-row"><span class="risk-label">1:2 TP miqdori</span><span class="risk-value yellow" id="r-tp2"></span></div><div class="divider"></div><div class="risk-row" style="margin-top:8px"><span class="risk-label">1:3 TP miqdori</span><span class="risk-value yellow" id="r-tp3"></span></div></div>
+    </div>
+  </div>
 
-      <div class="risk-card">
-        <div class="risk-row">
-          <span class="risk-label">Xavf miqdori</span>
-          <span class="risk-value red" id="r-dollar"></span>
-        </div>
-        <div class="risk-sub">Depositingizning <span id="r-pct"></span>% qismi</div>
+  <div class="page" id="page-alert">
+    <div class="header">
+      <div class="logo logo-gold">🔔</div>
+      <div>
+        <div class="header-sub sub-gold">LIVE STREAM · ONTIME</div>
+        <div class="header-title">Narx Ogohlantirish</div>
       </div>
+    </div>
 
-      <div class="risk-card">
-        <div class="risk-row">
-          <span class="risk-label">Lot hajmi</span>
-          <span class="risk-value green" id="r-lot"></span>
-        </div>
-        <div class="risk-sub">XAUUSD uchun optimal lot hajmi</div>
-      </div>
+    <div class="live-price-box">
+      <div class="live-title">XAUUSD JONLI NARX (PAXG)</div>
+      <div class="live-val" id="live-gold-price">Yuklanmoqda...</div>
+    </div>
 
-      <div class="risk-card">
-        <div class="risk-row">
-          <span class="risk-label">1:2 TP miqdori</span>
-          <span class="risk-value yellow" id="r-tp2"></span>
-        </div>
-        <div class="divider"></div>
-        <div class="risk-row" style="margin-top:8px">
-          <span class="risk-label">1:3 TP miqdori</span>
-          <span class="risk-value yellow" id="r-tp3"></span>
-        </div>
-      </div>
+    <div class="input-full">
+      <div class="input-label">OGOHLANTIRISH ZONASI (NARX)</div>
+      <input type="number" id="alert-target" placeholder="Masalan: 2350.50" step="0.01"/>
+    </div>
+
+    <button class="calc-btn btn-gold" id="btn-set-alert" onclick="toggleAlert()">🔔 OGOHLANTIRISHNI YOQISH</button>
+    
+    <div class="alert-active-box" id="alert-status-box">
+      🎯 Tizim faol: Narx <span id="status-target-val"></span> bo'lganda signal beriladi!
     </div>
   </div>
 
@@ -301,16 +273,11 @@
 <div class="psy-container">
   <div class="psy-box psy-warning">
     <div class="psy-title title-warn">⚠️ QAT'IY OGOHLANTIRISH</div>
-    <div class="psy-text">
-      Bozor hech kimni kechirmaydi va his-tuyg‘ularga ishonmaydi. Har bir ochilgan bitim — bu qat'iy reja. Agar risk-menejment qoidalariga amal qilmasangiz, bozor sizni bir zumda jazolaydi. Kalkulyator faqat raqamlarni beradi, lekin intizom sizning mas'uliyatingizdir!
-    </div>
+    <div class="psy-text">Bozor hech kimni kechirmaydi va his-tuyg‘ularga ishonmaydi. Har bir ochilgan bitim — bu qat'iy reja. Rejangizga sodiq qoling!</div>
   </div>
-
   <div class="psy-box psy-motivation">
     <div class="psy-title title-motiv">🚀 RAG'BAT VA MOTIVATSIYA</div>
-    <div class="psy-text">
-      Bugungi kichik qadamlar — ertangi katta moliyaviy erkinlikning poydevoridir. Har bir tahlil qilingan diapazon va to‘g‘ri hisoblangan lot sizni professional treyderlikka yaqinlashtiradi. Eng kuchli treyderlar — tizim bilan ishlaydiganlardir. Olg‘a!
-    </div>
+    <div class="psy-text">Bugungi kichik qadamlar — ertangi katta moliyaviy erkinlikning poydevoridir. Tizim bilan ishlang. Olg‘a!</div>
   </div>
 </div>
 
@@ -323,18 +290,91 @@
     window.Telegram.WebApp.setBackgroundColor('#0f111a');
   } catch(e) {}
 
-  // ── TABS LOGIC ──
+  // Audio signali uchun brauzer konteksti
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playAlertBeep() {
+    try {
+      let osc = audioCtx.createOscillator();
+      let gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = "sine"; osc.frequency.value = 880; // Baland tiniq ovoz
+      gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+    } catch(e) {}
+  }
+
+  // TABS LOGIC
   function showTab(tab) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    
     document.getElementById('page-' + tab).classList.add('active');
     document.getElementById('tab-btn-' + tab).classList.add('active');
   }
 
-  // ── TRADE CALCULATOR LOGIC ──
-  let direction = "BUY";
+  // LIVE PRICE & ALERT LOGIC
+  let currentGoldPrice = 0;
+  let activeAlertPrice = null;
+  let isAlertRunning = false;
 
+  // Binance dagi PAXG/USDT juftligi Oltinning (XAUUSD) 1 untsiyasini aniq narxda 1:1 ko'rsatadi
+  const ws = new WebSocket("wss://stream.binance.com:9443/ws/paxgusdt@ticker");
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    const price = parseFloat(data.c);
+    if(!isNaN(price)) {
+      const oldPrice = currentGoldPrice;
+      currentGoldPrice = price;
+      const el = document.getElementById("live-gold-price");
+      el.textContent = price.toFixed(2);
+      
+      if(oldPrice > 0) {
+        el.style.color = price >= oldPrice ? "#10b981" : "#ef4444";
+      }
+
+      // Narx zonaga yetganda tekshirish logic'i
+      if(isAlertRunning && activeAlertPrice !== null) {
+        // Agar narx zonani kesib o'tsa yoki aynan teng bo'lsa
+        if ((oldPrice <= activeAlertPrice && price >= activeAlertPrice) || 
+            (oldPrice >= activeAlertPrice && price <= activeAlertPrice)) {
+          
+          playAlertBeep();
+          alert(`🎯 Aslamov Trade Ogohlantirishi: Oltin narxi siz kutgan ${activeAlertPrice} zonasiga yetdi!`);
+          toggleAlert(); // Signal berilgach o'chadi
+        }
+      }
+    }
+  };
+
+  function toggleAlert() {
+    const btn = document.getElementById("btn-set-alert");
+    const box = document.getElementById("alert-status-box");
+    const inp = document.getElementById("alert-target");
+
+    if(!isAlertRunning) {
+      const target = parseFloat(inp.value);
+      if(isNaN(target) || target <= 0) {
+        alert("Iltimos, to'g'ri zona narxini kiriting!");
+        return;
+      }
+      activeAlertPrice = target;
+      isAlertRunning = true;
+      document.getElementById("status-target-val").textContent = target.toFixed(2);
+      box.style.display = "block";
+      btn.textContent = "🛑 OGOHLANTIRISHNI O'CHIRISH";
+      btn.className = "calc-btn btn-blue";
+      inp.disabled = true;
+    } else {
+      isAlertRunning = false;
+      activeAlertPrice = null;
+      box.style.display = "none";
+      btn.textContent = "🔔 OGOHLANTIRISHNI YOQISH";
+      btn.className = "calc-btn btn-gold";
+      inp.disabled = false;
+    }
+  }
+
+  // CALCULATOR LOGIC
+  let direction = "BUY";
   function setDir(d) {
     direction = d;
     document.getElementById("btn-buy").className  = "dir-btn" + (d==="BUY"  ? " active-buy"  : "");
@@ -355,16 +395,13 @@
       bar.style.display = "flex";
     } else { bar.style.display = "none"; }
     document.getElementById("results").style.display = "none";
-    document.getElementById("error-box").style.display = "none";
   }
 
-  function setRow(priceId, sigId, price, signal) {
-    const pel = document.getElementById(priceId);
-    const sel = document.getElementById(sigId);
-    pel.textContent = price.toFixed(2);
-    pel.className = "row-price " + (signal==="BUY" ? "price-buy" : "price-sell");
-    sel.textContent = signal;
-    sel.className = "sig-badge " + (signal==="BUY" ? "sig-buy" : "sig-sell");
+  function setRow(pId, sId, p, s) {
+    const pel = document.getElementById(pId); const sel = document.getElementById(sId);
+    pel.textContent = p.toFixed(2);
+    pel.className = "row-price " + (s==="BUY" ? "price-buy" : "price-sell");
+    sel.textContent = s; sel.className = "sig-badge " + (s==="BUY" ? "sig-buy" : "sig-sell");
   }
 
   function calc() {
@@ -372,7 +409,6 @@
     const l = parseFloat(document.getElementById("inp-low").value);
     const err = document.getElementById("error-box");
     if (isNaN(h) || isNaN(l)) { err.textContent="HIGH va LOW kiriting!"; err.style.display="block"; return; }
-    if (h === l) { err.textContent="HIGH va LOW bir xil bo'lmasin!"; err.style.display="block"; return; }
     err.style.display = "none";
     const H = Math.max(h,l), L = Math.min(h,l), R = H-L;
     let razvrot, rs, korr, ks, konsol, kns;
@@ -387,28 +423,21 @@
     document.getElementById("results").style.display = "block";
   }
 
-  // ── RISK CALCULATOR LOGIC ──
+  // RISK LOGIC
   function calcRisk() {
     const deposit = parseFloat(document.getElementById("r-deposit").value);
     const risk    = parseFloat(document.getElementById("r-risk").value);
     const sl      = parseFloat(document.getElementById("r-sl").value);
     const err     = document.getElementById("r-error");
-
     if (isNaN(deposit)||isNaN(risk)||isNaN(sl)) { err.textContent="Barcha maydonlarni to'ldiring!"; err.style.display="block"; return; }
-    if (risk <= 0 || risk > 100) { err.textContent="Risk 0-100% orasida bo'lishi kerak!"; err.style.display="block"; return; }
-    if (sl <= 0) { err.textContent="Stop Loss musbat bo'lishi kerak!"; err.style.display="block"; return; }
     err.style.display = "none";
-
     const riskDollar = deposit * (risk / 100);
     const lotSize = riskDollar / (sl * 10);
-    const tp2Dollar = riskDollar * 2;
-    const tp3Dollar = riskDollar * 3;
-
     document.getElementById("r-dollar").textContent = "$" + riskDollar.toFixed(2);
     document.getElementById("r-pct").textContent = risk;
     document.getElementById("r-lot").textContent = lotSize.toFixed(2) + " lot";
-    document.getElementById("r-tp2").textContent = "$" + tp2Dollar.toFixed(2);
-    document.getElementById("r-tp3").textContent = "$" + tp3Dollar.toFixed(2);
+    document.getElementById("r-tp2").textContent = "$" + (riskDollar * 2).toFixed(2);
+    document.getElementById("r-tp3").textContent = "$" + (riskDollar * 3).toFixed(2);
     document.getElementById("risk-results").style.display = "block";
   }
 </script>
