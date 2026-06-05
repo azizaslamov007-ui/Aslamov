@@ -4,7 +4,171 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Aslamov Trade</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js">
+  // ── CALENDAR ──
+  let calData = JSON.parse(localStorage.getItem('cal_data')||'{}');
+  let calNow  = new Date();
+  let calCur  = {y: calNow.getFullYear(), m: calNow.getMonth()};
+  let calSelDay = null;
+  const CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function calKey(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+
+  function calRender(){
+    const y=calCur.y, m=calCur.m;
+    document.getElementById('cal-month').textContent = CAL_MONTHS[m]+' '+y;
+    const first=new Date(y,m,1).getDay();
+    const days=new Date(y,m+1,0).getDate();
+    const todayD = calNow.getFullYear()===y && calNow.getMonth()===m ? calNow.getDate() : -1;
+    let html='';
+    for(let i=0;i<first;i++) html+='<div style="min-height:54px"></div>';
+    for(let d=1;d<=days;d++){
+      const k=calKey(y,m,d);
+      const e=calData[k];
+      let bg='#1a2030', border='1px solid transparent', pnlHtml='';
+      if(d===todayD) border='1px solid #6366f1';
+      if(e){
+        bg=e.pnl>=0?'linear-gradient(135deg,#052e16,#14532d)':'linear-gradient(135deg,#2d0a0a,#7f1d1d)';
+        const sign=e.pnl>=0?'+':'-';
+        const col=e.pnl>=0?'#4ade80':'#f87171';
+        pnlHtml=`<div style="font-size:10px;font-weight:800;color:${col};text-align:center">${sign}$${Math.abs(e.pnl).toFixed(0)}</div>`;
+      }
+      html+=`<div onclick="calOpenDay(${d})" style="border-radius:10px;padding:5px 3px;min-height:54px;display:flex;flex-direction:column;align-items:center;cursor:pointer;background:${bg};border:${border};transition:all 0.15s">
+        <div style="font-size:12px;font-weight:700;color:${e?'#e2e8f0':'#64748b'};margin-bottom:2px">${d}</div>
+        ${pnlHtml}
+      </div>`;
+    }
+    document.getElementById('cal-grid').innerHTML=html;
+    calRenderMonthStats();
+  }
+
+  function calRenderMonthStats(){
+    const y=calCur.y,m=calCur.m,days=new Date(y,m+1,0).getDate();
+    let total=0,wins=0,losses=0,td=0;
+    for(let d=1;d<=days;d++){
+      const e=calData[calKey(y,m,d)];
+      if(e){total+=e.pnl;td++;if(e.pnl>=0)wins++;else losses++;}
+    }
+    const wr=td>0?Math.round(wins/td*100):0;
+    document.getElementById('cal-month-stats').innerHTML=`
+      <div style="background:#1a2030;border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:${total>=0?'#4ade80':'#f87171'}">${total>=0?'+':''}$${Math.abs(total).toFixed(0)}</div>
+        <div style="font-size:9px;color:#3a4a60;margin-top:2px;letter-spacing:1px">OY PNL</div>
+      </div>
+      <div style="background:#1a2030;border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:#6366f1">${wr}%</div>
+        <div style="font-size:9px;color:#3a4a60;margin-top:2px;letter-spacing:1px">WIN RATE</div>
+      </div>
+      <div style="background:#1a2030;border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:#e2e8f0">${td}</div>
+        <div style="font-size:9px;color:#3a4a60;margin-top:2px;letter-spacing:1px">SAVDO KUN</div>
+      </div>
+    `;
+  }
+
+  function calRenderAllStats(){
+    let total=0,wins=0,losses=0,days=0;
+    let best={pnl:-Infinity,k:''}, worst={pnl:Infinity,k:''};
+    Object.entries(calData).forEach(([k,e])=>{
+      total+=e.pnl;days++;
+      if(e.pnl>=0)wins++;else losses++;
+      if(e.pnl>best.pnl){best.pnl=e.pnl;best.k=k;}
+      if(e.pnl<worst.pnl){worst.pnl=e.pnl;worst.k=k;}
+    });
+    const wr=days>0?Math.round(wins/days*100):0;
+    const avgWin=wins>0?(Object.values(calData).filter(e=>e.pnl>=0).reduce((a,e)=>a+e.pnl,0)/wins).toFixed(0):0;
+    document.getElementById('cal-all-stats').innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:${total>=0?'#4ade80':'#f87171'}">${total>=0?'+':''}$${Math.abs(total).toFixed(0)}</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">JAMI PNL</div>
+        </div>
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:#6366f1">${wr}%</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">WIN RATE</div>
+        </div>
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:#4ade80">${wins}</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">WIN KUNLAR ✅</div>
+        </div>
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:#f87171">${losses}</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">LOSS KUNLAR ❌</div>
+        </div>
+      </div>
+      ${best.k?`<div style="background:#1a2030;border-radius:12px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center"><span style="color:#64748b;font-size:12px">🏆 Eng yaxshi kun</span><div style="text-align:right"><div style="font-size:18px;font-weight:900;color:#4ade80">+$${best.pnl.toFixed(0)}</div><div style="font-size:10px;color:#3a4a60">${best.k}</div></div></div>`:''}
+      ${worst.k?`<div style="background:#1a2030;border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="color:#64748b;font-size:12px">📉 Eng yomon kun</span><div style="text-align:right"><div style="font-size:18px;font-weight:900;color:#f87171">-$${Math.abs(worst.pnl).toFixed(0)}</div><div style="font-size:10px;color:#3a4a60">${worst.k}</div></div></div>`:''}
+      ${days===0?'<div style="text-align:center;color:#3a4a60;padding:40px;font-size:13px">📭 Hali ma'lumot yo'q</div>':''}
+    `;
+  }
+
+  function calSwitchTab(tab){
+    document.getElementById('cal-tab-pnl').style.background=tab==='pnl'?'#6366f1':'transparent';
+    document.getElementById('cal-tab-pnl').style.color=tab==='pnl'?'#fff':'#3a4a60';
+    document.getElementById('cal-tab-stats').style.background=tab==='stats'?'#6366f1':'transparent';
+    document.getElementById('cal-tab-stats').style.color=tab==='stats'?'#fff':'#3a4a60';
+    document.getElementById('cal-pnl-view').style.display=tab==='pnl'?'block':'none';
+    document.getElementById('cal-stats-view').style.display=tab==='stats'?'block':'none';
+    if(tab==='stats') calRenderAllStats();
+  }
+
+  function calPrev(){calCur.m--;if(calCur.m<0){calCur.m=11;calCur.y--;}calRender();}
+  function calNext(){calCur.m++;if(calCur.m>11){calCur.m=0;calCur.y++;}calRender();}
+
+  function calOpenDay(d){
+    calSelDay=d;
+    const k=calKey(calCur.y,calCur.m,d);
+    const months=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
+    document.getElementById('cal-modal-title').textContent=`${d} ${months[calCur.m]} ${calCur.y}`;
+    const e=calData[k];
+    const ew=document.getElementById('cal-existing');
+    const db=document.getElementById('cal-del-btn');
+    if(e){
+      ew.innerHTML=`<div style="background:#0a0f1a;border-radius:12px;padding:12px;margin-bottom:10px;text-align:center"><div style="font-size:10px;color:#3a4a60;margin-bottom:4px;letter-spacing:1px">JORIY PNL</div><div style="font-size:26px;font-weight:900;color:${e.pnl>=0?'#4ade80':'#f87171'}">${e.pnl>=0?'+':''}$${Math.abs(e.pnl).toFixed(2)}</div></div>`;
+      db.style.display='block';
+      document.getElementById('cal-profit').value=e.pnl>=0?e.pnl:'';
+      document.getElementById('cal-loss').value=e.pnl<0?Math.abs(e.pnl):'';
+    } else {
+      ew.innerHTML='';db.style.display='none';
+      document.getElementById('cal-profit').value='';
+      document.getElementById('cal-loss').value='';
+    }
+    const modal=document.getElementById('cal-modal');
+    const inner=document.getElementById('cal-modal-inner');
+    modal.style.opacity='1';modal.style.pointerEvents='all';
+    inner.style.transform='translateY(0)';
+  }
+
+  function calSave(sign){
+    const k=calKey(calCur.y,calCur.m,calSelDay);
+    const profit=parseFloat(document.getElementById('cal-profit').value)||0;
+    const loss=parseFloat(document.getElementById('cal-loss').value)||0;
+    const pnl=sign===1?profit:-loss;
+    if(pnl===0){calCloseModal();return;}
+    calData[k]={pnl};
+    localStorage.setItem('cal_data',JSON.stringify(calData));
+    calCloseModal();calRender();
+  }
+
+  function calDelete(){
+    const k=calKey(calCur.y,calCur.m,calSelDay);
+    delete calData[k];
+    localStorage.setItem('cal_data',JSON.stringify(calData));
+    calCloseModal();calRender();
+  }
+
+  function calCloseModal(){
+    const modal=document.getElementById('cal-modal');
+    const inner=document.getElementById('cal-modal-inner');
+    modal.style.opacity='0';modal.style.pointerEvents='none';
+    inner.style.transform='translateY(100%)';
+  }
+
+  document.getElementById('cal-modal').addEventListener('click',function(e){
+    if(e.target===this) calCloseModal();
+  });
+
+</script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{width:100%;background:#0a0d14;font-family:'Segoe UI',sans-serif;}
@@ -33,13 +197,13 @@
     min-height:130px;
   }
   .menu-card:active{transform:scale(0.96);}
-  .mc-hybrid{background:linear-gradient(135deg,#1e1b4b,#4338ca);} /* Yangi punkt */
   .mc1{background:linear-gradient(135deg,#0f2460,#1d4ed8);}
   .mc2{background:linear-gradient(135deg,#062620,#065f46);}
   .mc3{background:linear-gradient(135deg,#3d1f00,#92400e);}
   .mc4{background:linear-gradient(135deg,#2e1065,#6d28d9);}
   .mc5{background:linear-gradient(135deg,#082535,#0e7490);}
   .mc6{background:linear-gradient(135deg,#500724,#be185d);}
+  .mc7{background:linear-gradient(135deg,#1a3a2a,#166534);}
 
   .menu-card::before{
     content:'';position:absolute;top:-20px;right:-20px;
@@ -146,8 +310,6 @@
   .rl1{background:rgba(239,68,68,0.13);border:1px solid rgba(239,68,68,0.35);color:#ef4444;}
   .rl2{background:rgba(129,140,248,0.13);border:1px solid rgba(129,140,248,0.35);color:#818cf8;}
   .rl3{background:rgba(167,139,250,0.13);border:1px solid rgba(167,139,250,0.35);color:#a78bfa;}
-  .rl-s{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid #ef4444;}
-  .rl-b{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid #22c55e;}
   .rr{display:flex;align-items:center;gap:7px;}
   .rp{font-size:19px;font-weight:800;}
   .rp-b{color:#16a34a;}.rp-s{color:#dc2626;}
@@ -232,6 +394,7 @@
 </head>
 <body>
 
+<!-- ══ HOME ══ -->
 <div class="home" id="home">
   <div class="home-header">
     <div class="home-logo">AT</div>
@@ -240,12 +403,6 @@
   </div>
 
   <div class="menu-grid">
-    <div class="menu-card mc-hybrid" onclick="openPage('hybrid')">
-      <div class="menu-icon">⚡</div>
-      <div class="menu-name">Smart Hybrid AI</div>
-      <div class="menu-desc">SMC + ICT + SnD Modeli</div>
-      <div class="menu-arrow">›</div>
-    </div>
     <div class="menu-card mc1" onclick="openPage('zona')">
       <div class="menu-icon">📊</div>
       <div class="menu-name">Zona Kalkulyator</div>
@@ -282,49 +439,16 @@
       <div class="menu-desc">Sdelka tarixi</div>
       <div class="menu-arrow">›</div>
     </div>
-  </div>
-</div>
-
-<div class="page-view" id="pv-hybrid">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">⚡</div>
-    <div><div class="topbar-title">Smart Hybrid AI</div><div class="topbar-sub">Hybrid Analysis</div></div>
-  </div>
-  <div class="page-content">
-    <div class="section-label">MARKET DIAPAZONI (MAX/MIN)</div>
-    <div class="inp-grid2">
-      <div><div class="inp-label">MAX PRICE</div><input type="number" id="h-max" placeholder="4537" onkeydown="if(event.key==='Enter')calcHybrid()"/></div>
-      <div><div class="inp-label">MIN PRICE</div><input type="number" id="h-min" placeholder="4526" onkeydown="if(event.key==='Enter')calcHybrid()"/></div>
-    </div>
-    <div class="err-box" id="h-err"></div>
-    <button class="act-btn ab1" style="background: linear-gradient(135deg,#6366f1,#a855f7);" onclick="calcHybrid()">🔍 ZONALARNI ANIQLASH</button>
-
-    <div class="res-wrap" id="h-res">
-      <div class="section-label">SMC / PREMIUM & DISCOUNT</div>
-      <div class="inf-card">
-        <div class="inf-row"><span class="inf-lbl">⚖️ Equilibrium (50%)</span><span class="inf-val iv-w" id="h-eq"></span></div>
-        <div class="inf-sub">Narxning muvozanat nuqtasi</div>
-      </div>
-      <div class="inp-grid2">
-        <div class="inf-card" style="border-color:#ef4444;"><div class="inp-label" style="color:#f87171;">🔴 PREMIUM (SELL)</div><div id="h-pre" style="font-weight:800; font-size:15px; margin-top:5px;"></div></div>
-        <div class="inf-card" style="border-color:#22c55e;"><div class="inp-label" style="color:#4ade80;">🟢 DISCOUNT (BUY)</div><div id="h-dis" style="font-weight:800; font-size:15px; margin-top:5px;"></div></div>
-      </div>
-
-      <div class="section-label">INSTITUTIONAL ZONES (SnD)</div>
-      <div class="res-row"><span class="rl rl-s">Supply OB</span><span class="inf-val" id="h-supply"></span><span class="sig sig-s">SELL</span></div>
-      <div class="res-row"><span class="rl rl-b">Demand OB</span><span class="inf-val" id="h-demand"></span><span class="sig sig-b">BUY</span></div>
-
-      <div class="section-label">ICT LIQUIDITY TARGETS</div>
-      <div class="inf-card">
-        <div class="inf-row"><span class="inf-lbl">🛑 Buy-side Liquidity</span><span class="inf-val iv-g" id="h-bsl"></span></div>
-        <hr style="opacity:0.1; margin:10px 0;">
-        <div class="inf-row"><span class="inf-lbl">🛑 Sell-side Liquidity</span><span class="inf-val iv-r" id="h-ssl"></span></div>
-      </div>
+    <div class="menu-card mc7" onclick="openPage('calendar')">
+      <div class="menu-icon">📅</div>
+      <div class="menu-name">Trading Calendar</div>
+      <div class="menu-desc">Kunlik PNL</div>
+      <div class="menu-arrow">›</div>
     </div>
   </div>
 </div>
 
+<!-- ══ 1. ZONA ══ -->
 <div class="page-view" id="pv-zona">
   <div class="page-topbar">
     <button class="back-btn" onclick="goHome()">‹</button>
@@ -357,6 +481,7 @@
   </div>
 </div>
 
+<!-- ══ 2. RISK ══ -->
 <div class="page-view" id="pv-risk">
   <div class="page-topbar">
     <button class="back-btn" onclick="goHome()">‹</button>
@@ -382,6 +507,7 @@
   </div>
 </div>
 
+<!-- ══ 3. GANN MIN ══ -->
 <div class="page-view" id="pv-gmin">
   <div class="page-topbar">
     <button class="back-btn" onclick="goHome()">‹</button>
@@ -404,6 +530,7 @@
   </div>
 </div>
 
+<!-- ══ 4. GANN MAX ══ -->
 <div class="page-view" id="pv-gmax">
   <div class="page-topbar">
     <button class="back-btn" onclick="goHome()">‹</button>
@@ -426,6 +553,7 @@
   </div>
 </div>
 
+<!-- ══ 5. PIVOT ══ -->
 <div class="page-view" id="pv-pivot">
   <div class="page-topbar">
     <button class="back-btn" onclick="goHome()">‹</button>
@@ -456,6 +584,7 @@
   </div>
 </div>
 
+<!-- ══ 6. JURNAL ══ -->
 <div class="page-view" id="pv-journal">
   <div class="page-topbar">
     <button class="back-btn" onclick="goHome()">‹</button>
@@ -493,6 +622,76 @@
   </div>
 </div>
 
+
+<!-- ══ 7. CALENDAR ══ -->
+<div class="page-view" id="pv-calendar">
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">📅</div>
+    <div><div class="topbar-title">Trading Calendar</div><div class="topbar-sub">Aslamov Trade</div></div>
+  </div>
+  <div class="page-content" style="padding-bottom:30px">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="display:flex;gap:4px;background:#1a2030;border-radius:10px;padding:3px">
+        <div id="cal-tab-pnl" style="padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:#6366f1;color:#fff" onclick="calSwitchTab('pnl')">PNL</div>
+        <div id="cal-tab-stats" style="padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#3a4a60" onclick="calSwitchTab('stats')">Stats</div>
+      </div>
+      <div style="font-size:12px;color:#3a4a60">Kun bosing → PNL kiriting</div>
+    </div>
+
+    <div id="cal-pnl-view">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <button style="width:34px;height:34px;border-radius:9px;border:none;background:#1a2030;color:#e2e8f0;font-size:18px;cursor:pointer" onclick="calPrev()">‹</button>
+        <div id="cal-month" style="font-size:16px;font-weight:800;color:#e2e8f0"></div>
+        <button style="width:34px;height:34px;border-radius:9px;border:none;background:#1a2030;color:#e2e8f0;font-size:18px;cursor:pointer" onclick="calNext()">›</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px">
+        <div style="text-align:center;font-size:10px;font-weight:700;color:#3a4a60;padding:3px 0">SUN</div>
+        <div style="text-align:center;font-size:10px;font-weight:700;color:#3a4a60;padding:3px 0">MON</div>
+        <div style="text-align:center;font-size:10px;font-weight:700;color:#3a4a60;padding:3px 0">TUE</div>
+        <div style="text-align:center;font-size:10px;font-weight:700;color:#3a4a60;padding:3px 0">WED</div>
+        <div style="text-align:center;font-size:10px;font-weight:700;color:#3a4a60;padding:3px 0">THU</div>
+        <div style="text-align:center;font-size:10px;font-weight:700;color:#3a4a60;padding:3px 0">FRI</div>
+        <div style="text-align:center;font-size:10px;font-weight:700;color:#3a4a60;padding:3px 0">SAT</div>
+      </div>
+      <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
+      <div id="cal-month-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px"></div>
+    </div>
+
+    <div id="cal-stats-view" style="display:none">
+      <div id="cal-all-stats"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR MODAL -->
+<div id="cal-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:flex-end;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity 0.2s">
+  <div id="cal-modal-inner" style="width:100%;max-width:460px;background:#141824;border-radius:20px 20px 0 0;padding:20px;padding-bottom:30px;transform:translateY(100%);transition:transform 0.3s">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div id="cal-modal-title" style="font-size:16px;font-weight:800;color:#e2e8f0"></div>
+      <button onclick="calCloseModal()" style="background:none;border:none;color:#64748b;font-size:24px;cursor:pointer">×</button>
+    </div>
+    <div id="cal-existing" style="margin-bottom:10px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div>
+        <div style="color:#475569;font-size:10px;letter-spacing:2px;margin-bottom:5px">PROFIT ($)</div>
+        <input type="number" id="cal-profit" placeholder="0" style="width:100%;background:#0a0f1a;border:1px solid #1e2d42;border-radius:10px;padding:11px 10px;color:#e2e8f0;font-size:18px;font-weight:700;outline:none;font-family:inherit;-moz-appearance:textfield"/>
+      </div>
+      <div>
+        <div style="color:#475569;font-size:10px;letter-spacing:2px;margin-bottom:5px">LOSS ($)</div>
+        <input type="number" id="cal-loss" placeholder="0" style="width:100%;background:#0a0f1a;border:1px solid #1e2d42;border-radius:10px;padding:11px 10px;color:#e2e8f0;font-size:18px;font-weight:700;outline:none;font-family:inherit;-moz-appearance:textfield"/>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button onclick="calSave(1)" style="padding:13px;border-radius:12px;border:none;cursor:pointer;font-weight:900;font-size:14px;font-family:inherit;background:linear-gradient(135deg,#14532d,#16a34a);color:#fff">✅ Profit</button>
+      <button onclick="calSave(-1)" style="padding:13px;border-radius:12px;border:none;cursor:pointer;font-weight:900;font-size:14px;font-family:inherit;background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff">❌ Loss</button>
+    </div>
+    <button id="cal-del-btn" onclick="calDelete()" style="display:none;width:100%;padding:10px;border-radius:10px;border:1px solid rgba(220,38,38,0.2);background:rgba(220,38,38,0.06);color:#f87171;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:8px">🗑️ O'chirish</button>
+  </div>
+</div>
+
 <script>
   try{window.Telegram.WebApp.expand();window.Telegram.WebApp.setHeaderColor('#0a0d14');window.Telegram.WebApp.setBackgroundColor('#0a0d14');}catch(e){}
 
@@ -507,43 +706,6 @@
     document.getElementById('home').style.display='block';
     document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
     window.scrollTo(0,0);
-  }
-
-  // SMART HYBRID HISOB-KITOBI
-  function calcHybrid() {
-    const max = parseFloat(document.getElementById("h-max").value);
-    const min = parseFloat(document.getElementById("h-min").value);
-    const e = document.getElementById("h-err");
-    
-    if (isNaN(max) || isNaN(min)) {
-        e.textContent = "MAX va MIN narxlarni kiriting!";
-        e.style.display = "block";
-        return;
-    }
-    if (max <= min) {
-        e.textContent = "MAX narx MIN dan katta bo'lishi kerak!";
-        e.style.display = "block";
-        return;
-    }
-    e.style.display = "none";
-    
-    const range = max - min;
-    const eq = (max + min) / 2;
-
-    // SMC Premium/Discount
-    document.getElementById("h-eq").textContent = eq.toFixed(2);
-    document.getElementById("h-pre").textContent = eq.toFixed(2) + " - " + max.toFixed(2);
-    document.getElementById("h-dis").textContent = min.toFixed(2) + " - " + eq.toFixed(2);
-
-    // SnD (Extreme 15% bloklar)
-    document.getElementById("h-supply").textContent = (max - (range * 0.15)).toFixed(2) + " - " + max.toFixed(2);
-    document.getElementById("h-demand").textContent = min.toFixed(2) + " - " + (min + (range * 0.15)).toFixed(2);
-
-    // ICT Liquidity Pools
-    document.getElementById("h-bsl").textContent = max.toFixed(2);
-    document.getElementById("h-ssl").textContent = min.toFixed(2);
-
-    document.getElementById("h-res").style.display = "block";
   }
 
   // ZONA
@@ -668,25 +830,185 @@
     document.getElementById("j-wr").textContent=wr+"%";
     document.getElementById("j-bar").style.width=wr+"%";
     stats.style.display="block";clr.style.display="block";
-    
-    let html="";
-    trades.forEach(t=>{
-      html+=`<div class="trade-item ${t.result.toLowerCase()}">
+    list.innerHTML='<div class="res-label">SDELKALAR</div>'+trades.map(t=>`
+      <div class="trade-item ${t.result.toLowerCase()}">
+        <button class="t-del" onclick="deleteTrade(${t.id})">✕</button>
         <div class="t-top">
-          <span class="t-dir ${t.dir==='BUY'?'td-b':'td-s'}">${t.dir}</span>
-          <span class="t-res ${t.result==='WIN'?'tr-w':'tr-l'}">${t.result}</span>
+          <span class="t-dir ${t.dir==='BUY'?'td-b':'td-s'}">${t.dir==='BUY'?'▲':'▼'} ${t.dir}</span>
+          <span class="t-res ${t.result==='WIN'?'tr-w':'tr-l'}">${t.result==='WIN'?'✅ WIN':'❌ LOSS'}</span>
         </div>
         <div class="t-prices">
-          <div class="t-pi">ENT: <span>${t.entry}</span></div>
+          <div class="t-pi">Kirish: <span>${t.entry}</span></div>
           <div class="t-pi">SL: <span>${t.sl}</span></div>
           <div class="t-pi">TP: <span>${t.tp}</span></div>
         </div>
         <div class="t-date">${t.date}</div>
-        <button class="t-del" onclick="deleteTrade(${t.id})">🗑</button>
-      </div>`;
-    });
-    list.innerHTML=html;
+      </div>`).join('');
   }
+
+  // ── CALENDAR ──
+  let calData = JSON.parse(localStorage.getItem('cal_data')||'{}');
+  let calNow  = new Date();
+  let calCur  = {y: calNow.getFullYear(), m: calNow.getMonth()};
+  let calSelDay = null;
+  const CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function calKey(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+
+  function calRender(){
+    const y=calCur.y, m=calCur.m;
+    document.getElementById('cal-month').textContent = CAL_MONTHS[m]+' '+y;
+    const first=new Date(y,m,1).getDay();
+    const days=new Date(y,m+1,0).getDate();
+    const todayD = calNow.getFullYear()===y && calNow.getMonth()===m ? calNow.getDate() : -1;
+    let html='';
+    for(let i=0;i<first;i++) html+='<div style="min-height:54px"></div>';
+    for(let d=1;d<=days;d++){
+      const k=calKey(y,m,d);
+      const e=calData[k];
+      let bg='#1a2030', border='1px solid transparent', pnlHtml='';
+      if(d===todayD) border='1px solid #6366f1';
+      if(e){
+        bg=e.pnl>=0?'linear-gradient(135deg,#052e16,#14532d)':'linear-gradient(135deg,#2d0a0a,#7f1d1d)';
+        const sign=e.pnl>=0?'+':'-';
+        const col=e.pnl>=0?'#4ade80':'#f87171';
+        pnlHtml=`<div style="font-size:10px;font-weight:800;color:${col};text-align:center">${sign}$${Math.abs(e.pnl).toFixed(0)}</div>`;
+      }
+      html+=`<div onclick="calOpenDay(${d})" style="border-radius:10px;padding:5px 3px;min-height:54px;display:flex;flex-direction:column;align-items:center;cursor:pointer;background:${bg};border:${border};transition:all 0.15s">
+        <div style="font-size:12px;font-weight:700;color:${e?'#e2e8f0':'#64748b'};margin-bottom:2px">${d}</div>
+        ${pnlHtml}
+      </div>`;
+    }
+    document.getElementById('cal-grid').innerHTML=html;
+    calRenderMonthStats();
+  }
+
+  function calRenderMonthStats(){
+    const y=calCur.y,m=calCur.m,days=new Date(y,m+1,0).getDate();
+    let total=0,wins=0,losses=0,td=0;
+    for(let d=1;d<=days;d++){
+      const e=calData[calKey(y,m,d)];
+      if(e){total+=e.pnl;td++;if(e.pnl>=0)wins++;else losses++;}
+    }
+    const wr=td>0?Math.round(wins/td*100):0;
+    document.getElementById('cal-month-stats').innerHTML=`
+      <div style="background:#1a2030;border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:${total>=0?'#4ade80':'#f87171'}">${total>=0?'+':''}$${Math.abs(total).toFixed(0)}</div>
+        <div style="font-size:9px;color:#3a4a60;margin-top:2px;letter-spacing:1px">OY PNL</div>
+      </div>
+      <div style="background:#1a2030;border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:#6366f1">${wr}%</div>
+        <div style="font-size:9px;color:#3a4a60;margin-top:2px;letter-spacing:1px">WIN RATE</div>
+      </div>
+      <div style="background:#1a2030;border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:#e2e8f0">${td}</div>
+        <div style="font-size:9px;color:#3a4a60;margin-top:2px;letter-spacing:1px">SAVDO KUN</div>
+      </div>
+    `;
+  }
+
+  function calRenderAllStats(){
+    let total=0,wins=0,losses=0,days=0;
+    let best={pnl:-Infinity,k:''}, worst={pnl:Infinity,k:''};
+    Object.entries(calData).forEach(([k,e])=>{
+      total+=e.pnl;days++;
+      if(e.pnl>=0)wins++;else losses++;
+      if(e.pnl>best.pnl){best.pnl=e.pnl;best.k=k;}
+      if(e.pnl<worst.pnl){worst.pnl=e.pnl;worst.k=k;}
+    });
+    const wr=days>0?Math.round(wins/days*100):0;
+    const avgWin=wins>0?(Object.values(calData).filter(e=>e.pnl>=0).reduce((a,e)=>a+e.pnl,0)/wins).toFixed(0):0;
+    document.getElementById('cal-all-stats').innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:${total>=0?'#4ade80':'#f87171'}">${total>=0?'+':''}$${Math.abs(total).toFixed(0)}</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">JAMI PNL</div>
+        </div>
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:#6366f1">${wr}%</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">WIN RATE</div>
+        </div>
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:#4ade80">${wins}</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">WIN KUNLAR ✅</div>
+        </div>
+        <div style="background:#1a2030;border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:#f87171">${losses}</div>
+          <div style="font-size:9px;color:#3a4a60;margin-top:3px;letter-spacing:1px">LOSS KUNLAR ❌</div>
+        </div>
+      </div>
+      ${best.k?`<div style="background:#1a2030;border-radius:12px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center"><span style="color:#64748b;font-size:12px">🏆 Eng yaxshi kun</span><div style="text-align:right"><div style="font-size:18px;font-weight:900;color:#4ade80">+$${best.pnl.toFixed(0)}</div><div style="font-size:10px;color:#3a4a60">${best.k}</div></div></div>`:''}
+      ${worst.k?`<div style="background:#1a2030;border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="color:#64748b;font-size:12px">📉 Eng yomon kun</span><div style="text-align:right"><div style="font-size:18px;font-weight:900;color:#f87171">-$${Math.abs(worst.pnl).toFixed(0)}</div><div style="font-size:10px;color:#3a4a60">${worst.k}</div></div></div>`:''}
+      ${days===0?'<div style="text-align:center;color:#3a4a60;padding:40px;font-size:13px">📭 Hali ma'lumot yo'q</div>':''}
+    `;
+  }
+
+  function calSwitchTab(tab){
+    document.getElementById('cal-tab-pnl').style.background=tab==='pnl'?'#6366f1':'transparent';
+    document.getElementById('cal-tab-pnl').style.color=tab==='pnl'?'#fff':'#3a4a60';
+    document.getElementById('cal-tab-stats').style.background=tab==='stats'?'#6366f1':'transparent';
+    document.getElementById('cal-tab-stats').style.color=tab==='stats'?'#fff':'#3a4a60';
+    document.getElementById('cal-pnl-view').style.display=tab==='pnl'?'block':'none';
+    document.getElementById('cal-stats-view').style.display=tab==='stats'?'block':'none';
+    if(tab==='stats') calRenderAllStats();
+  }
+
+  function calPrev(){calCur.m--;if(calCur.m<0){calCur.m=11;calCur.y--;}calRender();}
+  function calNext(){calCur.m++;if(calCur.m>11){calCur.m=0;calCur.y++;}calRender();}
+
+  function calOpenDay(d){
+    calSelDay=d;
+    const k=calKey(calCur.y,calCur.m,d);
+    const months=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
+    document.getElementById('cal-modal-title').textContent=`${d} ${months[calCur.m]} ${calCur.y}`;
+    const e=calData[k];
+    const ew=document.getElementById('cal-existing');
+    const db=document.getElementById('cal-del-btn');
+    if(e){
+      ew.innerHTML=`<div style="background:#0a0f1a;border-radius:12px;padding:12px;margin-bottom:10px;text-align:center"><div style="font-size:10px;color:#3a4a60;margin-bottom:4px;letter-spacing:1px">JORIY PNL</div><div style="font-size:26px;font-weight:900;color:${e.pnl>=0?'#4ade80':'#f87171'}">${e.pnl>=0?'+':''}$${Math.abs(e.pnl).toFixed(2)}</div></div>`;
+      db.style.display='block';
+      document.getElementById('cal-profit').value=e.pnl>=0?e.pnl:'';
+      document.getElementById('cal-loss').value=e.pnl<0?Math.abs(e.pnl):'';
+    } else {
+      ew.innerHTML='';db.style.display='none';
+      document.getElementById('cal-profit').value='';
+      document.getElementById('cal-loss').value='';
+    }
+    const modal=document.getElementById('cal-modal');
+    const inner=document.getElementById('cal-modal-inner');
+    modal.style.opacity='1';modal.style.pointerEvents='all';
+    inner.style.transform='translateY(0)';
+  }
+
+  function calSave(sign){
+    const k=calKey(calCur.y,calCur.m,calSelDay);
+    const profit=parseFloat(document.getElementById('cal-profit').value)||0;
+    const loss=parseFloat(document.getElementById('cal-loss').value)||0;
+    const pnl=sign===1?profit:-loss;
+    if(pnl===0){calCloseModal();return;}
+    calData[k]={pnl};
+    localStorage.setItem('cal_data',JSON.stringify(calData));
+    calCloseModal();calRender();
+  }
+
+  function calDelete(){
+    const k=calKey(calCur.y,calCur.m,calSelDay);
+    delete calData[k];
+    localStorage.setItem('cal_data',JSON.stringify(calData));
+    calCloseModal();calRender();
+  }
+
+  function calCloseModal(){
+    const modal=document.getElementById('cal-modal');
+    const inner=document.getElementById('cal-modal-inner');
+    modal.style.opacity='0';modal.style.pointerEvents='none';
+    inner.style.transform='translateY(100%)';
+  }
+
+  document.getElementById('cal-modal').addEventListener('click',function(e){
+    if(e.target===this) calCloseModal();
+  });
+
 </script>
 </body>
 </html>
