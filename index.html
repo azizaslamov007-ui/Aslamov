@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -6,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Aslamov Trade</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{width:100%;background:#0a0d14;font-family:'Segoe UI',sans-serif;}
@@ -40,6 +41,7 @@
   .mc4{background:linear-gradient(135deg,#2e1065,#6d28d9);}
   .mc5{background:linear-gradient(135deg,#082535,#0e7490);}
   .mc6{background:linear-gradient(135deg,#500724,#be185d);}
+  .mc7{background:linear-gradient(135deg,#1a1000,#3d2e00);border:1px solid rgba(201,168,76,0.2);}
 
   .menu-card::before{
     content:'';position:absolute;top:-20px;right:-20px;
@@ -49,10 +51,7 @@
   .menu-icon{font-size:32px;margin-bottom:10px;}
   .menu-name{color:#fff;font-size:15px;font-weight:800;line-height:1.3;}
   .menu-desc{color:rgba(255,255,255,0.5);font-size:11px;margin-top:4px;}
-  .menu-arrow{
-    position:absolute;bottom:14px;right:14px;
-    color:rgba(255,255,255,0.3);font-size:16px;
-  }
+  .menu-arrow{position:absolute;bottom:14px;right:14px;color:rgba(255,255,255,0.3);font-size:16px;}
 
   /* ── PAGE ── */
   .page-view{display:none;min-height:100vh;flex-direction:column;}
@@ -204,11 +203,7 @@
   .wr-bar{height:6px;background:#1e2d42;border-radius:3px;overflow:hidden;margin:8px 0 4px;}
   .wr-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#16a34a,#4ade80);transition:width 0.5s;}
 
-  .trade-item{
-    background:#0d1420;border:1px solid #1e2d42;
-    border-radius:12px;padding:12px 14px;margin-bottom:8px;
-    position:relative;
-  }
+  .trade-item{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative;}
   .trade-item.win{border-left:3px solid #16a34a;}
   .trade-item.loss{border-left:3px solid #dc2626;}
   .t-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
@@ -226,6 +221,70 @@
   .empty-state{text-align:center;padding:30px 0;color:#2a3a50;font-size:13px;}
   .empty-icon{font-size:40px;margin-bottom:10px;}
   .clear-btn{width:100%;padding:10px 0;border-radius:10px;border:1px solid rgba(220,38,38,0.2);background:rgba(220,38,38,0.06);color:#f87171;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:4px;}
+
+  /* ══ CALENDAR / VAZIFALAR ══ */
+  #pv-calendar .page-content{padding:12px 14px 80px;}
+
+  .cal-month-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px;}
+  .cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #2a2a2a;background:none;color:#888;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
+  .cal-nav-btn:active{border-color:#c9a84c;color:#c9a84c;background:#1a1608;}
+  .cal-month-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:#f0e6c8;letter-spacing:0.5px;min-width:180px;text-align:center;}
+
+  .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
+  .cal-wd{text-align:center;font-size:10px;color:#3a4a60;padding:4px 0;font-weight:500;letter-spacing:1px;text-transform:uppercase;}
+
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+  .cal-cell{border:0.5px solid #1c1c1c;border-radius:8px;min-height:48px;padding:5px 5px;cursor:pointer;transition:all 0.18s;position:relative;display:flex;flex-direction:column;gap:2px;background:#111;}
+  .cal-cell:active{background:#1a1608;border-color:#c9a84c55;}
+  .cal-cell.cal-empty{border:none;cursor:default;background:none;}
+  .cal-cell.cal-today{border-color:#c9a84c;background:#1a1608;}
+  .cal-cell.cal-today .cal-num{color:#c9a84c;font-family:'Playfair Display',serif;}
+  .cal-cell.cal-selected{border-color:#c9a84c;background:#1a1608;}
+  .cal-num{font-size:12px;font-weight:400;color:#aaa;width:20px;height:20px;display:flex;align-items:center;justify-content:center;}
+  .cal-sunday .cal-num{color:#6a3a2a;}
+  .cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:2px;}
+  .cal-dot{width:5px;height:5px;border-radius:50%;background:#c9a84c;flex-shrink:0;}
+  .cal-dot.done{background:#2e2010;}
+
+  /* Panel */
+  .cal-panel{
+    position:fixed;bottom:0;left:0;right:0;
+    background:#0d0d0d;border-top:0.5px solid #2a2a2a;
+    border-radius:20px 20px 0 0;
+    display:flex;flex-direction:column;
+    max-height:70vh;
+    transform:translateY(100%);
+    transition:transform 0.3s cubic-bezier(.4,0,.2,1);
+    z-index:200;
+  }
+  .cal-panel.open{transform:translateY(0);}
+  .cal-panel-handle{width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;}
+  .cal-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;}
+  .cal-panel-date{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#f0e6c8;}
+  .cal-panel-close{background:none;border:none;color:#555;font-size:22px;cursor:pointer;padding:2px;}
+  .cal-task-list{flex:1;overflow-y:auto;padding:4px 18px 10px;display:flex;flex-direction:column;gap:7px;}
+  .cal-task-list::-webkit-scrollbar{width:2px;}
+  .cal-task-list::-webkit-scrollbar-thumb{background:#2a2a2a;}
+  .cal-task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:0.5px solid #1e1e1e;border-radius:10px;background:#141414;}
+  .cal-task-item.done-t{opacity:0.45;}
+  .cal-chk{width:20px;height:20px;border-radius:5px;border:1.5px solid #333;cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+  .cal-chk.checked{background:#c9a84c;border-color:#c9a84c;}
+  .cal-chk-icon{font-size:12px;color:#0a0a0a;display:none;}
+  .cal-chk.checked .cal-chk-icon{display:block;}
+  .cal-task-txt{font-size:14px;color:#bbb;line-height:1.5;flex:1;word-break:break-word;font-family:'DM Sans',sans-serif;font-weight:300;}
+  .cal-task-txt.striked{text-decoration:line-through;color:#444;}
+  .cal-del{background:none;border:none;cursor:pointer;color:#2a2a2a;font-size:18px;padding:1px 4px;flex-shrink:0;transition:color 0.15s;}
+  .cal-del:active{color:#8a3a3a;}
+  .cal-add-area{padding:10px 18px 16px;border-top:0.5px solid #1e1e1e;display:flex;gap:8px;background:#0d0d0d;}
+  .cal-inp{flex:1;border:0.5px solid #2a2a2a;border-radius:10px;padding:10px 13px;font-size:14px;color:#ddd;background:#141414;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.18s;}
+  .cal-inp:focus{border-color:#c9a84c55;}
+  .cal-inp::placeholder{color:#333;}
+  .cal-add-btn{background:#c9a84c;color:#0a0a0a;border:none;border-radius:10px;padding:10px 18px;font-size:13px;cursor:pointer;font-weight:500;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+  .cal-add-btn:active{background:#e0c060;}
+  .cal-empty-msg{font-size:13px;color:#2a2a2a;text-align:center;margin-top:20px;font-family:'DM Sans',sans-serif;}
+  .cal-gold-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,#c9a84c,transparent);margin:0 auto 14px;}
+  .cal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:199;display:none;}
+  .cal-overlay.show{display:block;}
 </style>
 </head>
 <body>
@@ -274,6 +333,12 @@
       <div class="menu-name">Trading Jurnal</div>
       <div class="menu-desc">Sdelka tarixi</div>
       <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-card mc7" onclick="openPage('calendar')" style="grid-column:span 2;">
+      <div class="menu-icon">📅</div>
+      <div class="menu-name">Kunlik Vazifalar</div>
+      <div class="menu-desc">Oylik jadval · Maqsadlar</div>
+      <div class="menu-arrow" style="color:rgba(201,168,76,0.4)">›</div>
     </div>
   </div>
 </div>
@@ -435,7 +500,6 @@
     <div class="err-box" id="j-err"></div>
     <button class="j-win-btn" onclick="addTrade('WIN')">✅ WIN</button>
     <button class="j-loss-btn" onclick="addTrade('LOSS')">❌ LOSS</button>
-
     <div id="j-stats" style="display:none;margin-top:16px">
       <div class="res-label">STATISTIKA</div>
       <div class="stats-grid">
@@ -446,9 +510,46 @@
       </div>
       <div class="wr-bar"><div class="wr-fill" id="j-bar" style="width:0%"></div></div>
     </div>
-
     <div id="j-list" style="margin-top:8px"></div>
     <button class="clear-btn" id="j-clr" onclick="clearTrades()" style="display:none">🗑️ Hammasini o'chirish</button>
+  </div>
+</div>
+
+<!-- ══ 7. CALENDAR ══ -->
+<div class="page-view" id="pv-calendar">
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">📅</div>
+    <div><div class="topbar-title">Kunlik Vazifalar</div><div class="topbar-sub">Aslamov Trade</div></div>
+  </div>
+  <div class="page-content">
+    <div class="cal-gold-line"></div>
+    <div class="cal-month-nav">
+      <button class="cal-nav-btn" onclick="calChangeMonth(-1)">‹</button>
+      <div class="cal-month-title" id="calMonthTitle"></div>
+      <button class="cal-nav-btn" onclick="calChangeMonth(1)">›</button>
+    </div>
+    <div class="cal-weekdays">
+      <div class="cal-wd">Du</div><div class="cal-wd">Se</div><div class="cal-wd">Ch</div>
+      <div class="cal-wd">Pa</div><div class="cal-wd">Ju</div><div class="cal-wd">Sh</div>
+      <div class="cal-wd" style="color:#5a2a20">Ya</div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+</div>
+
+<!-- Calendar panel & overlay -->
+<div class="cal-overlay" id="calOverlay" onclick="calClosePanel()"></div>
+<div class="cal-panel" id="calPanel">
+  <div class="cal-panel-handle"></div>
+  <div class="cal-panel-header">
+    <div class="cal-panel-date" id="calPanelDate"></div>
+    <button class="cal-panel-close" onclick="calClosePanel()">✕</button>
+  </div>
+  <div class="cal-task-list" id="calTaskList"></div>
+  <div class="cal-add-area">
+    <input class="cal-inp" id="calTaskInput" placeholder="Vazifa yozing..." onkeydown="if(event.key==='Enter')calAddTask()"/>
+    <button class="cal-add-btn" onclick="calAddTask()">Qo'sh</button>
   </div>
 </div>
 
@@ -460,6 +561,7 @@
     document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
     document.getElementById('pv-'+id).classList.add('active');
     if(id==='journal')renderTrades();
+    if(id==='calendar')calRender();
     window.scrollTo(0,0);
   }
   function goHome(){
@@ -468,7 +570,7 @@
     window.scrollTo(0,0);
   }
 
-  // ZONA
+  /* ── ZONA ── */
   let zDir="BUY";
   function setZDir(d){zDir=d;document.getElementById("z-buy").className="dir-btn"+(d==="BUY"?" active-buy":"");document.getElementById("z-sell").className="dir-btn"+(d==="SELL"?" active-sell":"");document.getElementById("z-res").style.display="none";}
   function zInput(){
@@ -499,7 +601,7 @@
     document.getElementById("z-res").style.display="block";
   }
 
-  // RISK
+  /* ── RISK ── */
   function calcRisk(){
     const dep=parseFloat(document.getElementById("r-dep").value),rsk=parseFloat(document.getElementById("r-rsk").value),sl=parseFloat(document.getElementById("r-sl").value);
     const e=document.getElementById("r-err");
@@ -515,7 +617,7 @@
     document.getElementById("r-res").style.display="block";
   }
 
-  // GANN
+  /* ── GANN ── */
   function calcGMin(){
     const p=parseFloat(document.getElementById("gn-min").value),e=document.getElementById("gmin-err");
     if(isNaN(p)||p<=0){e.textContent="Narxni kiriting!";e.style.display="block";return;}
@@ -539,7 +641,7 @@
     document.getElementById("gmax-res").style.display="block";
   }
 
-  // CAMARILLA
+  /* ── CAMARILLA ── */
   function calcCam(){
     const H=parseFloat(document.getElementById("c-h").value),L=parseFloat(document.getElementById("c-l").value),C=parseFloat(document.getElementById("c-c").value);
     const e=document.getElementById("c-err");
@@ -555,7 +657,7 @@
     document.getElementById("cam-res").style.display="block";
   }
 
-  // JURNAL
+  /* ── JURNAL ── */
   let jDir="BUY";
   let trades=JSON.parse(localStorage.getItem('at_trades')||'[]');
   function setJDir(d){jDir=d;document.getElementById("j-buy").className="dir-btn"+(d==="BUY"?" active-buy":"");document.getElementById("j-sell").className="dir-btn"+(d==="SELL"?" active-sell":"");}
@@ -604,6 +706,107 @@
         </div>
         <div class="t-date">${t.date}</div>
       </div>`).join('');
+  }
+
+  /* ══ CALENDAR ══ */
+  const UZ_MONTHS=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
+  const now2=new Date();
+  let calYear=now2.getFullYear(),calMonth=now2.getMonth(),calSelected=null;
+
+  function calKey(y,m,d){return 'at_cal_'+y+'_'+(m+1)+'_'+d;}
+  function calLoad(y,m,d){try{return JSON.parse(localStorage.getItem(calKey(y,m,d))||'[]');}catch(e){return[];}}
+  function calSave(y,m,d,arr){localStorage.setItem(calKey(y,m,d),JSON.stringify(arr));}
+
+  function calChangeMonth(dir){
+    calMonth+=dir;
+    if(calMonth>11){calMonth=0;calYear++;}
+    if(calMonth<0){calMonth=11;calYear--;}
+    calRender();
+  }
+
+  function calRender(){
+    document.getElementById('calMonthTitle').textContent=UZ_MONTHS[calMonth]+' '+calYear;
+    const grid=document.getElementById('calGrid');
+    grid.innerHTML='';
+    const first=new Date(calYear,calMonth,1);
+    let startDay=first.getDay();
+    startDay=startDay===0?6:startDay-1;
+    const dim=new Date(calYear,calMonth+1,0).getDate();
+    const today=new Date();
+
+    for(let i=0;i<startDay;i++){
+      const el=document.createElement('div');el.className='cal-cell cal-empty';grid.appendChild(el);
+    }
+    for(let d=1;d<=dim;d++){
+      const el=document.createElement('div');
+      const tasks=calLoad(calYear,calMonth,d);
+      const isToday=today.getDate()===d&&today.getMonth()===calMonth&&today.getFullYear()===calYear;
+      const isSel=calSelected&&calSelected.d===d&&calSelected.m===calMonth&&calSelected.y===calYear;
+      const dow=new Date(calYear,calMonth,d).getDay();
+      el.className='cal-cell'+(isToday?' cal-today':'')+(isSel?' cal-selected':'')+(dow===0?' cal-sunday':'');
+      const num=document.createElement('div');num.className='cal-num';num.textContent=d;el.appendChild(num);
+      if(tasks.length>0){
+        const dw=document.createElement('div');dw.className='cal-dots';
+        tasks.slice(0,6).forEach(t=>{const dot=document.createElement('div');dot.className='cal-dot'+(t.done?' done':'');dw.appendChild(dot);});
+        el.appendChild(dw);
+      }
+      el.onclick=()=>calOpenPanel(d);
+      grid.appendChild(el);
+    }
+  }
+
+  function calOpenPanel(d){
+    calSelected={d,m:calMonth,y:calYear};
+    document.getElementById('calPanelDate').textContent=d+' '+UZ_MONTHS[calMonth]+' '+calYear;
+    document.getElementById('calPanel').classList.add('open');
+    document.getElementById('calOverlay').classList.add('show');
+    calRenderTasks();
+    setTimeout(()=>document.getElementById('calTaskInput').focus(),350);
+    calRender();
+  }
+
+  function calClosePanel(){
+    document.getElementById('calPanel').classList.remove('open');
+    document.getElementById('calOverlay').classList.remove('show');
+    calSelected=null;
+    calRender();
+  }
+
+  function calRenderTasks(){
+    if(!calSelected)return;
+    const tasks=calLoad(calSelected.y,calSelected.m,calSelected.d);
+    const list=document.getElementById('calTaskList');
+    list.innerHTML='';
+    if(tasks.length===0){
+      list.innerHTML='<div class="cal-empty-msg">📋<br>Hali vazifa yo\'q</div>';return;
+    }
+    tasks.forEach((t,i)=>{
+      const item=document.createElement('div');
+      item.className='cal-task-item'+(t.done?' done-t':'');
+      const chk=document.createElement('div');
+      chk.className='cal-chk'+(t.done?' checked':'');
+      chk.innerHTML='<span class="cal-chk-icon">✓</span>';
+      chk.onclick=()=>{tasks[i].done=!tasks[i].done;calSave(calSelected.y,calSelected.m,calSelected.d,tasks);calRenderTasks();};
+      const txt=document.createElement('div');
+      txt.className='cal-task-txt'+(t.done?' striked':'');
+      txt.textContent=t.text;
+      const del=document.createElement('button');
+      del.className='cal-del';del.textContent='✕';
+      del.onclick=()=>{tasks.splice(i,1);calSave(calSelected.y,calSelected.m,calSelected.d,tasks);calRenderTasks();};
+      item.appendChild(chk);item.appendChild(txt);item.appendChild(del);
+      list.appendChild(item);
+    });
+  }
+
+  function calAddTask(){
+    if(!calSelected)return;
+    const inp=document.getElementById('calTaskInput');
+    const text=inp.value.trim();if(!text)return;
+    const tasks=calLoad(calSelected.y,calSelected.m,calSelected.d);
+    tasks.push({text,done:false});
+    calSave(calSelected.y,calSelected.m,calSelected.d,tasks);
+    inp.value='';
+    calRenderTasks();
   }
 </script>
 </body>
