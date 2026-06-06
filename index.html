@@ -340,6 +340,12 @@
       <div class="menu-desc">Oylik jadval · Maqsadlar</div>
       <div class="menu-arrow" style="color:rgba(201,168,76,0.4)">›</div>
     </div>
+    <div class="menu-card" onclick="openPage('pnlcal')" style="grid-column:span 2;background:linear-gradient(135deg,#0a1a0a,#14532d);border:1px solid rgba(22,163,74,0.2);">
+      <div class="menu-icon">💹</div>
+      <div class="menu-name">Trading Calendar</div>
+      <div class="menu-desc">Kunlik PNL · Foyda/Zarar tarixi</div>
+      <div class="menu-arrow" style="color:rgba(22,163,74,0.4)">›</div>
+    </div>
   </div>
 </div>
 
@@ -538,6 +544,82 @@
   </div>
 </div>
 
+<!-- ══ 8. PNL CALENDAR ══ -->
+<div class="page-view" id="pv-pnlcal">
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">💹</div>
+    <div><div class="topbar-title">Trading Calendar</div><div class="topbar-sub">PNL · Foyda/Zarar</div></div>
+  </div>
+  <div class="page-content" style="padding-bottom:100px;">
+    <!-- Tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
+      <button id="pnl-tab-pnl" onclick="pnlSetTab('pnl')" style="flex:1;padding:9px 0;border-radius:10px;border:none;background:#16a34a;color:#fff;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">PNL</button>
+      <button id="pnl-tab-note" onclick="pnlSetTab('note')" style="flex:1;padding:9px 0;border-radius:10px;border:1px solid #1e2d42;background:#0d1420;color:#475569;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">ESLATMA</button>
+    </div>
+    <!-- Stats bar -->
+    <div id="pnlStatsBar" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px;">
+      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">JAMI</div>
+        <div id="pnlTotalVal" style="font-size:15px;font-weight:800;color:#e2e8f0;">$0</div>
+      </div>
+      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">WIN KUN</div>
+        <div id="pnlWinDays" style="font-size:15px;font-weight:800;color:#10b981;">0</div>
+      </div>
+      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">LOSS KUN</div>
+        <div id="pnlLossDays" style="font-size:15px;font-weight:800;color:#f87171;">0</div>
+      </div>
+    </div>
+    <!-- Month nav -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;">
+      <button class="cal-nav-btn" onclick="pnlChangeMonth(-1)">‹</button>
+      <div id="pnlMonthTitle" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#e2e8f0;min-width:160px;text-align:center;"></div>
+      <button class="cal-nav-btn" onclick="pnlChangeMonth(1)">›</button>
+    </div>
+    <!-- Weekdays -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Du</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Se</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Ch</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Pa</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Ju</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Sh</div>
+      <div style="text-align:center;font-size:9px;color:#5a2a20;padding:3px 0;letter-spacing:1px;">Ya</div>
+    </div>
+    <div id="pnlGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
+  </div>
+</div>
+
+<!-- PNL Panel -->
+<div class="cal-overlay" id="pnlOverlay" onclick="pnlClosePanel()"></div>
+<div class="cal-panel" id="pnlPanel">
+  <div class="cal-panel-handle"></div>
+  <div class="cal-panel-header">
+    <div class="cal-panel-date" id="pnlPanelDate"></div>
+    <button class="cal-panel-close" onclick="pnlClosePanel()">✕</button>
+  </div>
+  <div style="padding:10px 18px;flex:1;overflow-y:auto;">
+    <!-- PNL input section -->
+    <div id="pnlInputSection">
+      <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">KUN PNL ($)</div>
+      <input type="number" id="pnlAmountInput" placeholder="Masalan: 150.50 yoki -80" style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:14px 12px;color:#e2e8f0;font-size:24px;font-weight:700;outline:none;font-family:inherit;margin-bottom:10px;-moz-appearance:textfield;"/>
+      <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">FOIZ (%)</div>
+      <input type="number" id="pnlPctInput" placeholder="Masalan: 2.5 yoki -1.8" style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:12px;color:#e2e8f0;font-size:18px;font-weight:700;outline:none;font-family:inherit;margin-bottom:10px;-moz-appearance:textfield;"/>
+      <!-- Note input -->
+      <div id="pnlNoteSection" style="display:none;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">ESLATMA</div>
+        <textarea id="pnlNoteInput" placeholder="Bugungi savdo haqida..." style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:12px;color:#e2e8f0;font-size:14px;outline:none;font-family:inherit;resize:none;height:80px;line-height:1.5;"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+        <button onclick="pnlSaveDay()" style="padding:13px 0;border-radius:10px;border:none;background:linear-gradient(135deg,#065f46,#10b981);color:#fff;font-weight:900;font-size:14px;font-family:inherit;cursor:pointer;letter-spacing:1px;">💾 SAQLASH</button>
+        <button onclick="pnlDeleteDay()" style="padding:13px 0;border-radius:10px;border:1px solid rgba(220,38,38,0.3);background:rgba(220,38,38,0.07);color:#f87171;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;">🗑️ O'chirish</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Calendar panel & overlay -->
 <div class="cal-overlay" id="calOverlay" onclick="calClosePanel()"></div>
 <div class="cal-panel" id="calPanel">
@@ -562,6 +644,7 @@
     document.getElementById('pv-'+id).classList.add('active');
     if(id==='journal')renderTrades();
     if(id==='calendar')calRender();
+    if(id==='pnlcal')pnlRender();
     window.scrollTo(0,0);
   }
   function goHome(){
@@ -708,7 +791,130 @@
       </div>`).join('');
   }
 
-  /* ══ CALENDAR ══ */
+  /* ══ PNL CALENDAR ══ */
+  const now3=new Date();
+  let pnlYear=now3.getFullYear(),pnlMonth=now3.getMonth(),pnlSelDay=null,pnlTab='pnl';
+
+  function pnlKey(y,m,d){return 'at_pnl_'+y+'_'+(m+1)+'_'+d;}
+  function pnlLoad(y,m,d){try{return JSON.parse(localStorage.getItem(pnlKey(y,m,d))||'null');}catch(e){return null;}}
+  function pnlSaveData(y,m,d,obj){localStorage.setItem(pnlKey(y,m,d),JSON.stringify(obj));}
+  function pnlDeleteData(y,m,d){localStorage.removeItem(pnlKey(y,m,d));}
+
+  function pnlSetTab(tab){
+    pnlTab=tab;
+    const isPnl=tab==='pnl';
+    document.getElementById('pnl-tab-pnl').style.background=isPnl?'#16a34a':'#0d1420';
+    document.getElementById('pnl-tab-pnl').style.color=isPnl?'#fff':'#475569';
+    document.getElementById('pnl-tab-pnl').style.border=isPnl?'none':'1px solid #1e2d42';
+    document.getElementById('pnl-tab-note').style.background=!isPnl?'#c9a84c':'#0d1420';
+    document.getElementById('pnl-tab-note').style.color=!isPnl?'#0a0a0a':'#475569';
+    document.getElementById('pnl-tab-note').style.border=!isPnl?'none':'1px solid #1e2d42';
+    document.getElementById('pnlNoteSection').style.display=!isPnl?'block':'none';
+  }
+
+  function pnlChangeMonth(dir){
+    pnlMonth+=dir;
+    if(pnlMonth>11){pnlMonth=0;pnlYear++;}
+    if(pnlMonth<0){pnlMonth=11;pnlYear--;}
+    pnlRender();
+  }
+
+  function pnlRender(){
+    document.getElementById('pnlMonthTitle').textContent=UZ_MONTHS[pnlMonth]+' '+pnlYear;
+    const grid=document.getElementById('pnlGrid');
+    grid.innerHTML='';
+    const first=new Date(pnlYear,pnlMonth,1);
+    let startDay=first.getDay();startDay=startDay===0?6:startDay-1;
+    const dim=new Date(pnlYear,pnlMonth+1,0).getDate();
+    const today=new Date();
+
+    let totalPnl=0,winDays=0,lossDays=0;
+    for(let d=1;d<=dim;d++){const data=pnlLoad(pnlYear,pnlMonth,d);if(data&&data.pnl!=null){totalPnl+=data.pnl;if(data.pnl>0)winDays++;else if(data.pnl<0)lossDays++;}}
+    const tv=document.getElementById('pnlTotalVal');
+    tv.textContent=(totalPnl>=0?'+':'')+totalPnl.toFixed(2)+'$';
+    tv.style.color=totalPnl>0?'#10b981':totalPnl<0?'#f87171':'#e2e8f0';
+    document.getElementById('pnlWinDays').textContent=winDays;
+    document.getElementById('pnlLossDays').textContent=lossDays;
+
+    for(let i=0;i<startDay;i++){const el=document.createElement('div');el.style.cssText='background:none;';grid.appendChild(el);}
+
+    for(let d=1;d<=dim;d++){
+      const el=document.createElement('div');
+      const data=pnlLoad(pnlYear,pnlMonth,d);
+      const isToday=today.getDate()===d&&today.getMonth()===pnlMonth&&today.getFullYear()===pnlYear;
+      const isSel=pnlSelDay&&pnlSelDay.d===d;
+      const dow=new Date(pnlYear,pnlMonth,d).getDay();
+      const hasWin=data&&data.pnl>0;const hasLoss=data&&data.pnl<0;const hasNote=data&&data.note;
+
+      let bg='#0d1420',border='#1e2d42';
+      if(hasWin){bg='rgba(22,163,74,0.12)';border='rgba(22,163,74,0.4)';}
+      else if(hasLoss){bg='rgba(220,38,38,0.12)';border='rgba(220,38,38,0.4)';}
+      if(isToday){border='#c9a84c';}
+      if(isSel){border='#fff';}
+
+      el.style.cssText=`background:${bg};border:1px solid ${border};border-radius:7px;min-height:54px;padding:5px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:1px;position:relative;`;
+
+      const num=document.createElement('div');
+      num.style.cssText=`font-size:11px;font-weight:500;color:${dow===0?'#6a3a2a':(isToday?'#c9a84c':'#777')};`;
+      num.textContent=d;el.appendChild(num);
+
+      if(data&&data.pnl!=null){
+        const pv=document.createElement('div');
+        pv.style.cssText=`font-size:9px;font-weight:800;color:${data.pnl>0?'#4ade80':'#f87171'};line-height:1.2;margin-top:1px;`;
+        pv.textContent=(data.pnl>0?'+':'')+data.pnl.toFixed(0)+'$';
+        el.appendChild(pv);
+        if(data.pct!=null){
+          const pp=document.createElement('div');
+          pp.style.cssText=`font-size:9px;color:${data.pnl>0?'#4ade80':'#f87171'};opacity:0.75;`;
+          pp.textContent=(data.pct>0?'+':'')+data.pct.toFixed(1)+'%';
+          el.appendChild(pp);
+        }
+      }
+      if(hasNote){
+        const nd=document.createElement('div');
+        nd.style.cssText='position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:#c9a84c;';
+        el.appendChild(nd);
+      }
+      el.onclick=()=>pnlOpenPanel(d);
+      grid.appendChild(el);
+    }
+  }
+
+  function pnlOpenPanel(d){
+    pnlSelDay={d,m:pnlMonth,y:pnlYear};
+    document.getElementById('pnlPanelDate').textContent=d+' '+UZ_MONTHS[pnlMonth]+' '+pnlYear;
+    const data=pnlLoad(pnlYear,pnlMonth,d);
+    document.getElementById('pnlAmountInput').value=data&&data.pnl!=null?data.pnl:'';
+    document.getElementById('pnlPctInput').value=data&&data.pct!=null?data.pct:'';
+    document.getElementById('pnlNoteInput').value=data&&data.note?data.note:'';
+    document.getElementById('pnlPanel').classList.add('open');
+    document.getElementById('pnlOverlay').classList.add('show');
+    setTimeout(()=>document.getElementById('pnlAmountInput').focus(),350);
+  }
+
+  function pnlClosePanel(){
+    document.getElementById('pnlPanel').classList.remove('open');
+    document.getElementById('pnlOverlay').classList.remove('show');
+    pnlSelDay=null;pnlRender();
+  }
+
+  function pnlSaveDay(){
+    if(!pnlSelDay)return;
+    const pnl=parseFloat(document.getElementById('pnlAmountInput').value);
+    const pct=parseFloat(document.getElementById('pnlPctInput').value);
+    const note=document.getElementById('pnlNoteInput').value.trim();
+    if(isNaN(pnl)){alert('PNL miqdorini kiriting!');return;}
+    const obj={pnl,pct:isNaN(pct)?null:pct,note:note||null};
+    pnlSaveData(pnlSelDay.y,pnlSelDay.m,pnlSelDay.d,obj);
+    pnlClosePanel();
+  }
+
+  function pnlDeleteDay(){
+    if(!pnlSelDay)return;
+    pnlDeleteData(pnlSelDay.y,pnlSelDay.m,pnlSelDay.d);
+    pnlClosePanel();
+  }
+
   const UZ_MONTHS=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
   const now2=new Date();
   let calYear=now2.getFullYear(),calMonth=now2.getMonth(),calSelected=null;
