@@ -8,555 +8,1012 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{width:100%;background:#0a0d14;font-family:'Segoe UI',sans-serif;}
-  body{min-height:100vh;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{width:100%;background:#0a0d14;font-family:'Segoe UI',sans-serif;}
+  body{min-height:100vh;}
 
-  /* ── HOME ── */
-  .home{padding:20px 16px 30px;}
-  .home-header{text-align:center;margin-bottom:24px;padding-top:8px;}
-  .home-logo{
-    width:64px;height:64px;border-radius:18px;margin:0 auto 12px;
-    background:linear-gradient(135deg,#1d4ed8,#7c3aed);
-    display:flex;align-items:center;justify-content:center;
-    font-weight:900;font-size:22px;color:#fff;
-    box-shadow:0 8px 24px rgba(99,102,241,0.4);
-  }
-  .home-title{color:#e2e8f0;font-size:22px;font-weight:900;letter-spacing:0.5px;}
-  .home-sub{color:#3a4a60;font-size:12px;margin-top:4px;letter-spacing:2px;}
+  /* ── HOME ── */
+  .home{padding:20px 16px 30px;}
+  .home-header{text-align:center;margin-bottom:24px;padding-top:8px;}
+  .home-logo{
+    width:64px;height:64px;border-radius:18px;margin:0 auto 12px;
+    background:linear-gradient(135deg,#1d4ed8,#7c3aed);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:22px;color:#fff;
+    box-shadow:0 8px 24px rgba(99,102,241,0.4);
+  }
+  .home-title{color:#e2e8f0;font-size:22px;font-weight:900;letter-spacing:0.5px;}
+  .home-sub{color:#3a4a60;font-size:12px;margin-top:4px;letter-spacing:2px;}
 
-  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .menu-card{
-    border-radius:18px;padding:22px 16px;cursor:pointer;
-    display:flex;flex-direction:column;align-items:flex-start;
-    transition:transform 0.15s,box-shadow 0.15s;
-    position:relative;overflow:hidden;
-    border:1px solid rgba(255,255,255,0.05);
-    min-height:130px;
-  }
-  .menu-card:active{transform:scale(0.96);}
-  .mc1{background:linear-gradient(135deg,#0f2460,#1d4ed8);}
-  .mc2{background:linear-gradient(135deg,#062620,#065f46);}
-  .mc3{background:linear-gradient(135deg,#3d1f00,#92400e);}
-  .mc4{background:linear-gradient(135deg,#2e1065,#6d28d9);}
-  .mc5{background:linear-gradient(135deg,#082535,#0e7490);}
-  .mc6{background:linear-gradient(135deg,#500724,#be185d);}
-  .mc7{background:linear-gradient(135deg,#1a1000,#3d2e00);border:1px solid rgba(201,168,76,0.2);}
+  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .menu-card{
+    border-radius:18px;padding:22px 16px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:flex-start;
+    transition:transform 0.15s,box-shadow 0.15s;
+    position:relative;overflow:hidden;
+    border:1px solid rgba(255,255,255,0.05);
+    min-height:130px;
+  }
+  .menu-card:active{transform:scale(0.96);}
+  .mc1{background:linear-gradient(135deg,#0f2460,#1d4ed8);}
+  .mc2{background:linear-gradient(135deg,#062620,#065f46);}
+  .mc3{background:linear-gradient(135deg,#3d1f00,#92400e);}
+  .mc4{background:linear-gradient(135deg,#2e1065,#6d28d9);}
+  .mc5{background:linear-gradient(135deg,#082535,#0e7490);}
+  .mc6{background:linear-gradient(135deg,#500724,#be185d);}
+  .mc7{background:linear-gradient(135deg,#1a1000,#3d2e00);border:1px solid rgba(201,168,76,0.2);}
 
-  .menu-card::before{
-    content:'';position:absolute;top:-20px;right:-20px;
-    width:80px;height:80px;border-radius:50%;
-    background:rgba(255,255,255,0.05);
-  }
-  .menu-icon{font-size:32px;margin-bottom:10px;}
-  .menu-name{color:#fff;font-size:15px;font-weight:800;line-height:1.3;}
-  .menu-desc{color:rgba(255,255,255,0.5);font-size:11px;margin-top:4px;}
-  .menu-arrow{position:absolute;bottom:14px;right:14px;color:rgba(255,255,255,0.3);font-size:16px;}
+  .menu-card::before{
+    content:'';position:absolute;top:-20px;right:-20px;
+    width:80px;height:80px;border-radius:50%;
+    background:rgba(255,255,255,0.05);
+  }
+  .menu-icon{font-size:32px;margin-bottom:10px;}
+  .menu-name{color:#fff;font-size:15px;font-weight:800;line-height:1.3;}
+  .menu-desc{color:rgba(255,255,255,0.5);font-size:11px;margin-top:4px;}
+  .menu-arrow{position:absolute;bottom:14px;right:14px;color:rgba(255,255,255,0.3);font-size:16px;}
 
-  /* ── PAGE ── */
-  .page-view{display:none;min-height:100vh;flex-direction:column;}
-  .page-view.active{display:flex;}
+  /* ── PAGE ── */
+  .page-view{display:none;min-height:100vh;flex-direction:column;}
+  .page-view.active{display:flex;}
 
-  .page-topbar{
-    display:flex;align-items:center;gap:12px;
-    padding:14px 16px;
-    position:sticky;top:0;z-index:10;
-    background:rgba(10,13,20,0.95);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid #1a2535;
-  }
-  .back-btn{
-    width:36px;height:36px;border-radius:10px;border:none;
-    background:#1a2535;color:#e2e8f0;font-size:18px;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-  }
-  .back-btn:active{background:#252c3d;}
-  .topbar-icon{font-size:22px;}
-  .topbar-title{color:#e2e8f0;font-size:16px;font-weight:800;}
-  .topbar-sub{color:#3a4a60;font-size:10px;letter-spacing:1px;}
+  .page-topbar{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 16px;
+    position:sticky;top:0;z-index:10;
+    background:rgba(10,13,20,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #1a2535;
+  }
+  .back-btn{
+    width:36px;height:36px;border-radius:10px;border:none;
+    background:#1a2535;color:#e2e8f0;font-size:18px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .back-btn:active{background:#252c3d;}
+  .topbar-icon{font-size:22px;}
+  .topbar-title{color:#e2e8f0;font-size:16px;font-weight:800;}
+  .topbar-sub{color:#3a4a60;font-size:10px;letter-spacing:1px;}
 
-  .page-content{padding:16px;flex:1;}
+  .page-content{padding:16px;flex:1;}
 
-  /* ── INPUTS ── */
-  .section-label{color:#64748b;font-size:10px;letter-spacing:2.5px;margin-bottom:7px;margin-top:4px;}
-  .dir-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-  .dir-btn{
-    padding:13px 0;border-radius:12px;border:1px solid #252c3d;cursor:pointer;
-    font-weight:800;font-size:14px;letter-spacing:1.5px;
-    background:#1a2030;color:#334155;font-family:inherit;transition:all 0.18s;
-  }
-  .dir-btn.active-buy{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;border-color:#16a34a;box-shadow:0 4px 14px rgba(22,163,74,0.3);}
-  .dir-btn.active-sell{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff;border-color:#dc2626;box-shadow:0 4px 14px rgba(220,38,38,0.3);}
+  /* ── INPUTS ── */
+  .section-label{color:#64748b;font-size:10px;letter-spacing:2.5px;margin-bottom:7px;margin-top:4px;}
+  .dir-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+  .dir-btn{
+    padding:13px 0;border-radius:12px;border:1px solid #252c3d;cursor:pointer;
+    font-weight:800;font-size:14px;letter-spacing:1.5px;
+    background:#1a2030;color:#334155;font-family:inherit;transition:all 0.18s;
+  }
+  .dir-btn.active-buy{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;border-color:#16a34a;box-shadow:0 4px 14px rgba(22,163,74,0.3);}
+  .dir-btn.active-sell{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff;border-color:#dc2626;box-shadow:0 4px 14px rgba(220,38,38,0.3);}
 
-  .inp-wrap{margin-bottom:10px;}
-  .inp-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-  .inp-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px;}
-  .inp-label{color:#475569;font-size:10px;letter-spacing:2px;margin-bottom:5px;}
-  input[type=number]{
-    width:100%;background:#0d1420;border:1px solid #1e2d42;
-    border-radius:10px;padding:12px 10px;
-    color:#e2e8f0;font-size:20px;font-weight:700;
-    outline:none;font-family:inherit;-moz-appearance:textfield;
-    transition:border-color 0.15s;
-  }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
-  input[type=number]:focus{border-color:#6366f1;}
+  .inp-wrap{margin-bottom:10px;}
+  .inp-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+  .inp-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px;}
+  .inp-label{color:#475569;font-size:10px;letter-spacing:2px;margin-bottom:5px;}
+  input[type=number]{
+    width:100%;background:#0d1420;border:1px solid #1e2d42;
+    border-radius:10px;padding:12px 10px;
+    color:#e2e8f0;font-size:20px;font-weight:700;
+    outline:none;font-family:inherit;-moz-appearance:textfield;
+    transition:border-color 0.15s;
+  }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+  input[type=number]:focus{border-color:#6366f1;}
 
-  .range-bar{
-    display:flex;justify-content:space-between;align-items:center;
-    background:#0d1420;border:1px solid #1e2d42;
-    border-radius:10px;padding:8px 12px;margin-bottom:11px;
-  }
-  .range-text{color:#64748b;font-size:12px;}
-  .range-val{color:#e2e8f0;font-weight:800;}
-  .range-badge{font-size:11px;padding:2px 10px;border-radius:6px;font-weight:700;}
-  .badge-good{background:rgba(22,163,74,0.12);color:#4ade80;}
-  .badge-warn{background:rgba(251,191,36,0.12);color:#fbbf24;}
+  .range-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    background:#0d1420;border:1px solid #1e2d42;
+    border-radius:10px;padding:8px 12px;margin-bottom:11px;
+  }
+  .range-text{color:#64748b;font-size:12px;}
+  .range-val{color:#e2e8f0;font-weight:800;}
+  .range-badge{font-size:11px;padding:2px 10px;border-radius:6px;font-weight:700;}
+  .badge-good{background:rgba(22,163,74,0.12);color:#4ade80;}
+  .badge-warn{background:rgba(251,191,36,0.12);color:#fbbf24;}
 
-  .err-box{
-    background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.25);
-    border-radius:10px;padding:10px 14px;margin-bottom:10px;
-    color:#f87171;font-size:13px;display:none;
-  }
-  .act-btn{
-    width:100%;padding:14px 0;border:none;border-radius:12px;cursor:pointer;
-    color:#fff;font-weight:900;font-size:14px;letter-spacing:2px;
-    font-family:inherit;transition:opacity 0.15s;
-  }
-  .act-btn:active{opacity:0.82;}
-  .ab1{background:linear-gradient(135deg,#1d4ed8,#6366f1);box-shadow:0 4px 16px rgba(99,102,241,0.3);}
-  .ab2{background:linear-gradient(135deg,#065f46,#10b981);box-shadow:0 4px 16px rgba(16,185,129,0.3);}
-  .ab3{background:linear-gradient(135deg,#92400e,#f59e0b);box-shadow:0 4px 16px rgba(245,158,11,0.3);}
-  .ab4{background:linear-gradient(135deg,#6d28d9,#8b5cf6);box-shadow:0 4px 16px rgba(139,92,246,0.3);}
-  .ab5{background:linear-gradient(135deg,#0e7490,#06b6d4);box-shadow:0 4px 16px rgba(6,182,212,0.3);}
-  .ab6{background:linear-gradient(135deg,#be185d,#ec4899);box-shadow:0 4px 16px rgba(236,72,153,0.3);}
+  .err-box{
+    background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.25);
+    border-radius:10px;padding:10px 14px;margin-bottom:10px;
+    color:#f87171;font-size:13px;display:none;
+  }
+  .act-btn{
+    width:100%;padding:14px 0;border:none;border-radius:12px;cursor:pointer;
+    color:#fff;font-weight:900;font-size:14px;letter-spacing:2px;
+    font-family:inherit;transition:opacity 0.15s;
+  }
+  .act-btn:active{opacity:0.82;}
+  .ab1{background:linear-gradient(135deg,#1d4ed8,#6366f1);box-shadow:0 4px 16px rgba(99,102,241,0.3);}
+  .ab2{background:linear-gradient(135deg,#065f46,#10b981);box-shadow:0 4px 16px rgba(16,185,129,0.3);}
+  .ab3{background:linear-gradient(135deg,#92400e,#f59e0b);box-shadow:0 4px 16px rgba(245,158,11,0.3);}
+  .ab4{background:linear-gradient(135deg,#6d28d9,#8b5cf6);box-shadow:0 4px 16px rgba(139,92,246,0.3);}
+  .ab5{background:linear-gradient(135deg,#0e7490,#06b6d4);box-shadow:0 4px 16px rgba(6,182,212,0.3);}
+  .ab6{background:linear-gradient(135deg,#be185d,#ec4899);box-shadow:0 4px 16px rgba(236,72,153,0.3);}
 
-  /* ── RESULTS ── */
-  .res-wrap{display:none;margin-top:14px;}
-  .res-label{color:#64748b;font-size:10px;letter-spacing:2.5px;margin-bottom:9px;}
-  .res-row{
-    display:flex;align-items:center;justify-content:space-between;
-    background:#0d1420;border:1px solid #1e2d42;
-    border-radius:12px;padding:12px 14px;margin-bottom:7px;
-  }
-  .rl{padding:4px 9px;border-radius:8px;font-size:11px;font-weight:700;white-space:nowrap;}
-  .rl1{background:rgba(239,68,68,0.13);border:1px solid rgba(239,68,68,0.35);color:#ef4444;}
-  .rl2{background:rgba(129,140,248,0.13);border:1px solid rgba(129,140,248,0.35);color:#818cf8;}
-  .rl3{background:rgba(167,139,250,0.13);border:1px solid rgba(167,139,250,0.35);color:#a78bfa;}
-  .rr{display:flex;align-items:center;gap:7px;}
-  .rp{font-size:19px;font-weight:800;}
-  .rp-b{color:#16a34a;}.rp-s{color:#dc2626;}
-  .sig{padding:3px 8px;border-radius:7px;font-size:11px;font-weight:800;letter-spacing:1px;color:#fff;}
-  .sig-b{background:rgba(22,163,74,0.88);}.sig-s{background:rgba(185,28,28,0.88);}
+  /* ── RESULTS ── */
+  .res-wrap{display:none;margin-top:14px;}
+  .res-label{color:#64748b;font-size:10px;letter-spacing:2.5px;margin-bottom:9px;}
+  .res-row{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#0d1420;border:1px solid #1e2d42;
+    border-radius:12px;padding:12px 14px;margin-bottom:7px;
+  }
+  .rl{padding:4px 9px;border-radius:8px;font-size:11px;font-weight:700;white-space:nowrap;}
+  .rl1{background:rgba(239,68,68,0.13);border:1px solid rgba(239,68,68,0.35);color:#ef4444;}
+  .rl2{background:rgba(129,140,248,0.13);border:1px solid rgba(129,140,248,0.35);color:#818cf8;}
+  .rl3{background:rgba(167,139,250,0.13);border:1px solid rgba(167,139,250,0.35);color:#a78bfa;}
+  .rr{display:flex;align-items:center;gap:7px;}
+  .rp{font-size:19px;font-weight:800;}
+  .rp-b{color:#16a34a;}.rp-s{color:#dc2626;}
+  .sig{padding:3px 8px;border-radius:7px;font-size:11px;font-weight:800;letter-spacing:1px;color:#fff;}
+  .sig-b{background:rgba(22,163,74,0.88);}.sig-s{background:rgba(185,28,28,0.88);}
 
-  .inf-card{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:13px 15px;margin-bottom:7px;}
-  .inf-row{display:flex;justify-content:space-between;align-items:center;}
-  .inf-lbl{color:#64748b;font-size:12px;}
-  .inf-val{font-size:19px;font-weight:800;}
-  .iv-r{color:#f87171;}.iv-g{color:#10b981;}.iv-y{color:#fbbf24;}.iv-c{color:#06b6d4;}.iv-w{color:#e2e8f0;}
-  .inf-sub{color:#3a4a60;font-size:10px;margin-top:3px;}
-  .divider{height:1px;background:#1a2535;margin:7px 0;}
+  .inf-card{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:13px 15px;margin-bottom:7px;}
+  .inf-row{display:flex;justify-content:space-between;align-items:center;}
+  .inf-lbl{color:#64748b;font-size:12px;}
+  .inf-val{font-size:19px;font-weight:800;}
+  .iv-r{color:#f87171;}.iv-g{color:#10b981;}.iv-y{color:#fbbf24;}.iv-c{color:#06b6d4;}.iv-w{color:#e2e8f0;}
+  .inf-sub{color:#3a4a60;font-size:10px;margin-top:3px;}
+  .divider{height:1px;background:#1a2535;margin:7px 0;}
 
-  .gann-res{display:none;margin-top:14px;}
-  .gann-main{border-radius:14px;padding:18px;margin-bottom:9px;text-align:center;}
-  .gm-buy{background:linear-gradient(135deg,rgba(22,163,74,0.1),rgba(22,163,74,0.03));border:1px solid rgba(22,163,74,0.25);}
-  .gm-sell{background:linear-gradient(135deg,rgba(220,38,38,0.1),rgba(220,38,38,0.03));border:1px solid rgba(220,38,38,0.25);}
-  .gm-lbl{font-size:10px;letter-spacing:2px;font-weight:700;margin-bottom:8px;}
-  .gc-b{color:#4ade80;}.gc-s{color:#f87171;}
-  .gann-price{font-size:36px;font-weight:900;}
-  .gp-b{color:#4ade80;}.gp-s{color:#f87171;}
-  .gann-steps{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:13px 15px;}
-  .gs{display:flex;justify-content:space-between;align-items:center;padding:7px 0;}
-  .gs-lbl{color:#475569;font-size:12px;}
-  .gs-val{color:#e2e8f0;font-size:13px;font-weight:700;font-family:'Courier New',monospace;}
-  .gs+.gs{border-top:1px solid #1a2535;}
+  .gann-res{display:none;margin-top:14px;}
+  .gann-main{border-radius:14px;padding:18px;margin-bottom:9px;text-align:center;}
+  .gm-buy{background:linear-gradient(135deg,rgba(22,163,74,0.1),rgba(22,163,74,0.03));border:1px solid rgba(22,163,74,0.25);}
+  .gm-sell{background:linear-gradient(135deg,rgba(220,38,38,0.1),rgba(220,38,38,0.03));border:1px solid rgba(220,38,38,0.25);}
+  .gm-lbl{font-size:10px;letter-spacing:2px;font-weight:700;margin-bottom:8px;}
+  .gc-b{color:#4ade80;}.gc-s{color:#f87171;}
+  .gann-price{font-size:36px;font-weight:900;}
+  .gp-b{color:#4ade80;}.gp-s{color:#f87171;}
+  .gann-steps{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:13px 15px;}
+  .gs{display:flex;justify-content:space-between;align-items:center;padding:7px 0;}
+  .gs-lbl{color:#475569;font-size:12px;}
+  .gs-val{color:#e2e8f0;font-size:13px;font-weight:700;font-family:'Courier New',monospace;}
+  .gs+.gs{border-top:1px solid #1a2535;}
 
-  .cam-res{display:none;margin-top:14px;}
-  .cam-sec{font-size:10px;letter-spacing:2px;font-weight:700;margin:10px 0 7px;}
-  .cam-r-c{color:#f87171;}.cam-s-c{color:#4ade80;}
-  .cam-row{display:flex;justify-content:space-between;align-items:center;background:#0d1420;border-radius:10px;padding:10px 13px;margin-bottom:6px;}
-  .clvl{font-size:12px;font-weight:800;padding:3px 10px;border-radius:7px;}
-  .cr4{background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid rgba(239,68,68,0.4);}
-  .cr3{background:rgba(248,113,113,0.15);color:#fca5a5;border:1px solid rgba(248,113,113,0.3);}
-  .cs3{background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.3);}
-  .cs4{background:rgba(22,163,74,0.2);color:#4ade80;border:1px solid rgba(22,163,74,0.4);}
-  .cpp{background:rgba(6,182,212,0.15);color:#67e8f9;border:1px solid rgba(6,182,212,0.3);}
-  .cpv{font-size:18px;font-weight:800;color:#e2e8f0;}
-  .cdesc{font-size:10px;color:#3a4a60;}
+  .cam-res{display:none;margin-top:14px;}
+  .cam-sec{font-size:10px;letter-spacing:2px;font-weight:700;margin:10px 0 7px;}
+  .cam-r-c{color:#f87171;}.cam-s-c{color:#4ade80;}
+  .cam-row{display:flex;justify-content:space-between;align-items:center;background:#0d1420;border-radius:10px;padding:10px 13px;margin-bottom:6px;}
+  .clvl{font-size:12px;font-weight:800;padding:3px 10px;border-radius:7px;}
+  .cr4{background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid rgba(239,68,68,0.4);}
+  .cr3{background:rgba(248,113,113,0.15);color:#fca5a5;border:1px solid rgba(248,113,113,0.3);}
+  .cs3{background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.3);}
+  .cs4{background:rgba(22,163,74,0.2);color:#4ade80;border:1px solid rgba(22,163,74,0.4);}
+  .cpp{background:rgba(6,182,212,0.15);color:#67e8f9;border:1px solid rgba(6,182,212,0.3);}
+  .cpv{font-size:18px;font-weight:800;color:#e2e8f0;}
+  .cdesc{font-size:10px;color:#3a4a60;}
 
-  /* ── JURNAL ── */
-  .j-win-btn,.j-loss-btn{
-    padding:14px 0;border-radius:12px;border:none;cursor:pointer;
-    font-weight:900;font-size:15px;font-family:inherit;transition:all 0.18s;
-    width:100%;
-  }
-  .j-win-btn{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;box-shadow:0 4px 14px rgba(22,163,74,0.3);margin-bottom:8px;}
-  .j-loss-btn{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,0.3);}
-  .j-win-btn:active,.j-loss-btn:active{opacity:0.82;}
+  /* ── JURNAL ── */
+  .j-win-btn,.j-loss-btn{
+    padding:14px 0;border-radius:12px;border:none;cursor:pointer;
+    font-weight:900;font-size:15px;font-family:inherit;transition:all 0.18s;
+    width:100%;
+  }
+  .j-win-btn{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;box-shadow:0 4px 14px rgba(22,163,74,0.3);margin-bottom:8px;}
+  .j-loss-btn{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,0.3);}
+  .j-win-btn:active,.j-loss-btn:active{opacity:0.82;}
 
-  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-  .stat-card{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:14px;text-align:center;}
-  .stat-val{font-size:24px;font-weight:900;}
-  .stat-lbl{font-size:10px;color:#3a4a60;margin-top:3px;letter-spacing:1px;}
-  .wr-bar{height:6px;background:#1e2d42;border-radius:3px;overflow:hidden;margin:8px 0 4px;}
-  .wr-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#16a34a,#4ade80);transition:width 0.5s;}
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+  .stat-card{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:14px;text-align:center;}
+  .stat-val{font-size:24px;font-weight:900;}
+  .stat-lbl{font-size:10px;color:#3a4a60;margin-top:3px;letter-spacing:1px;}
+  .wr-bar{height:6px;background:#1e2d42;border-radius:3px;overflow:hidden;margin:8px 0 4px;}
+  .wr-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#16a34a,#4ade80);transition:width 0.5s;}
 
-  .trade-item{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative;}
-  .trade-item.win{border-left:3px solid #16a34a;}
-  .trade-item.loss{border-left:3px solid #dc2626;}
-  .t-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-  .t-dir{font-size:12px;font-weight:800;padding:2px 10px;border-radius:6px;}
-  .td-b{background:rgba(22,163,74,0.2);color:#4ade80;}
-  .td-s{background:rgba(220,38,38,0.2);color:#f87171;}
-  .t-res{font-size:12px;font-weight:800;}
-  .tr-w{color:#4ade80;}.tr-l{color:#f87171;}
-  .t-prices{display:flex;gap:12px;}
-  .t-pi{font-size:11px;color:#3a4a60;}
-  .t-pi span{color:#64748b;font-weight:700;}
-  .t-date{font-size:10px;color:#1e2a3a;margin-top:4px;}
-  .t-del{position:absolute;top:10px;right:10px;background:none;border:none;color:#2a3a50;font-size:16px;cursor:pointer;padding:2px 6px;}
-  .t-del:active{color:#f87171;}
-  .empty-state{text-align:center;padding:30px 0;color:#2a3a50;font-size:13px;}
-  .empty-icon{font-size:40px;margin-bottom:10px;}
-  .clear-btn{width:100%;padding:10px 0;border-radius:10px;border:1px solid rgba(220,38,38,0.2);background:rgba(220,38,38,0.06);color:#f87171;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:4px;}
+  .trade-item{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative;}
+  .trade-item.win{border-left:3px solid #16a34a;}
+  .trade-item.loss{border-left:3px solid #dc2626;}
+  .t-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .t-dir{font-size:12px;font-weight:800;padding:2px 10px;border-radius:6px;}
+  .td-b{background:rgba(22,163,74,0.2);color:#4ade80;}
+  .td-s{background:rgba(220,38,38,0.2);color:#f87171;}
+  .t-res{font-size:12px;font-weight:800;}
+  .tr-w{color:#4ade80;}.tr-l{color:#f87171;}
+  .t-prices{display:flex;gap:12px;}
+  .t-pi{font-size:11px;color:#3a4a60;}
+  .t-pi span{color:#64748b;font-weight:700;}
+  .t-date{font-size:10px;color:#1e2a3a;margin-top:4px;}
+  .t-del{position:absolute;top:10px;right:10px;background:none;border:none;color:#2a3a50;font-size:16px;cursor:pointer;padding:2px 6px;}
+  .t-del:active{color:#f87171;}
+  .empty-state{text-align:center;padding:30px 0;color:#2a3a50;font-size:13px;}
+  .empty-icon{font-size:40px;margin-bottom:10px;}
+  .clear-btn{width:100%;padding:10px 0;border-radius:10px;border:1px solid rgba(220,38,38,0.2);background:rgba(220,38,38,0.06);color:#f87171;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:4px;}
 
-  /* ══ CALENDAR / VAZIFALAR ══ */
-  #pv-calendar .page-content{padding:12px 14px 80px;}
+  /* ══ CALENDAR / VAZIFALAR ══ */
+  #pv-calendar .page-content{padding:12px 14px 80px;}
 
-  .cal-month-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px;}
-  .cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #2a2a2a;background:none;color:#888;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
-  .cal-nav-btn:active{border-color:#c9a84c;color:#c9a84c;background:#1a1608;}
-  .cal-month-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:#f0e6c8;letter-spacing:0.5px;min-width:180px;text-align:center;}
+  .cal-month-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px;}
+  .cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #2a2a2a;background:none;color:#888;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
+  .cal-nav-btn:active{border-color:#c9a84c;color:#c9a84c;background:#1a1608;}
+  .cal-month-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:#f0e6c8;letter-spacing:0.5px;min-width:180px;text-align:center;}
 
-  .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
-  .cal-wd{text-align:center;font-size:10px;color:#3a4a60;padding:4px 0;font-weight:500;letter-spacing:1px;text-transform:uppercase;}
+  .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
+  .cal-wd{text-align:center;font-size:10px;color:#3a4a60;padding:4px 0;font-weight:500;letter-spacing:1px;text-transform:uppercase;}
 
-  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-  .cal-cell{border:0.5px solid #1c1c1c;border-radius:8px;min-height:48px;padding:5px 5px;cursor:pointer;transition:all 0.18s;position:relative;display:flex;flex-direction:column;gap:2px;background:#111;}
-  .cal-cell:active{background:#1a1608;border-color:#c9a84c55;}
-  .cal-cell.cal-empty{border:none;cursor:default;background:none;}
-  .cal-cell.cal-today{border-color:#c9a84c;background:#1a1608;}
-  .cal-cell.cal-today .cal-num{color:#c9a84c;font-family:'Playfair Display',serif;}
-  .cal-cell.cal-selected{border-color:#c9a84c;background:#1a1608;}
-  .cal-num{font-size:12px;font-weight:400;color:#aaa;width:20px;height:20px;display:flex;align-items:center;justify-content:center;}
-  .cal-sunday .cal-num{color:#6a3a2a;}
-  .cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:2px;}
-  .cal-dot{width:5px;height:5px;border-radius:50%;background:#c9a84c;flex-shrink:0;}
-  .cal-dot.done{background:#2e2010;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+  .cal-cell{border:0.5px solid #1c1c1c;border-radius:8px;min-height:48px;padding:5px 5px;cursor:pointer;transition:all 0.18s;position:relative;display:flex;flex-direction:column;gap:2px;background:#111;}
+  .cal-cell:active{background:#1a1608;border-color:#c9a84c55;}
+  .cal-cell.cal-empty{border:none;cursor:default;background:none;}
+  .cal-cell.cal-today{border-color:#c9a84c;background:#1a1608;}
+  .cal-cell.cal-today .cal-num{color:#c9a84c;font-family:'Playfair Display',serif;}
+  .cal-cell.cal-selected{border-color:#c9a84c;background:#1a1608;}
+  .cal-num{font-size:12px;font-weight:400;color:#aaa;width:20px;height:20px;display:flex;align-items:center;justify-content:center;}
+  .cal-sunday .cal-num{color:#6a3a2a;}
+  .cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:2px;}
+  .cal-dot{width:5px;height:5px;border-radius:50%;background:#c9a84c;flex-shrink:0;}
+  .cal-dot.done{background:#2e2010;}
 
-  /* Panel */
-  .cal-panel{
-    position:fixed;bottom:0;left:0;right:0;
-    background:#0d0d0d;border-top:0.5px solid #2a2a2a;
-    border-radius:20px 20px 0 0;
-    display:flex;flex-direction:column;
-    max-height:70vh;
-    transform:translateY(100%);
-    transition:transform 0.3s cubic-bezier(.4,0,.2,1);
-    z-index:200;
-  }
-  .cal-panel.open{transform:translateY(0);}
-  .cal-panel-handle{width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;}
-  .cal-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;}
-  .cal-panel-date{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#f0e6c8;}
-  .cal-panel-close{background:none;border:none;color:#555;font-size:22px;cursor:pointer;padding:2px;}
-  .cal-task-list{flex:1;overflow-y:auto;padding:4px 18px 10px;display:flex;flex-direction:column;gap:7px;}
-  .cal-task-list::-webkit-scrollbar{width:2px;}
-  .cal-task-list::-webkit-scrollbar-thumb{background:#2a2a2a;}
-  .cal-task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:0.5px solid #1e1e1e;border-radius:10px;background:#141414;}
-  .cal-task-item.done-t{opacity:0.45;}
-  .cal-chk{width:20px;height:20px;border-radius:5px;border:1.5px solid #333;cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
-  .cal-chk.checked{background:#c9a84c;border-color:#c9a84c;}
-  .cal-chk-icon{font-size:12px;color:#0a0a0a;display:none;}
-  .cal-chk.checked .cal-chk-icon{display:block;}
-  .cal-task-txt{font-size:14px;color:#bbb;line-height:1.5;flex:1;word-break:break-word;font-family:'DM Sans',sans-serif;font-weight:300;}
-  .cal-task-txt.striked{text-decoration:line-through;color:#444;}
-  .cal-del{background:none;border:none;cursor:pointer;color:#2a2a2a;font-size:18px;padding:1px 4px;flex-shrink:0;transition:color 0.15s;}
-  .cal-del:active{color:#8a3a3a;}
-  .cal-add-area{padding:10px 18px 16px;border-top:0.5px solid #1e1e1e;display:flex;gap:8px;background:#0d0d0d;}
-  .cal-inp{flex:1;border:0.5px solid #2a2a2a;border-radius:10px;padding:10px 13px;font-size:14px;color:#ddd;background:#141414;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.18s;}
-  .cal-inp:focus{border-color:#c9a84c55;}
-  .cal-inp::placeholder{color:#333;}
-  .cal-add-btn{background:#c9a84c;color:#0a0a0a;border:none;border-radius:10px;padding:10px 18px;font-size:13px;cursor:pointer;font-weight:500;font-family:'DM Sans',sans-serif;white-space:nowrap;}
-  .cal-add-btn:active{background:#e0c060;}
-  .cal-empty-msg{font-size:13px;color:#2a2a2a;text-align:center;margin-top:20px;font-family:'DM Sans',sans-serif;}
-  .cal-gold-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,#c9a84c,transparent);margin:0 auto 14px;}
-  .cal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:199;display:none;}
-  .cal-overlay.show{display:block;}
+  /* Panel */
+  .cal-panel{
+    position:fixed;bottom:0;left:0;right:0;
+    background:#0d0d0d;border-top:0.5px solid #2a2a2a;
+    border-radius:20px 20px 0 0;
+    display:flex;flex-direction:column;
+    max-height:70vh;
+    transform:translateY(100%);
+    transition:transform 0.3s cubic-bezier(.4,0,.2,1);
+    z-index:200;
+  }
+  .cal-panel.open{transform:translateY(0);}
+  .cal-panel-handle{width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;}
+  .cal-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;}
+  .cal-panel-date{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#f0e6c8;}
+  .cal-panel-close{background:none;border:none;color:#555;font-size:22px;cursor:pointer;padding:2px;}
+  .cal-task-list{flex:1;overflow-y:auto;padding:4px 18px 10px;display:flex;flex-direction:column;gap:7px;}
+  .cal-task-list::-webkit-scrollbar{width:2px;}
+  .cal-task-list::-webkit-scrollbar-thumb{background:#2a2a2a;}
+  .cal-task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:0.5px solid #1e1e1e;border-radius:10px;background:#141414;}
+  .cal-task-item.done-t{opacity:0.45;}
+  .cal-chk{width:20px;height:20px;border-radius:5px;border:1.5px solid #333;cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+  .cal-chk.checked{background:#c9a84c;border-color:#c9a84c;}
+  .cal-chk-icon{font-size:12px;color:#0a0a0a;display:none;}
+  .cal-chk.checked .cal-chk-icon{display:block;}
+  .cal-task-txt{font-size:14px;color:#bbb;line-height:1.5;flex:1;word-break:break-word;font-family:'DM Sans',sans-serif;font-weight:300;}
+  .cal-task-txt.striked{text-decoration:line-through;color:#444;}
+  .cal-del{background:none;border:none;cursor:pointer;color:#2a2a2a;font-size:18px;padding:1px 4px;flex-shrink:0;transition:color 0.15s;}
+  .cal-del:active{color:#8a3a3a;}
+  .cal-add-area{padding:10px 18px 16px;border-top:0.5px solid #1e1e1e;display:flex;gap:8px;background:#0d0d0d;}
+  .cal-inp{flex:1;border:0.5px solid #2a2a2a;border-radius:10px;padding:10px 13px;font-size:14px;color:#ddd;background:#141414;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.18s;}
+  .cal-inp:focus{border-color:#c9a84c55;}
+  .cal-inp::placeholder{color:#333;}
+  .cal-add-btn{background:#c9a84c;color:#0a0a0a;border:none;border-radius:10px;padding:10px 18px;font-size:13px;cursor:pointer;font-weight:500;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+  .cal-add-btn:active{background:#e0c060;}
+  .cal-empty-msg{font-size:13px;color:#2a2a2a;text-align:center;margin-top:20px;font-family:'DM Sans',sans-serif;}
+  .cal-gold-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,#c9a84c,transparent);margin:0 auto 14px;}
+  .cal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:199;display:none;}
+  .cal-overlay.show{display:block;}
 </style>
 </head>
 <body>
 
 <!-- ══ HOME ══ -->
 <div class="home" id="home">
-  <div class="home-header">
-    <div class="home-logo">AT</div>
-    <div class="home-title">Aslamov Trade</div>
-    <div class="home-sub">XAUUSD · GOLD/USD</div>
-  </div>
+  <div class="home-header">
+    <div class="home-logo">AT</div>
+    <div class="home-title">Aslamov Trade</div>
+    <div class="home-sub">XAUUSD · GOLD/USD</div>
+  </div>
 
-  <div class="menu-grid">
-    <div class="menu-card mc1" onclick="openPage('zona')">
-      <div class="menu-icon">📊</div>
-      <div class="menu-name">Zona Kalkulyator</div>
-      <div class="menu-desc">Kirish nuqtalari</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc2" onclick="openPage('risk')">
-      <div class="menu-icon">💰</div>
-      <div class="menu-name">Risk Kalkulyator</div>
-      <div class="menu-desc">Lot va xavf</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc3" onclick="openPage('gmin')">
-      <div class="menu-icon">📈</div>
-      <div class="menu-name">Gann MIN</div>
-      <div class="menu-desc">BUY daraja</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc4" onclick="openPage('gmax')">
-      <div class="menu-icon">📉</div>
-      <div class="menu-name">Gann MAX</div>
-      <div class="menu-desc">SELL daraja</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc5" onclick="openPage('pivot')">
-      <div class="menu-icon">🎯</div>
-      <div class="menu-name">Camarilla Pivot</div>
-      <div class="menu-desc">S/R darajalar</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc6" onclick="openPage('journal')">
-      <div class="menu-icon">📓</div>
-      <div class="menu-name">Trading Jurnal</div>
-      <div class="menu-desc">Sdelka tarixi</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc7" onclick="openPage('calendar')" style="grid-column:span 2;">
-      <div class="menu-icon">📅</div>
-      <div class="menu-name">Kunlik Vazifalar</div>
-      <div class="menu-desc">Oylik jadval · Maqsadlar</div>
-      <div class="menu-arrow" style="color:rgba(201,168,76,0.4)">›</div>
-    </div>
-    <div class="menu-card" onclick="openPage('pnlcal')" style="grid-column:span 2;background:linear-gradient(135deg,#0a1a0a,#14532d);border:1px solid rgba(22,163,74,0.2);">
-      <div class="menu-icon">💹</div>
-      <div class="menu-name">Trading Calendar</div>
-      <div class="menu-desc">Kunlik PNL · Foyda/Zarar tarixi</div>
-      <div class="menu-arrow" style="color:rgba(22,163,74,0.4)">›</div>
-    </div>
-  </div>
+  <div class="menu-grid">
+    <div class="menu-card mc1" onclick="openPage('zona')">
+      <div class="menu-icon">📊</div>
+      <div class="menu-name">Zona Kalkulyator</div>
+      <div class="menu-desc">Kirish nuqtalari</div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-card mc2" onclick="openPage('risk')">
+      <div class="menu-icon">💰</div>
+      <div class="menu-name">Risk Kalkulyator</div>
+      <div class="menu-desc">Lot va xavf</div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-card mc3" onclick="openPage('gmin')">
+      <div class="menu-icon">📈</div>
+      <div class="menu-name">Gann MIN</div>
+      <div class="menu-desc">BUY daraja</div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-card mc4" onclick="openPage('gmax')">
+      <div class="menu-icon">📉</div>
+      <div class="menu-name">Gann MAX</div>
+      <div class="menu-desc">SELL daraja</div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-card mc5" onclick="openPage('pivot')">
+      <div class="menu-icon">🎯</div>
+      <div class="menu-name">Camarilla Pivot</div>
+      <div class="menu-desc">S/R darajalar</div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-card mc6" onclick="openPage('journal')">
+      <div class="menu-icon">📓</div>
+      <div class="menu-name">Trading Jurnal</div>
+      <div class="menu-desc">Sdelka tarixi</div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-card mc7" onclick="openPage('calendar')" style="grid-column:span 2;">
+      <div class="menu-icon">📅</div>
+      <div class="menu-name">Kunlik Vazifalar</div>
+      <div class="menu-desc">Oylik jadval · Maqsadlar</div>
+      <div class="menu-arrow" style="color:rgba(201,168,76,0.4)">›</div>
+    </div>
+    <div class="menu-card" onclick="openPage('pnlcal')" style="grid-column:span 2;background:linear-gradient(135deg,#0a1a0a,#14532d);border:1px solid rgba(22,163,74,0.2);">
+      <div class="menu-icon">💹</div>
+      <div class="menu-name">Trading Calendar</div>
+      <div class="menu-desc">Kunlik PNL · Foyda/Zarar tarixi</div>
+      <div class="menu-arrow" style="color:rgba(22,163,74,0.4)">›</div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 1. ZONA ══ -->
 <div class="page-view" id="pv-zona">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📊</div>
-    <div><div class="topbar-title">Zona Kalkulyator</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="section-label">BOZOR YO'NALISHI</div>
-    <div class="dir-grid">
-      <button class="dir-btn active-buy" id="z-buy" onclick="setZDir('BUY')">▲ BUY</button>
-      <button class="dir-btn" id="z-sell" onclick="setZDir('SELL')">▼ SELL</button>
-    </div>
-    <div class="section-label">KUN DIAPAZONI</div>
-    <div class="inp-grid2">
-      <div><div class="inp-label">HIGH</div><input type="number" id="z-high" placeholder="4680" oninput="zInput()" onkeydown="if(event.key==='Enter')calcZona()"/></div>
-      <div><div class="inp-label">LOW</div><input type="number" id="z-low" placeholder="4657" oninput="zInput()" onkeydown="if(event.key==='Enter')calcZona()"/></div>
-    </div>
-    <div class="range-bar" id="z-rbar" style="display:none">
-      <span class="range-text">Range: <span class="range-val" id="z-rval"></span></span>
-      <span class="range-badge" id="z-rbadge"></span>
-    </div>
-    <div class="err-box" id="z-err"></div>
-    <button class="act-btn ab1" onclick="calcZona()">⚡ HISOBLA</button>
-    <div class="res-wrap" id="z-res">
-      <div class="res-label">KIRISH NUQTALARI</div>
-      <div class="res-row"><span class="rl rl1">Разворот</span><div class="rr"><span class="rp" id="z-p1"></span><span class="sig" id="z-s1"></span></div></div>
-      <div class="res-row"><span class="rl rl2">Коррекция</span><div class="rr"><span class="rp" id="z-p2"></span><span class="sig" id="z-s2"></span></div></div>
-      <div class="res-row"><span class="rl rl3">Консолидация</span><div class="rr"><span class="rp" id="z-p3"></span><span class="sig" id="z-s3"></span></div></div>
-    </div>
-  </div>
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">📊</div>
+    <div><div class="topbar-title">Zona Kalkulyator</div><div class="topbar-sub">Aslamov Trade</div></div>
+  </div>
+  <div class="page-content">
+    <div class="section-label">BOZOR YO'NALISHI</div>
+    <div class="dir-grid">
+      <button class="dir-btn active-buy" id="z-buy" onclick="setZDir('BUY')">▲ BUY</button>
+      <button class="dir-btn" id="z-sell" onclick="setZDir('SELL')">▼ SELL</button>
+    </div>
+    <div class="section-label">KUN DIAPAZONI</div>
+    <div class="inp-grid2">
+      <div><div class="inp-label">HIGH</div><input type="number" id="z-high" placeholder="4680" oninput="zInput()" onkeydown="if(event.key==='Enter')calcZona()"/></div>
+      <div><div class="inp-label">LOW</div><input type="number" id="z-low" placeholder="4657" oninput="zInput()" onkeydown="if(event.key==='Enter')calcZona()"/></div>
+    </div>
+    <div class="range-bar" id="z-rbar" style="display:none">
+      <span class="range-text">Range: <span class="range-val" id="z-rval"></span></span>
+      <span class="range-badge" id="z-rbadge"></span>
+    </div>
+    <div class="err-box" id="z-err"></div>
+    <button class="act-btn ab1" onclick="calcZona()">⚡ HISOBLA</button>
+    <div class="res-wrap" id="z-res">
+      <div class="res-label">KIRISH NUQTALARI</div>
+      <div class="res-row"><span class="rl rl1">Разворот</span><div class="rr"><span class="rp" id="z-p1"></span><span class="sig" id="z-s1"></span></div></div>
+      <div class="res-row"><span class="rl rl2">Коррекция</span><div class="rr"><span class="rp" id="z-p2"></span><span class="sig" id="z-s2"></span></div></div>
+      <div class="res-row"><span class="rl rl3">Консолидация</span><div class="rr"><span class="rp" id="z-p3"></span><span class="sig" id="z-s3"></span></div></div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 2. RISK ══ -->
 <div class="page-view" id="pv-risk">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">💰</div>
-    <div><div class="topbar-title">Risk Kalkulyator</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="inp-wrap"><div class="inp-label">DEPOSIT ($)</div><input type="number" id="r-dep" placeholder="1000"/></div>
-    <div class="inp-wrap"><div class="inp-label">RISK (%)</div><input type="number" id="r-rsk" placeholder="1"/></div>
-    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">STOP LOSS (pips)</div><input type="number" id="r-sl" placeholder="20"/></div>
-    <div class="err-box" id="r-err"></div>
-    <button class="act-btn ab2" onclick="calcRisk()">⚡ HISOBLA</button>
-    <div id="r-res" style="display:none;margin-top:14px">
-      <div class="res-label">NATIJA</div>
-      <div class="inf-card"><div class="inf-row"><span class="inf-lbl">⚠️ Xavf miqdori</span><span class="inf-val iv-r" id="r-dol"></span></div><div class="inf-sub">Depositning <span id="r-pct"></span>%</div></div>
-      <div class="inf-card"><div class="inf-row"><span class="inf-lbl">📦 Lot hajmi</span><span class="inf-val iv-g" id="r-lot"></span></div><div class="inf-sub">XAUUSD uchun optimal</div></div>
-      <div class="inf-card">
-        <div class="inf-row"><span class="inf-lbl">🎯 1:2 TP</span><span class="inf-val iv-y" id="r-tp2"></span></div>
-        <div class="divider"></div>
-        <div class="inf-row"><span class="inf-lbl">🎯 1:3 TP</span><span class="inf-val iv-y" id="r-tp3"></span></div>
-      </div>
-    </div>
-  </div>
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">💰</div>
+    <div><div class="topbar-title">Risk Kalkulyator</div><div class="topbar-sub">Aslamov Trade</div></div>
+  </div>
+  <div class="page-content">
+    <div class="inp-wrap"><div class="inp-label">DEPOSIT ($)</div><input type="number" id="r-dep" placeholder="1000"/></div>
+    <div class="inp-wrap"><div class="inp-label">RISK (%)</div><input type="number" id="r-rsk" placeholder="1"/></div>
+    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">STOP LOSS (pips)</div><input type="number" id="r-sl" placeholder="20"/></div>
+    <div class="err-box" id="r-err"></div>
+    <button class="act-btn ab2" onclick="calcRisk()">⚡ HISOBLA</button>
+    <div id="r-res" style="display:none;margin-top:14px">
+      <div class="res-label">NATIJA</div>
+      <div class="inf-card"><div class="inf-row"><span class="inf-lbl">⚠️ Xavf miqdori</span><span class="inf-val iv-r" id="r-dol"></span></div><div class="inf-sub">Depositning <span id="r-pct"></span>%</div></div>
+      <div class="inf-card"><div class="inf-row"><span class="inf-lbl">📦 Lot hajmi</span><span class="inf-val iv-g" id="r-lot"></span></div><div class="inf-sub">XAUUSD uchun optimal</div></div>
+      <div class="inf-card">
+        <div class="inf-row"><span class="inf-lbl">🎯 1:2 TP</span><span class="inf-val iv-y" id="r-tp2"></span></div>
+        <div class="divider"></div>
+        <div class="inf-row"><span class="inf-lbl">🎯 1:3 TP</span><span class="inf-val iv-y" id="r-tp3"></span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 3. GANN MIN ══ -->
 <div class="page-view" id="pv-gmin">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📈</div>
-    <div><div class="topbar-title">Gann MIN → BUY</div><div class="topbar-sub">Square of 9</div></div>
-  </div>
-  <div class="page-content">
-    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">H1 MINIMUM NARX</div><input type="number" id="gn-min" placeholder="4453" onkeydown="if(event.key==='Enter')calcGMin()"/></div>
-    <div class="err-box" id="gmin-err"></div>
-    <button class="act-btn ab3" onclick="calcGMin()">⚡ HISOBLA</button>
-    <div class="gann-res" id="gmin-res">
-      <div class="res-label" style="margin-top:14px">BUY DARAJA</div>
-      <div class="gann-main gm-buy"><div class="gm-lbl gc-b">📈 KEYINGI BUY DARAJA</div><div class="gann-price gp-b" id="gmin-out"></div></div>
-      <div class="gann-steps">
-        <div class="gs"><span class="gs-lbl">1️⃣ √ MIN narx</span><span class="gs-val" id="gmin-sq"></span></div>
-        <div class="gs"><span class="gs-lbl">2️⃣ + 0.50</span><span class="gs-val" id="gmin-add"></span></div>
-        <div class="gs"><span class="gs-lbl">3️⃣ ² kvadrat</span><span class="gs-val" id="gmin-sq2"></span></div>
-      </div>
-    </div>
-  </div>
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">📈</div>
+    <div><div class="topbar-title">Gann MIN → BUY</div><div class="topbar-sub">Square of 9</div></div>
+  </div>
+  <div class="page-content">
+    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">H1 MINIMUM NARX</div><input type="number" id="gn-min" placeholder="4453" onkeydown="if(event.key==='Enter')calcGMin()"/></div>
+    <div class="err-box" id="gmin-err"></div>
+    <button class="act-btn ab3" onclick="calcGMin()">⚡ HISOBLA</button>
+    <div class="gann-res" id="gmin-res">
+      <div class="res-label" style="margin-top:14px">BUY DARAJA</div>
+      <div class="gann-main gm-buy"><div class="gm-lbl gc-b">📈 KEYINGI BUY DARAJA</div><div class="gann-price gp-b" id="gmin-out"></div></div>
+      <div class="gann-steps">
+        <div class="gs"><span class="gs-lbl">1️⃣ √ MIN narx</span><span class="gs-val" id="gmin-sq"></span></div>
+        <div class="gs"><span class="gs-lbl">2️⃣ + 0.50</span><span class="gs-val" id="gmin-add"></span></div>
+        <div class="gs"><span class="gs-lbl">3️⃣ ² kvadrat</span><span class="gs-val" id="gmin-sq2"></span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 4. GANN MAX ══ -->
 <div class="page-view" id="pv-gmax">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📉</div>
-    <div><div class="topbar-title">Gann MAX → SELL</div><div class="topbar-sub">Square of 9</div></div>
-  </div>
-  <div class="page-content">
-    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">H1 MAXIMUM NARX</div><input type="number" id="gn-max" placeholder="4721" onkeydown="if(event.key==='Enter')calcGMax()"/></div>
-    <div class="err-box" id="gmax-err"></div>
-    <button class="act-btn ab4" onclick="calcGMax()">⚡ HISOBLA</button>
-    <div class="gann-res" id="gmax-res">
-      <div class="res-label" style="margin-top:14px">SELL DARAJA</div>
-      <div class="gann-main gm-sell"><div class="gm-lbl gc-s">📉 KEYINGI SELL DARAJA</div><div class="gann-price gp-s" id="gmax-out"></div></div>
-      <div class="gann-steps">
-        <div class="gs"><span class="gs-lbl">1️⃣ √ MAX narx</span><span class="gs-val" id="gmax-sq"></span></div>
-        <div class="gs"><span class="gs-lbl">2️⃣ − 0.50</span><span class="gs-val" id="gmax-sub"></span></div>
-        <div class="gs"><span class="gs-lbl">3️⃣ ² kvadrat</span><span class="gs-val" id="gmax-sq2"></span></div>
-      </div>
-    </div>
-  </div>
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">📉</div>
+    <div><div class="topbar-title">Gann MAX → SELL</div><div class="topbar-sub">Square of 9</div></div>
+  </div>
+  <div class="page-content">
+    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">H1 MAXIMUM NARX</div><input type="number" id="gn-max" placeholder="4721" onkeydown="if(event.key==='Enter')calcGMax()"/></div>
+    <div class="err-box" id="gmax-err"></div>
+    <button class="act-btn ab4" onclick="calcGMax()">⚡ HISOBLA</button>
+    <div class="gann-res" id="gmax-res">
+      <div class="res-label" style="margin-top:14px">SELL DARAJA</div>
+      <div class="gann-main gm-sell"><div class="gm-lbl gc-s">📉 KEYINGI SELL DARAJA</div><div class="gann-price gp-s" id="gmax-out"></div></div>
+      <div class="gann-steps">
+        <div class="gs"><span class="gs-lbl">1️⃣ √ MAX narx</span><span class="gs-val" id="gmax-sq"></span></div>
+        <div class="gs"><span class="gs-lbl">2️⃣ − 0.50</span><span class="gs-val" id="gmax-sub"></span></div>
+        <div class="gs"><span class="gs-lbl">3️⃣ ² kvadrat</span><span class="gs-val" id="gmax-sq2"></span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 5. PIVOT ══ -->
 <div class="page-view" id="pv-pivot">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">🎯</div>
-    <div><div class="topbar-title">Camarilla Pivot</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="section-label">KECHA XAUUSD</div>
-    <div class="inp-grid3">
-      <div><div class="inp-label">HIGH</div><input type="number" id="c-h" placeholder="4680"/></div>
-      <div><div class="inp-label">LOW</div><input type="number" id="c-l" placeholder="4620"/></div>
-      <div><div class="inp-label">CLOSE</div><input type="number" id="c-c" placeholder="4655"/></div>
-    </div>
-    <div class="err-box" id="c-err"></div>
-    <button class="act-btn ab5" onclick="calcCam()">⚡ HISOBLA</button>
-    <div class="cam-res" id="cam-res">
-      <div class="res-label" style="margin-top:14px">BUGUNGI DARAJALAR</div>
-      <div class="cam-sec cam-r-c">▼ SELL (Resistance)</div>
-      <div class="cam-row"><span class="clvl cr4">R4</span><span class="cpv" id="c-r4"></span><span class="cdesc">Kuchli SELL</span></div>
-      <div class="cam-row"><span class="clvl cr3">R3</span><span class="cpv" id="c-r3"></span><span class="cdesc">SELL kirish</span></div>
-      <div class="cam-row" style="border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:10px 13px;margin-bottom:6px;background:rgba(6,182,212,0.04)">
-        <span class="clvl cpp">PP</span><span class="cpv" style="color:#67e8f9" id="c-pp"></span><span class="cdesc">Pivot</span>
-      </div>
-      <div class="cam-sec cam-s-c">▲ BUY (Support)</div>
-      <div class="cam-row"><span class="clvl cs3">S3</span><span class="cpv" id="c-s3"></span><span class="cdesc">BUY kirish</span></div>
-      <div class="cam-row"><span class="clvl cs4">S4</span><span class="cpv" id="c-s4"></span><span class="cdesc">Kuchli BUY</span></div>
-    </div>
-  </div>
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">🎯</div>
+    <div><div class="topbar-title">Camarilla Pivot</div><div class="topbar-sub">Aslamov Trade</div></div>
+  </div>
+  <div class="page-content">
+    <div class="section-label">KECHA XAUUSD</div>
+    <div class="inp-grid3">
+      <div><div class="inp-label">HIGH</div><input type="number" id="c-h" placeholder="4680"/></div>
+      <div><div class="inp-label">LOW</div><input type="number" id="c-l" placeholder="4620"/></div>
+      <div><div class="inp-label">CLOSE</div><input type="number" id="c-c" placeholder="4655"/></div>
+    </div>
+    <div class="err-box" id="c-err"></div>
+    <button class="act-btn ab5" onclick="calcCam()">⚡ HISOBLA</button>
+    <div class="cam-res" id="cam-res">
+      <div class="res-label" style="margin-top:14px">BUGUNGI DARAJALAR</div>
+      <div class="cam-sec cam-r-c">▼ SELL (Resistance)</div>
+      <div class="cam-row"><span class="clvl cr4">R4</span><span class="cpv" id="c-r4"></span><span class="cdesc">Kuchli SELL</span></div>
+      <div class="cam-row"><span class="clvl cr3">R3</span><span class="cpv" id="c-r3"></span><span class="cdesc">SELL kirish</span></div>
+      <div class="cam-row" style="border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:10px 13px;margin-bottom:6px;background:rgba(6,182,212,0.04)">
+        <span class="clvl cpp">PP</span><span class="cpv" style="color:#67e8f9" id="c-pp"></span><span class="cdesc">Pivot</span>
+      </div>
+      <div class="cam-sec cam-s-c">▲ BUY (Support)</div>
+      <div class="cam-row"><span class="clvl cs3">S3</span><span class="cpv" id="c-s3"></span><span class="cdesc">BUY kirish</span></div>
+      <div class="cam-row"><span class="clvl cs4">S4</span><span class="cpv" id="c-s4"></span><span class="cdesc">Kuchli BUY</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 6. JURNAL ══ -->
 <div class="page-view" id="pv-journal">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📓</div>
-    <div><div class="topbar-title">Trading Jurnal</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="section-label">YANGI SDELKA</div>
-    <div class="dir-grid">
-      <button class="dir-btn active-buy" id="j-buy" onclick="setJDir('BUY')">▲ BUY</button>
-      <button class="dir-btn" id="j-sell" onclick="setJDir('SELL')">▼ SELL</button>
-    </div>
-    <div class="inp-grid3" style="margin-bottom:12px">
-      <div><div class="inp-label">KIRISH</div><input type="number" id="j-entry" placeholder="4650"/></div>
-      <div><div class="inp-label">SL</div><input type="number" id="j-sl" placeholder="4640"/></div>
-      <div><div class="inp-label">TP</div><input type="number" id="j-tp" placeholder="4670"/></div>
-    </div>
-    <div class="err-box" id="j-err"></div>
-    <button class="j-win-btn" onclick="addTrade('WIN')">✅ WIN</button>
-    <button class="j-loss-btn" onclick="addTrade('LOSS')">❌ LOSS</button>
-    <div id="j-stats" style="display:none;margin-top:16px">
-      <div class="res-label">STATISTIKA</div>
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-val iv-w" id="j-tot">0</div><div class="stat-lbl">JAMI</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:#ec4899" id="j-wr">0%</div><div class="stat-lbl">WIN RATE</div></div>
-        <div class="stat-card"><div class="stat-val iv-g" id="j-wins">0</div><div class="stat-lbl">WIN ✅</div></div>
-        <div class="stat-card"><div class="stat-val iv-r" id="j-loss">0</div><div class="stat-lbl">LOSS ❌</div></div>
-      </div>
-      <div class="wr-bar"><div class="wr-fill" id="j-bar" style="width:0%"></div></div>
-    </div>
-    <div id="j-list" style="margin-top:8px"></div>
-    <button class="clear-btn" id="j-clr" onclick="clearTrades()" style="display:none">🗑️ Hammasini o'chirish</button>
-  </div>
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">📓</div>
+    <div><div class="topbar-title">Trading Jurnal</div><div class="topbar-sub">Aslamov Trade</div></div>
+  </div>
+  <div class="page-content">
+    <div class="section-label">YANGI SDELKA</div>
+    <div class="dir-grid">
+      <button class="dir-btn active-buy" id="j-buy" onclick="setJDir('BUY')">▲ BUY</button>
+      <button class="dir-btn" id="j-sell" onclick="setJDir('SELL')">▼ SELL</button>
+    </div>
+    <div class="inp-grid3" style="margin-bottom:12px">
+      <div><div class="inp-label">KIRISH</div><input type="number" id="j-entry" placeholder="4650"/></div>
+      <div><div class="inp-label">SL</div><input type="number" id="j-sl" placeholder="4640"/></div>
+      <div><div class="inp-label">TP</div><input type="number" id="j-tp" placeholder="4670"/></div>
+    </div>
+    <div class="err-box" id="j-err"></div>
+    <button class="j-win-btn" onclick="addTrade('WIN')">✅ WIN</button>
+    <button class="j-loss-btn" onclick="addTrade('LOSS')">❌ LOSS</button>
+    <div id="j-stats" style="display:none;margin-top:16px">
+      <div class="res-label">STATISTIKA</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-val iv-w" id="j-tot">0</div><div class="stat-lbl">JAMI</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:#ec4899" id="j-wr">0%</div><div class="stat-lbl">WIN RATE</div></div>
+        <div class="stat-card"><div class="stat-val iv-g" id="j-wins">0</div><div class="stat-lbl">WIN ✅</div></div>
+        <div class="stat-card"><div class="stat-val iv-r" id="j-loss">0</div><div class="stat-lbl">LOSS ❌</div></div>
+      </div>
+      <div class="wr-bar"><div class="wr-fill" id="j-bar" style="width:0%"></div></div>
+    </div>
+    <div id="j-list" style="margin-top:8px"></div>
+    <button class="clear-btn" id="j-clr" onclick="clearTrades()" style="display:none">🗑️ Hammasini o'chirish</button>
+  </div>
 </div>
 
 <!-- ══ 7. CALENDAR ══ -->
 <div class="page-view" id="pv-calendar">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📅</div>
-    <div><div class="topbar-title">Kunlik Vazifalar</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="cal-gold-line"></div>
-    <div class="cal-month-nav">
-      <button class="cal-nav-btn" onclick="calChangeMonth(-1)">‹</button>
-      <div class="cal-month-title" id="calMonthTitle"></div>
-      <button class="cal-nav-btn" onclick="calChangeMonth(1)">›</button>
-    </div>
-    <div class="cal-weekdays">
-      <div class="cal-wd">Du</div><div class="cal-wd">Se</div><div class="cal-wd">Ch</div>
-      <div class="cal-wd">Pa</div><div class="cal-wd">Ju</div><div class="cal-wd">Sh</div>
-      <div class="cal-wd" style="color:#5a2a20">Ya</div>
-    </div>
-    <div class="cal-grid" id="calGrid"></div>
-  </div>
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">📅</div>
+    <div><div class="topbar-title">Kunlik Vazifalar</div><div class="topbar-sub">Aslamov Trade</div></div>
+  </div>
+  <div class="page-content">
+    <div class="cal-gold-line"></div>
+    <div class="cal-month-nav">
+      <button class="cal-nav-btn" onclick="calChangeMonth(-1)">‹</button>
+      <div class="cal-month-title" id="calMonthTitle"></div>
+      <button class="cal-nav-btn" onclick="calChangeMonth(1)">›</button>
+    </div>
+    <div class="cal-weekdays">
+      <div class="cal-wd">Du</div><div class="cal-wd">Se</div><div class="cal-wd">Ch</div>
+      <div class="cal-wd">Pa</div><div class="cal-wd">Ju</div><div class="cal-wd">Sh</div>
+      <div class="cal-wd" style="color:#5a2a20">Ya</div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
 </div>
 
 <!-- ══ 8. PNL CALENDAR ══ -->
 <div class="page-view" id="pv-pnlcal">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">💹</div>
-    <div><div class="topbar-title">Trading Calendar</div><div class="topbar-sub">PNL · Foyda/Zarar</div></div>
-  </div>
-  <div class="page-content" style="padding-bottom:100px;">
-    <!-- Tabs -->
-    <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <button id="pnl-tab-pnl" onclick="pnlSetTab('pnl')" style="flex:1;padding:9px 0;border-radius:10px;border:none;background:#16a34a;color:#fff;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">PNL</button>
-      <button id="pnl-tab-note" onclick="pnlSetTab('note')" style="flex:1;padding:9px 0;border-radius:10px;border:1px solid #1e2d42;background:#0d1420;color:#475569;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">ESLATMA</button>
-    </div>
-    <!-- Stats bar -->
-    <div id="pnlStatsBar" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px;">
-      <div style="background:#0d1420;border:1px solid #1e2d42;border-r
+  <div class="page-topbar">
+    <button class="back-btn" onclick="goHome()">‹</button>
+    <div class="topbar-icon">💹</div>
+    <div><div class="topbar-title">Trading Calendar</div><div class="topbar-sub">PNL · Foyda/Zarar</div></div>
+  </div>
+  <div class="page-content" style="padding-bottom:100px;">
+    <!-- Tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
+      <button id="pnl-tab-pnl" onclick="pnlSetTab('pnl')" style="flex:1;padding:9px 0;border-radius:10px;border:none;background:#16a34a;color:#fff;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">PNL</button>
+      <button id="pnl-tab-note" onclick="pnlSetTab('note')" style="flex:1;padding:9px 0;border-radius:10px;border:1px solid #1e2d42;background:#0d1420;color:#475569;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">ESLATMA</button>
+    </div>
+    <!-- Stats bar -->
+    <div id="pnlStatsBar" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px;">
+      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">JAMI</div>
+        <div id="pnlTotalVal" style="font-size:15px;font-weight:800;color:#e2e8f0;">$0</div>
+      </div>
+      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">WIN KUN</div>
+        <div id="pnlWinDays" style="font-size:15px;font-weight:800;color:#10b981;">0</div>
+      </div>
+      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">LOSS KUN</div>
+        <div id="pnlLossDays" style="font-size:15px;font-weight:800;color:#f87171;">0</div>
+      </div>
+    </div>
+    <!-- Month nav -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;">
+      <button class="cal-nav-btn" onclick="pnlChangeMonth(-1)">‹</button>
+      <div id="pnlMonthTitle" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#e2e8f0;min-width:160px;text-align:center;"></div>
+      <button class="cal-nav-btn" onclick="pnlChangeMonth(1)">›</button>
+    </div>
+    <!-- Weekdays -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Du</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Se</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Ch</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Pa</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Ju</div>
+      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Sh</div>
+      <div style="text-align:center;font-size:9px;color:#5a2a20;padding:3px 0;letter-spacing:1px;">Ya</div>
+    </div>
+    <div id="pnlGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
+  </div>
+</div>
+
+<!-- PNL Panel -->
+<div class="cal-overlay" id="pnlOverlay" onclick="pnlClosePanel()"></div>
+<div class="cal-panel" id="pnlPanel">
+  <div class="cal-panel-handle"></div>
+  <div class="cal-panel-header">
+    <div class="cal-panel-date" id="pnlPanelDate"></div>
+    <button class="cal-panel-close" onclick="pnlClosePanel()">✕</button>
+  </div>
+  <div style="padding:10px 18px;flex:1;overflow-y:auto;">
+    <!-- PNL input section -->
+    <div id="pnlInputSection">
+      <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">KUN PNL ($)</div>
+      <input type="number" id="pnlAmountInput" placeholder="Masalan: 150.50 yoki -80" style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:14px 12px;color:#e2e8f0;font-size:24px;font-weight:700;outline:none;font-family:inherit;margin-bottom:10px;-moz-appearance:textfield;"/>
+      <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">FOIZ (%)</div>
+      <input type="number" id="pnlPctInput" placeholder="Masalan: 2.5 yoki -1.8" style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:12px;color:#e2e8f0;font-size:18px;font-weight:700;outline:none;font-family:inherit;margin-bottom:10px;-moz-appearance:textfield;"/>
+      <!-- Note input -->
+      <div id="pnlNoteSection" style="display:none;">
+        <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">ESLATMA</div>
+        <textarea id="pnlNoteInput" placeholder="Bugungi savdo haqida..." style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:12px;color:#e2e8f0;font-size:14px;outline:none;font-family:inherit;resize:none;height:80px;line-height:1.5;"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+        <button onclick="pnlSaveDay()" style="padding:13px 0;border-radius:10px;border:none;background:linear-gradient(135deg,#065f46,#10b981);color:#fff;font-weight:900;font-size:14px;font-family:inherit;cursor:pointer;letter-spacing:1px;">💾 SAQLASH</button>
+        <button onclick="pnlDeleteDay()" style="padding:13px 0;border-radius:10px;border:1px solid rgba(220,38,38,0.3);background:rgba(220,38,38,0.07);color:#f87171;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;">🗑️ O'chirish</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Calendar panel & overlay -->
+<div class="cal-overlay" id="calOverlay" onclick="calClosePanel()"></div>
+<div class="cal-panel" id="calPanel">
+  <div class="cal-panel-handle"></div>
+  <div class="cal-panel-header">
+    <div class="cal-panel-date" id="calPanelDate"></div>
+    <button class="cal-panel-close" onclick="calClosePanel()">✕</button>
+  </div>
+  <div class="cal-task-list" id="calTaskList"></div>
+  <div class="cal-add-area">
+    <input class="cal-inp" id="calTaskInput" placeholder="Vazifa yozing..." onkeydown="if(event.key==='Enter')calAddTask()"/>
+    <button class="cal-add-btn" onclick="calAddTask()">Qo'sh</button>
+  </div>
+</div>
+
+<script>
+  try{window.Telegram.WebApp.expand();window.Telegram.WebApp.setHeaderColor('#0a0d14');window.Telegram.WebApp.setBackgroundColor('#0a0d14');}catch(e){}
+
+  function openPage(id){
+    document.getElementById('home').style.display='none';
+    document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
+    document.getElementById('pv-'+id).classList.add('active');
+    if(id==='journal')renderTrades();
+    if(id==='calendar')calRender();
+    if(id==='pnlcal')pnlRender();
+    window.scrollTo(0,0);
+  }
+  function goHome(){
+    document.getElementById('home').style.display='block';
+    document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
+    window.scrollTo(0,0);
+  }
+
+  /* ── ZONA ── */
+  let zDir="BUY";
+  function setZDir(d){zDir=d;document.getElementById("z-buy").className="dir-btn"+(d==="BUY"?" active-buy":"");document.getElementById("z-sell").className="dir-btn"+(d==="SELL"?" active-sell":"");document.getElementById("z-res").style.display="none";}
+  function zInput(){
+    const h=parseFloat(document.getElementById("z-high").value),l=parseFloat(document.getElementById("z-low").value);
+    const bar=document.getElementById("z-rbar");
+    if(!isNaN(h)&&!isNaN(l)&&h!==l){
+      const r=Math.abs(h-l).toFixed(2);document.getElementById("z-rval").textContent=r;
+      const b=document.getElementById("z-rbadge");
+      if(+r>=60){b.textContent="≥60 ✓";b.className="range-badge badge-good";}else{b.textContent="<60";b.className="range-badge badge-warn";}
+      bar.style.display="flex";
+    }else{bar.style.display="none";}
+    document.getElementById("z-res").style.display="none";document.getElementById("z-err").style.display="none";
+  }
+  function sr(pid,sid,price,sig){
+    const p=document.getElementById(pid),s=document.getElementById(sid);
+    p.textContent=price.toFixed(2);p.className="rp "+(sig==="BUY"?"rp-b":"rp-s");
+    s.textContent=sig;s.className="sig "+(sig==="BUY"?"sig-b":"sig-s");
+  }
+  function calcZona(){
+    const h=parseFloat(document.getElementById("z-high").value),l=parseFloat(document.getElementById("z-low").value);
+    const e=document.getElementById("z-err");
+    if(isNaN(h)||isNaN(l)){e.textContent="HIGH va LOW kiriting!";e.style.display="block";return;}
+    if(h===l){e.textContent="HIGH va LOW bir xil bo'lmasin!";e.style.display="block";return;}
+    e.style.display="none";
+    const H=Math.max(h,l),L=Math.min(h,l),R=H-L;
+    if(zDir==="BUY"){sr("z-p1","z-s1",H+R*0.38,"SELL");sr("z-p2","z-s2",L+R*0.25,"BUY");sr("z-p3","z-s3",L+R*0.12,"BUY");}
+    else{sr("z-p1","z-s1",L-R*0.38,"BUY");sr("z-p2","z-s2",H-R*0.25,"SELL");sr("z-p3","z-s3",H-R*0.12,"SELL");}
+    document.getElementById("z-res").style.display="block";
+  }
+
+  /* ── RISK ── */
+  function calcRisk(){
+    const dep=parseFloat(document.getElementById("r-dep").value),rsk=parseFloat(document.getElementById("r-rsk").value),sl=parseFloat(document.getElementById("r-sl").value);
+    const e=document.getElementById("r-err");
+    if(isNaN(dep)||isNaN(rsk)||isNaN(sl)){e.textContent="Barcha maydonlarni to'ldiring!";e.style.display="block";return;}
+    if(rsk<=0||rsk>100){e.textContent="Risk 0-100% bo'lsin!";e.style.display="block";return;}
+    e.style.display="none";
+    const rd=dep*(rsk/100),lot=rd/(sl*10);
+    document.getElementById("r-dol").textContent="$"+rd.toFixed(2);
+    document.getElementById("r-pct").textContent=rsk;
+    document.getElementById("r-lot").textContent=lot.toFixed(2)+" lot";
+    document.getElementById("r-tp2").textContent="$"+(rd*2).toFixed(2);
+    document.getElementById("r-tp3").textContent="$"+(rd*3).toFixed(2);
+    document.getElementById("r-res").style.display="block";
+  }
+
+  /* ── GANN ── */
+  function calcGMin(){
+    const p=parseFloat(document.getElementById("gn-min").value),e=document.getElementById("gmin-err");
+    if(isNaN(p)||p<=0){e.textContent="Narxni kiriting!";e.style.display="block";return;}
+    e.style.display="none";
+    const sq=Math.sqrt(p),add=sq+0.5,res=add*add;
+    document.getElementById("gmin-sq").textContent=sq.toFixed(4);
+    document.getElementById("gmin-add").textContent=add.toFixed(4);
+    document.getElementById("gmin-sq2").textContent=res.toFixed(2);
+    document.getElementById("gmin-out").textContent=res.toFixed(2);
+    document.getElementById("gmin-res").style.display="block";
+  }
+  function calcGMax(){
+    const p=parseFloat(document.getElementById("gn-max").value),e=document.getElementById("gmax-err");
+    if(isNaN(p)||p<=0){e.textContent="Narxni kiriting!";e.style.display="block";return;}
+    e.style.display="none";
+    const sq=Math.sqrt(p),sub=sq-0.5,res=sub*sub;
+    document.getElementById("gmax-sq").textContent=sq.toFixed(4);
+    document.getElementById("gmax-sub").textContent=sub.toFixed(4);
+    document.getElementById("gmax-sq2").textContent=res.toFixed(2);
+    document.getElementById("gmax-out").textContent=res.toFixed(2);
+    document.getElementById("gmax-res").style.display="block";
+  }
+
+  /* ── CAMARILLA ── */
+  function calcCam(){
+    const H=parseFloat(document.getElementById("c-h").value),L=parseFloat(document.getElementById("c-l").value),C=parseFloat(document.getElementById("c-c").value);
+    const e=document.getElementById("c-err");
+    if(isNaN(H)||isNaN(L)||isNaN(C)){e.textContent="HIGH, LOW va CLOSE kiriting!";e.style.display="block";return;}
+    if(H<=L){e.textContent="HIGH LOW dan katta bo'lsin!";e.style.display="block";return;}
+    e.style.display="none";
+    const r=H-L;
+    document.getElementById("c-pp").textContent=((H+L+C)/3).toFixed(2);
+    document.getElementById("c-r3").textContent=(C+r*1.1/4).toFixed(2);
+    document.getElementById("c-r4").textContent=(C+r*1.1/2).toFixed(2);
+    document.getElementById("c-s3").textContent=(C-r*1.1/4).toFixed(2);
+    document.getElementById("c-s4").textContent=(C-r*1.1/2).toFixed(2);
+    document.getElementById("cam-res").style.display="block";
+  }
+
+  /* ── JURNAL ── */
+  let jDir="BUY";
+  let trades=JSON.parse(localStorage.getItem('at_trades')||'[]');
+  function setJDir(d){jDir=d;document.getElementById("j-buy").className="dir-btn"+(d==="BUY"?" active-buy":"");document.getElementById("j-sell").className="dir-btn"+(d==="SELL"?" active-sell":"");}
+  function addTrade(result){
+    const entry=parseFloat(document.getElementById("j-entry").value);
+    const sl=parseFloat(document.getElementById("j-sl").value);
+    const tp=parseFloat(document.getElementById("j-tp").value);
+    const e=document.getElementById("j-err");
+    if(isNaN(entry)||isNaN(sl)||isNaN(tp)){e.textContent="Kirish, SL va TP kiriting!";e.style.display="block";return;}
+    e.style.display="none";
+    const now=new Date();
+    const date=now.toLocaleDateString('uz-UZ')+" "+now.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'});
+    trades.unshift({id:Date.now(),dir:jDir,entry,sl,tp,result,date});
+    localStorage.setItem('at_trades',JSON.stringify(trades));
+    document.getElementById("j-entry").value="";
+    document.getElementById("j-sl").value="";
+    document.getElementById("j-tp").value="";
+    renderTrades();
+  }
+  function deleteTrade(id){trades=trades.filter(t=>t.id!==id);localStorage.setItem('at_trades',JSON.stringify(trades));renderTrades();}
+  function clearTrades(){if(!confirm("Hammasini o'chirasizmi?"))return;trades=[];localStorage.setItem('at_trades','[]');renderTrades();}
+  function renderTrades(){
+    const list=document.getElementById("j-list"),stats=document.getElementById("j-stats"),clr=document.getElementById("j-clr");
+    if(trades.length===0){
+      stats.style.display="none";clr.style.display="none";
+      list.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div>Hali sdelka yo\'q.<br>WIN yoki LOSS bosing!</div>';return;
+    }
+    const wins=trades.filter(t=>t.result==="WIN").length,total=trades.length,wr=Math.round(wins/total*100);
+    document.getElementById("j-tot").textContent=total;
+    document.getElementById("j-wins").textContent=wins;
+    document.getElementById("j-loss").textContent=total-wins;
+    document.getElementById("j-wr").textContent=wr+"%";
+    document.getElementById("j-bar").style.width=wr+"%";
+    stats.style.display="block";clr.style.display="block";
+    list.innerHTML='<div class="res-label">SDELKALAR</div>'+trades.map(t=>`
+      <div class="trade-item ${t.result.toLowerCase()}">
+        <button class="t-del" onclick="deleteTrade(${t.id})">✕</button>
+        <div class="t-top">
+          <span class="t-dir ${t.dir==='BUY'?'td-b':'td-s'}">${t.dir==='BUY'?'▲':'▼'} ${t.dir}</span>
+          <span class="t-res ${t.result==='WIN'?'tr-w':'tr-l'}">${t.result==='WIN'?'✅ WIN':'❌ LOSS'}</span>
+        </div>
+        <div class="t-prices">
+          <div class="t-pi">Kirish: <span>${t.entry}</span></div>
+          <div class="t-pi">SL: <span>${t.sl}</span></div>
+          <div class="t-pi">TP: <span>${t.tp}</span></div>
+        </div>
+        <div class="t-date">${t.date}</div>
+      </div>`).join('');
+  }
+
+  /* ══ PNL CALENDAR ══ */
+  const now3=new Date();
+  let pnlYear=now3.getFullYear(),pnlMonth=now3.getMonth(),pnlSelDay=null,pnlTab='pnl';
+
+  function pnlKey(y,m,d){return 'at_pnl_'+y+'_'+(m+1)+'_'+d;}
+  function pnlLoad(y,m,d){try{return JSON.parse(localStorage.getItem(pnlKey(y,m,d))||'null');}catch(e){return null;}}
+  function pnlSaveData(y,m,d,obj){localStorage.setItem(pnlKey(y,m,d),JSON.stringify(obj));}
+  function pnlDeleteData(y,m,d){localStorage.removeItem(pnlKey(y,m,d));}
+
+  function pnlSetTab(tab){
+    pnlTab=tab;
+    const isPnl=tab==='pnl';
+    document.getElementById('pnl-tab-pnl').style.background=isPnl?'#16a34a':'#0d1420';
+    document.getElementById('pnl-tab-pnl').style.color=isPnl?'#fff':'#475569';
+    document.getElementById('pnl-tab-pnl').style.border=isPnl?'none':'1px solid #1e2d42';
+    document.getElementById('pnl-tab-note').style.background=!isPnl?'#c9a84c':'#0d1420';
+    document.getElementById('pnl-tab-note').style.color=!isPnl?'#0a0a0a':'#475569';
+    document.getElementById('pnl-tab-note').style.border=!isPnl?'none':'1px solid #1e2d42';
+    document.getElementById('pnlNoteSection').style.display=!isPnl?'block':'none';
+  }
+
+  function pnlChangeMonth(dir){
+    pnlMonth+=dir;
+    if(pnlMonth>11){pnlMonth=0;pnlYear++;}
+    if(pnlMonth<0){pnlMonth=11;pnlYear--;}
+    pnlRender();
+  }
+
+  function pnlRender(){
+    document.getElementById('pnlMonthTitle').textContent=UZ_MONTHS[pnlMonth]+' '+pnlYear;
+    const grid=document.getElementById('pnlGrid');
+    grid.innerHTML='';
+    const first=new Date(pnlYear,pnlMonth,1);
+    let startDay=first.getDay();startDay=startDay===0?6:startDay-1;
+    const dim=new Date(pnlYear,pnlMonth+1,0).getDate();
+    const today=new Date();
+
+    let totalPnl=0,winDays=0,lossDays=0;
+    for(let d=1;d<=dim;d++){const data=pnlLoad(pnlYear,pnlMonth,d);if(data&&data.pnl!=null){totalPnl+=data.pnl;if(data.pnl>0)winDays++;else if(data.pnl<0)lossDays++;}}
+    const tv=document.getElementById('pnlTotalVal');
+    tv.textContent=(totalPnl>=0?'+':'')+totalPnl.toFixed(2)+'$';
+    tv.style.color=totalPnl>0?'#10b981':totalPnl<0?'#f87171':'#e2e8f0';
+    document.getElementById('pnlWinDays').textContent=winDays;
+    document.getElementById('pnlLossDays').textContent=lossDays;
+
+    for(let i=0;i<startDay;i++){const el=document.createElement('div');el.style.cssText='background:none;';grid.appendChild(el);}
+
+    for(let d=1;d<=dim;d++){
+      const el=document.createElement('div');
+      const data=pnlLoad(pnlYear,pnlMonth,d);
+      const isToday=today.getDate()===d&&today.getMonth()===pnlMonth&&today.getFullYear()===pnlYear;
+      const isSel=pnlSelDay&&pnlSelDay.d===d;
+      const dow=new Date(pnlYear,pnlMonth,d).getDay();
+      const hasWin=data&&data.pnl>0;const hasLoss=data&&data.pnl<0;const hasNote=data&&data.note;
+
+      let bg='#0d1420',border='#1e2d42';
+      if(hasWin){bg='rgba(22,163,74,0.12)';border='rgba(22,163,74,0.4)';}
+      else if(hasLoss){bg='rgba(220,38,38,0.12)';border='rgba(220,38,38,0.4)';}
+      if(isToday){border='#c9a84c';}
+      if(isSel){border='#fff';}
+
+      el.style.cssText=`background:${bg};border:1px solid ${border};border-radius:7px;min-height:54px;padding:5px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:1px;position:relative;`;
+
+      const num=document.createElement('div');
+      num.style.cssText=`font-size:11px;font-weight:500;color:${dow===0?'#6a3a2a':(isToday?'#c9a84c':'#777')};`;
+      num.textContent=d;el.appendChild(num);
+
+      if(data&&data.pnl!=null){
+        const pv=document.createElement('div');
+        pv.style.cssText=`font-size:9px;font-weight:800;color:${data.pnl>0?'#4ade80':'#f87171'};line-height:1.2;margin-top:1px;`;
+        pv.textContent=(data.pnl>0?'+':'')+data.pnl.toFixed(0)+'$';
+        el.appendChild(pv);
+        if(data.pct!=null){
+          const pp=document.createElement('div');
+          pp.style.cssText=`font-size:9px;color:${data.pnl>0?'#4ade80':'#f87171'};opacity:0.75;`;
+          pp.textContent=(data.pct>0?'+':'')+data.pct.toFixed(1)+'%';
+          el.appendChild(pp);
+        }
+      }
+      if(hasNote){
+        const nd=document.createElement('div');
+        nd.style.cssText='position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:#c9a84c;';
+        el.appendChild(nd);
+      }
+      el.onclick=()=>pnlOpenPanel(d);
+      grid.appendChild(el);
+    }
+  }
+
+  function pnlOpenPanel(d){
+    pnlSelDay={d,m:pnlMonth,y:pnlYear};
+    document.getElementById('pnlPanelDate').textContent=d+' '+UZ_MONTHS[pnlMonth]+' '+pnlYear;
+    const data=pnlLoad(pnlYear,pnlMonth,d);
+    document.getElementById('pnlAmountInput').value=data&&data.pnl!=null?data.pnl:'';
+    document.getElementById('pnlPctInput').value=data&&data.pct!=null?data.pct:'';
+    document.getElementById('pnlNoteInput').value=data&&data.note?data.note:'';
+    document.getElementById('pnlPanel').classList.add('open');
+    document.getElementById('pnlOverlay').classList.add('show');
+    setTimeout(()=>document.getElementById('pnlAmountInput').focus(),350);
+  }
+
+  function pnlClosePanel(){
+    document.getElementById('pnlPanel').classList.remove('open');
+    document.getElementById('pnlOverlay').classList.remove('show');
+    pnlSelDay=null;pnlRender();
+  }
+
+  function pnlSaveDay(){
+    if(!pnlSelDay)return;
+    const pnl=parseFloat(document.getElementById('pnlAmountInput').value);
+    const pct=parseFloat(document.getElementById('pnlPctInput').value);
+    const note=document.getElementById('pnlNoteInput').value.trim();
+    if(isNaN(pnl)){alert('PNL miqdorini kiriting!');return;}
+    const obj={pnl,pct:isNaN(pct)?null:pct,note:note||null};
+    pnlSaveData(pnlSelDay.y,pnlSelDay.m,pnlSelDay.d,obj);
+    pnlClosePanel();
+  }
+
+  function pnlDeleteDay(){
+    if(!pnlSelDay)return;
+    pnlDeleteData(pnlSelDay.y,pnlSelDay.m,pnlSelDay.d);
+    pnlClosePanel();
+  }
+
+  const UZ_MONTHS=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
+  const now2=new Date();
+  let calYear=now2.getFullYear(),calMonth=now2.getMonth(),calSelected=null;
+
+  function calKey(y,m,d){return 'at_cal_'+y+'_'+(m+1)+'_'+d;}
+  function calLoad(y,m,d){try{return JSON.parse(localStorage.getItem(calKey(y,m,d))||'[]');}catch(e){return[];}}
+  function calSave(y,m,d,arr){localStorage.setItem(calKey(y,m,d),JSON.stringify(arr));}
+
+  function calChangeMonth(dir){
+    calMonth+=dir;
+    if(calMonth>11){calMonth=0;calYear++;}
+    if(calMonth<0){calMonth=11;calYear--;}
+    calRender();
+  }
+
+  function calRender(){
+    document.getElementById('calMonthTitle').textContent=UZ_MONTHS[calMonth]+' '+calYear;
+    const grid=document.getElementById('calGrid');
+    grid.innerHTML='';
+    const first=new Date(calYear,calMonth,1);
+    let startDay=first.getDay();
+    startDay=startDay===0?6:startDay-1;
+    const dim=new Date(calYear,calMonth+1,0).getDate();
+    const today=new Date();
+
+    for(let i=0;i<startDay;i++){
+      const el=document.createElement('div');el.className='cal-cell cal-empty';grid.appendChild(el);
+    }
+    for(let d=1;d<=dim;d++){
+      const el=document.createElement('div');
+      const tasks=calLoad(calYear,calMonth,d);
+      const isToday=today.getDate()===d&&today.getMonth()===calMonth&&today.getFullYear()===calYear;
+      const isSel=calSelected&&calSelected.d===d&&calSelected.m===calMonth&&calSelected.y===calYear;
+      const dow=new Date(calYear,calMonth,d).getDay();
+      el.className='cal-cell'+(isToday?' cal-today':'')+(isSel?' cal-selected':'')+(dow===0?' cal-sunday':'');
+      const num=document.createElement('div');num.className='cal-num';num.textContent=d;el.appendChild(num);
+      if(tasks.length>0){
+        const dw=document.createElement('div');dw.className='cal-dots';
+        tasks.slice(0,6).forEach(t=>{const dot=document.createElement('div');dot.className='cal-dot'+(t.done?' done':'');dw.appendChild(dot);});
+        el.appendChild(dw);
+      }
+      el.onclick=()=>calOpenPanel(d);
+      grid.appendChild(el);
+    }
+  }
+
+  function calOpenPanel(d){
+    calSelected={d,m:calMonth,y:calYear};
+    document.getElementById('calPanelDate').textContent=d+' '+UZ_MONTHS[calMonth]+' '+calYear;
+    document.getElementById('calPanel').classList.add('open');
+    document.getElementById('calOverlay').classList.add('show');
+    calRenderTasks();
+    setTimeout(()=>document.getElementById('calTaskInput').focus(),350);
+    calRender();
+  }
+
+  function calClosePanel(){
+    document.getElementById('calPanel').classList.remove('open');
+    document.getElementById('calOverlay').classList.remove('show');
+    calSelected=null;
+    calRender();
+  }
+
+  function calRenderTasks(){
+    if(!calSelected)return;
+    const tasks=calLoad(calSelected.y,calSelected.m,calSelected.d);
+    const list=document.getElementById('calTaskList');
+    list.innerHTML='';
+    if(tasks.length===0){
+      list.innerHTML='<div class="cal-empty-msg">📋<br>Hali vazifa yo\'q</div>';return;
+    }
+    tasks.forEach((t,i)=>{
+      const item=document.createElement('div');
+      item.className='cal-task-item'+(t.done?' done-t':'');
+      const chk=document.createElement('div');
+      chk.className='cal-chk'+(t.done?' checked':'');
+      chk.innerHTML='<span class="cal-chk-icon">✓</span>';
+      chk.onclick=()=>{tasks[i].done=!tasks[i].done;calSave(calSelected.y,calSelected.m,calSelected.d,tasks);calRenderTasks();};
+      const txt=document.createElement('div');
+      txt.className='cal-task-txt'+(t.done?' striked':'');
+      txt.textContent=t.text;
+      const del=document.createElement('button');
+      del.className='cal-del';del.textContent='✕';
+      del.onclick=()=>{tasks.splice(i,1);calSave(calSelected.y,calSelected.m,calSelected.d,tasks);calRenderTasks();};
+      item.appendChild(chk);item.appendChild(txt);item.appendChild(del);
+      list.appendChild(item);
+    });
+  }
+
+  function calAddTask(){
+    if(!calSelected)return;
+    const inp=document.getElementById('calTaskInput');
+    const text=inp.value.trim();if(!text)return;
+    const tasks=calLoad(calSelected.y,calSelected.m,calSelected.d);
+    tasks.push({text,done:false});
+    calSave(calSelected.y,calSelected.m,calSelected.d,tasks);
+    inp.value='';
+    calRenderTasks();
+  }
+</script>
+</body>
+</html>
