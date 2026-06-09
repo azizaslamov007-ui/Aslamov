@@ -3,1016 +3,861 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Aslamov Trade</title>
+<title>Aslamov Trade Pro</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{width:100%;background:#0a0d14;font-family:'Segoe UI',sans-serif;}
-  body{min-height:100vh;}
+  * {
+    margin: 0; padding: 0; box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent;
+  }
+  html, body {
+    width: 100%; min-height: 100vh; background: #07090e; 
+    font-family: 'DM Sans', sans-serif; color: #e2e8f0;
+  }
+
+  /* Universal Oltin & To'q Dizayn Konsepti (Trading Calendar uslubida) */
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: rgba(201, 168, 76, 0.15);
+    --gold-bright: #f0e6c8;
+    --bg-card: #0d111a;
+    --border-color: #1e2538;
+    --green: #10b981;
+    --red: #ef4444;
+  }
 
   /* ── HOME ── */
-  .home{padding:20px 16px 30px;}
-  .home-header{text-align:center;margin-bottom:24px;padding-top:8px;}
-  .home-logo{
-    width:64px;height:64px;border-radius:18px;margin:0 auto 12px;
-    background:linear-gradient(135deg,#1d4ed8,#7c3aed);
-    display:flex;align-items:center;justify-content:center;
-    font-weight:900;font-size:22px;color:#fff;
-    box-shadow:0 8px 24px rgba(99,102,241,0.4);
+  .home { padding: 24px 16px 40px; }
+  .home-header { text-align: center; margin-bottom: 30px; }
+  .home-logo {
+    width: 70px; height: 70px; border-radius: 22px; margin: 0 auto 14px;
+    background: linear-gradient(135deg, #161b26, #0d111a);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 700; font-size: 26px; color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    box-shadow: 0 8px 32px rgba(201,168,76,0.1);
   }
-  .home-title{color:#e2e8f0;font-size:22px;font-weight:900;letter-spacing:0.5px;}
-  .home-sub{color:#3a4a60;font-size:12px;margin-top:4px;letter-spacing:2px;}
+  .home-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: var(--gold-bright); letter-spacing: 0.5px; }
+  .home-sub { color: #4b5875; font-size: 11px; margin-top: 5px; letter-spacing: 3px; text-transform: uppercase; }
 
-  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .menu-card{
-    border-radius:18px;padding:22px 16px;cursor:pointer;
-    display:flex;flex-direction:column;align-items:flex-start;
-    transition:transform 0.15s,box-shadow 0.15s;
-    position:relative;overflow:hidden;
-    border:1px solid rgba(255,255,255,0.05);
-    min-height:130px;
+  /* Uzun va Haqiqiy Trading Calendar uslubidagi Menu */
+  .menu-vertical { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+  .menu-card-long {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 22px 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; overflow: hidden;
   }
-  .menu-card:active{transform:scale(0.96);}
-  .mc1{background:linear-gradient(135deg,#0f2460,#1d4ed8);}
-  .mc2{background:linear-gradient(135deg,#062620,#065f46);}
-  .mc3{background:linear-gradient(135deg,#3d1f00,#92400e);}
-  .mc4{background:linear-gradient(135deg,#2e1065,#6d28d9);}
-  .mc5{background:linear-gradient(135deg,#082535,#0e7490);}
-  .mc6{background:linear-gradient(135deg,#500724,#be185d);}
-  .mc7{background:linear-gradient(135deg,#1a1000,#3d2e00);border:1px solid rgba(201,168,76,0.2);}
-
-  .menu-card::before{
-    content:'';position:absolute;top:-20px;right:-20px;
-    width:80px;height:80px;border-radius:50%;
-    background:rgba(255,255,255,0.05);
+  .menu-card-long:active { transform: scale(0.98); border-color: var(--gold); background: #111624; }
+  .menu-card-long::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--border-color); transition: background 0.2s;
   }
-  .menu-icon{font-size:32px;margin-bottom:10px;}
-  .menu-name{color:#fff;font-size:15px;font-weight:800;line-height:1.3;}
-  .menu-desc{color:rgba(255,255,255,0.5);font-size:11px;margin-top:4px;}
-  .menu-arrow{position:absolute;bottom:14px;right:14px;color:rgba(255,255,255,0.3);font-size:16px;}
+  .menu-card-long.accent-gold::before { background: var(--gold); }
+  .menu-card-long.accent-blue::before { background: #3b82f6; }
+  .menu-card-long.accent-green::before { background: var(--green); }
+  .menu-card-long.accent-purple::before { background: #8b5cf6; }
 
-  /* ── PAGE ── */
-  .page-view{display:none;min-height:100vh;flex-direction:column;}
-  .page-view.active{display:flex;}
-
-  .page-topbar{
-    display:flex;align-items:center;gap:12px;
-    padding:14px 16px;
-    position:sticky;top:0;z-index:10;
-    background:rgba(10,13,20,0.95);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid #1a2535;
+  .menu-left { display: flex; align-items: center; gap: 16px; }
+  .menu-icon-box {
+    width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.03);
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
   }
-  .back-btn{
-    width:36px;height:36px;border-radius:10px;border:none;
-    background:#1a2535;color:#e2e8f0;font-size:18px;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
+  .menu-text-block { display: flex; flex-direction: column; }
+  .menu-name-long { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
+  .menu-desc-long { color: #4b5875; font-size: 12px; margin-top: 3px; }
+  .menu-arrow-long { color: #334155; font-size: 20px; font-weight: 300; }
+
+  /* ── PAGES universal oyna ── */
+  .page-view { display: none; min-height: 100vh; flex-direction: column; background: #07090e; }
+  .page-view.active { display: flex; }
+  .page-topbar {
+    display: flex; align-items: center; gap: 14px; padding: 16px;
+    position: sticky; top: 0; z-index: 100; background: rgba(7, 9, 14, 0.95);
+    backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color);
   }
-  .back-btn:active{background:#252c3d;}
-  .topbar-icon{font-size:22px;}
-  .topbar-title{color:#e2e8f0;font-size:16px;font-weight:800;}
-  .topbar-sub{color:#3a4a60;font-size:10px;letter-spacing:1px;}
-
-  .page-content{padding:16px;flex:1;}
-
-  /* ── INPUTS ── */
-  .section-label{color:#64748b;font-size:10px;letter-spacing:2.5px;margin-bottom:7px;margin-top:4px;}
-  .dir-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-  .dir-btn{
-    padding:13px 0;border-radius:12px;border:1px solid #252c3d;cursor:pointer;
-    font-weight:800;font-size:14px;letter-spacing:1.5px;
-    background:#1a2030;color:#334155;font-family:inherit;transition:all 0.18s;
+  .back-btn {
+    width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--border-color);
+    background: var(--bg-card); color: #fff; font-size: 20px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
   }
-  .dir-btn.active-buy{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;border-color:#16a34a;box-shadow:0 4px 14px rgba(22,163,74,0.3);}
-  .dir-btn.active-sell{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff;border-color:#dc2626;box-shadow:0 4px 14px rgba(220,38,38,0.3);}
+  .back-btn:active { background: #161b26; border-color: var(--gold); }
+  .topbar-title-block { display: flex; flex-direction: column; }
+  .topbar-title { color: #fff; font-size: 16px; font-weight: 700; }
+  .topbar-sub { color: var(--gold); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+  .page-content { padding: 16px; flex: 1; }
 
-  .inp-wrap{margin-bottom:10px;}
-  .inp-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-  .inp-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px;}
-  .inp-label{color:#475569;font-size:10px;letter-spacing:2px;margin-bottom:5px;}
-  input[type=number]{
-    width:100%;background:#0d1420;border:1px solid #1e2d42;
-    border-radius:10px;padding:12px 10px;
-    color:#e2e8f0;font-size:20px;font-weight:700;
-    outline:none;font-family:inherit;-moz-appearance:textfield;
-    transition:border-color 0.15s;
+  /* ── INPUTS & ELEMENTS ── */
+  .section-title-gold {
+    font-family: 'Playfair Display', serif; color: var(--gold-bright);
+    font-size: 14px; letter-spacing: 1px; margin: 15px 0 10px; display: flex; align-items: center; gap: 6px;
   }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
-  input[type=number]:focus{border-color:#6366f1;}
-
-  .range-bar{
-    display:flex;justify-content:space-between;align-items:center;
-    background:#0d1420;border:1px solid #1e2d42;
-    border-radius:10px;padding:8px 12px;margin-bottom:11px;
+  .input-group { margin-bottom: 14px; }
+  .input-label-custom { color: #4b5875; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; font-weight: 500; }
+  
+  input[type=number], input[type=text], textarea {
+    width: 100%; background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 14px; color: #fff; font-size: 16px; font-weight: 600;
+    outline: none; transition: all 0.2s; font-family: inherit;
   }
-  .range-text{color:#64748b;font-size:12px;}
-  .range-val{color:#e2e8f0;font-weight:800;}
-  .range-badge{font-size:11px;padding:2px 10px;border-radius:6px;font-weight:700;}
-  .badge-good{background:rgba(22,163,74,0.12);color:#4ade80;}
-  .badge-warn{background:rgba(251,191,36,0.12);color:#fbbf24;}
+  input:focus, textarea:focus { border-color: var(--gold); background: #111624; }
 
-  .err-box{
-    background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.25);
-    border-radius:10px;padding:10px 14px;margin-bottom:10px;
-    color:#f87171;font-size:13px;display:none;
+  .flex-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .action-gold-btn {
+    width: 100%; padding: 15px 0; border: none; border-radius: 12px; cursor: pointer;
+    background: linear-gradient(135deg, #c9a84c, #a38436); color: #07090e;
+    font-weight: 700; font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
+    transition: opacity 0.15s; margin-top: 8px;
   }
-  .act-btn{
-    width:100%;padding:14px 0;border:none;border-radius:12px;cursor:pointer;
-    color:#fff;font-weight:900;font-size:14px;letter-spacing:2px;
-    font-family:inherit;transition:opacity 0.15s;
+  .action-gold-btn:active { opacity: 0.85; }
+
+  /* ── COMPONENT: ZONA KALKULYATOR ── */
+  .dir-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .tab-btn {
+    padding: 13px 0; border-radius: 12px; border: 1px solid var(--border-color);
+    background: var(--bg-card); color: #4b5875; font-weight: 700; cursor: pointer; transition: all 0.2s;
   }
-  .act-btn:active{opacity:0.82;}
-  .ab1{background:linear-gradient(135deg,#1d4ed8,#6366f1);box-shadow:0 4px 16px rgba(99,102,241,0.3);}
-  .ab2{background:linear-gradient(135deg,#065f46,#10b981);box-shadow:0 4px 16px rgba(16,185,129,0.3);}
-  .ab3{background:linear-gradient(135deg,#92400e,#f59e0b);box-shadow:0 4px 16px rgba(245,158,11,0.3);}
-  .ab4{background:linear-gradient(135deg,#6d28d9,#8b5cf6);box-shadow:0 4px 16px rgba(139,92,246,0.3);}
-  .ab5{background:linear-gradient(135deg,#0e7490,#06b6d4);box-shadow:0 4px 16px rgba(6,182,212,0.3);}
-  .ab6{background:linear-gradient(135deg,#be185d,#ec4899);box-shadow:0 4px 16px rgba(236,72,153,0.3);}
+  .tab-btn.active-buy { background: rgba(16, 185, 129, 0.15); color: var(--green); border-color: var(--green); }
+  .tab-btn.active-sell { background: rgba(239, 68, 68, 0.15); color: var(--red); border-color: var(--red); }
 
-  /* ── RESULTS ── */
-  .res-wrap{display:none;margin-top:14px;}
-  .res-label{color:#64748b;font-size:10px;letter-spacing:2.5px;margin-bottom:9px;}
-  .res-row{
-    display:flex;align-items:center;justify-content:space-between;
-    background:#0d1420;border:1px solid #1e2d42;
-    border-radius:12px;padding:12px 14px;margin-bottom:7px;
+  .calc-box-long {
+    background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px;
+    padding: 16px; margin-top: 16px; display: none;
   }
-  .rl{padding:4px 9px;border-radius:8px;font-size:11px;font-weight:700;white-space:nowrap;}
-  .rl1{background:rgba(239,68,68,0.13);border:1px solid rgba(239,68,68,0.35);color:#ef4444;}
-  .rl2{background:rgba(129,140,248,0.13);border:1px solid rgba(129,140,248,0.35);color:#818cf8;}
-  .rl3{background:rgba(167,139,250,0.13);border:1px solid rgba(167,139,250,0.35);color:#a78bfa;}
-  .rr{display:flex;align-items:center;gap:7px;}
-  .rp{font-size:19px;font-weight:800;}
-  .rp-b{color:#16a34a;}.rp-s{color:#dc2626;}
-  .sig{padding:3px 8px;border-radius:7px;font-size:11px;font-weight:800;letter-spacing:1px;color:#fff;}
-  .sig-b{background:rgba(22,163,74,0.88);}.sig-s{background:rgba(185,28,28,0.88);}
-
-  .inf-card{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:13px 15px;margin-bottom:7px;}
-  .inf-row{display:flex;justify-content:space-between;align-items:center;}
-  .inf-lbl{color:#64748b;font-size:12px;}
-  .inf-val{font-size:19px;font-weight:800;}
-  .iv-r{color:#f87171;}.iv-g{color:#10b981;}.iv-y{color:#fbbf24;}.iv-c{color:#06b6d4;}.iv-w{color:#e2e8f0;}
-  .inf-sub{color:#3a4a60;font-size:10px;margin-top:3px;}
-  .divider{height:1px;background:#1a2535;margin:7px 0;}
-
-  .gann-res{display:none;margin-top:14px;}
-  .gann-main{border-radius:14px;padding:18px;margin-bottom:9px;text-align:center;}
-  .gm-buy{background:linear-gradient(135deg,rgba(22,163,74,0.1),rgba(22,163,74,0.03));border:1px solid rgba(22,163,74,0.25);}
-  .gm-sell{background:linear-gradient(135deg,rgba(220,38,38,0.1),rgba(220,38,38,0.03));border:1px solid rgba(220,38,38,0.25);}
-  .gm-lbl{font-size:10px;letter-spacing:2px;font-weight:700;margin-bottom:8px;}
-  .gc-b{color:#4ade80;}.gc-s{color:#f87171;}
-  .gann-price{font-size:36px;font-weight:900;}
-  .gp-b{color:#4ade80;}.gp-s{color:#f87171;}
-  .gann-steps{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:13px 15px;}
-  .gs{display:flex;justify-content:space-between;align-items:center;padding:7px 0;}
-  .gs-lbl{color:#475569;font-size:12px;}
-  .gs-val{color:#e2e8f0;font-size:13px;font-weight:700;font-family:'Courier New',monospace;}
-  .gs+.gs{border-top:1px solid #1a2535;}
-
-  .cam-res{display:none;margin-top:14px;}
-  .cam-sec{font-size:10px;letter-spacing:2px;font-weight:700;margin:10px 0 7px;}
-  .cam-r-c{color:#f87171;}.cam-s-c{color:#4ade80;}
-  .cam-row{display:flex;justify-content:space-between;align-items:center;background:#0d1420;border-radius:10px;padding:10px 13px;margin-bottom:6px;}
-  .clvl{font-size:12px;font-weight:800;padding:3px 10px;border-radius:7px;}
-  .cr4{background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid rgba(239,68,68,0.4);}
-  .cr3{background:rgba(248,113,113,0.15);color:#fca5a5;border:1px solid rgba(248,113,113,0.3);}
-  .cs3{background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.3);}
-  .cs4{background:rgba(22,163,74,0.2);color:#4ade80;border:1px solid rgba(22,163,74,0.4);}
-  .cpp{background:rgba(6,182,212,0.15);color:#67e8f9;border:1px solid rgba(6,182,212,0.3);}
-  .cpv{font-size:18px;font-weight:800;color:#e2e8f0;}
-  .cdesc{font-size:10px;color:#3a4a60;}
-
-  /* ── JURNAL ── */
-  .j-win-btn,.j-loss-btn{
-    padding:14px 0;border-radius:12px;border:none;cursor:pointer;
-    font-weight:900;font-size:15px;font-family:inherit;transition:all 0.18s;
-    width:100%;
+  .result-item-row {
+    display: flex; align-items: center; justify-content: space-between; padding: 14px 0;
   }
-  .j-win-btn{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;box-shadow:0 4px 14px rgba(22,163,74,0.3);margin-bottom:8px;}
-  .j-loss-btn{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,0.3);}
-  .j-win-btn:active,.j-loss-btn:active{opacity:0.82;}
+  .result-item-row:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .res-tag { font-size: 13px; font-weight: 500; color: #7e8da8; }
+  .res-val-p { font-size: 18px; font-weight: 700; font-family: monospace; }
 
-  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-  .stat-card{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:14px;text-align:center;}
-  .stat-val{font-size:24px;font-weight:900;}
-  .stat-lbl{font-size:10px;color:#3a4a60;margin-top:3px;letter-spacing:1px;}
-  .wr-bar{height:6px;background:#1e2d42;border-radius:3px;overflow:hidden;margin:8px 0 4px;}
-  .wr-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#16a34a,#4ade80);transition:width 0.5s;}
-
-  .trade-item{background:#0d1420;border:1px solid #1e2d42;border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative;}
-  .trade-item.win{border-left:3px solid #16a34a;}
-  .trade-item.loss{border-left:3px solid #dc2626;}
-  .t-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-  .t-dir{font-size:12px;font-weight:800;padding:2px 10px;border-radius:6px;}
-  .td-b{background:rgba(22,163,74,0.2);color:#4ade80;}
-  .td-s{background:rgba(220,38,38,0.2);color:#f87171;}
-  .t-res{font-size:12px;font-weight:800;}
-  .tr-w{color:#4ade80;}.tr-l{color:#f87171;}
-  .t-prices{display:flex;gap:12px;}
-  .t-pi{font-size:11px;color:#3a4a60;}
-  .t-pi span{color:#64748b;font-weight:700;}
-  .t-date{font-size:10px;color:#1e2a3a;margin-top:4px;}
-  .t-del{position:absolute;top:10px;right:10px;background:none;border:none;color:#2a3a50;font-size:16px;cursor:pointer;padding:2px 6px;}
-  .t-del:active{color:#f87171;}
-  .empty-state{text-align:center;padding:30px 0;color:#2a3a50;font-size:13px;}
-  .empty-icon{font-size:40px;margin-bottom:10px;}
-  .clear-btn{width:100%;padding:10px 0;border-radius:10px;border:1px solid rgba(220,38,38,0.2);background:rgba(220,38,38,0.06);color:#f87171;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:4px;}
-
-  /* ══ CALENDAR / VAZIFALAR ══ */
-  #pv-calendar .page-content{padding:12px 14px 80px;}
-
-  .cal-month-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px;}
-  .cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #2a2a2a;background:none;color:#888;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
-  .cal-nav-btn:active{border-color:#c9a84c;color:#c9a84c;background:#1a1608;}
-  .cal-month-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:#f0e6c8;letter-spacing:0.5px;min-width:180px;text-align:center;}
-
-  .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
-  .cal-wd{text-align:center;font-size:10px;color:#3a4a60;padding:4px 0;font-weight:500;letter-spacing:1px;text-transform:uppercase;}
-
-  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-  .cal-cell{border:0.5px solid #1c1c1c;border-radius:8px;min-height:48px;padding:5px 5px;cursor:pointer;transition:all 0.18s;position:relative;display:flex;flex-direction:column;gap:2px;background:#111;}
-  .cal-cell:active{background:#1a1608;border-color:#c9a84c55;}
-  .cal-cell.cal-empty{border:none;cursor:default;background:none;}
-  .cal-cell.cal-today{border-color:#c9a84c;background:#1a1608;}
-  .cal-cell.cal-today .cal-num{color:#c9a84c;font-family:'Playfair Display',serif;}
-  .cal-cell.cal-selected{border-color:#c9a84c;background:#1a1608;}
-  .cal-num{font-size:12px;font-weight:400;color:#aaa;width:20px;height:20px;display:flex;align-items:center;justify-content:center;}
-  .cal-sunday .cal-num{color:#6a3a2a;}
-  .cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:2px;}
-  .cal-dot{width:5px;height:5px;border-radius:50%;background:#c9a84c;flex-shrink:0;}
-  .cal-dot.done{background:#2e2010;}
-
-  /* Panel */
-  .cal-panel{
-    position:fixed;bottom:0;left:0;right:0;
-    background:#0d0d0d;border-top:0.5px solid #2a2a2a;
-    border-radius:20px 20px 0 0;
-    display:flex;flex-direction:column;
-    max-height:70vh;
-    transform:translateY(100%);
-    transition:transform 0.3s cubic-bezier(.4,0,.2,1);
-    z-index:200;
+  /* ── COMPONENT: RISK KALKULYATOR ── */
+  .risk-card-output {
+    background: linear-gradient(180deg, var(--bg-card), #080b12);
+    border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; margin-top: 16px; display: none;
   }
-  .cal-panel.open{transform:translateY(0);}
-  .cal-panel-handle{width:36px;height:4px;background:#2a2a2a;border-radius:2px;margin:12px auto 0;}
-  .cal-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;}
-  .cal-panel-date{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#f0e6c8;}
-  .cal-panel-close{background:none;border:none;color:#555;font-size:22px;cursor:pointer;padding:2px;}
-  .cal-task-list{flex:1;overflow-y:auto;padding:4px 18px 10px;display:flex;flex-direction:column;gap:7px;}
-  .cal-task-list::-webkit-scrollbar{width:2px;}
-  .cal-task-list::-webkit-scrollbar-thumb{background:#2a2a2a;}
-  .cal-task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:0.5px solid #1e1e1e;border-radius:10px;background:#141414;}
-  .cal-task-item.done-t{opacity:0.45;}
-  .cal-chk{width:20px;height:20px;border-radius:5px;border:1.5px solid #333;cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
-  .cal-chk.checked{background:#c9a84c;border-color:#c9a84c;}
-  .cal-chk-icon{font-size:12px;color:#0a0a0a;display:none;}
-  .cal-chk.checked .cal-chk-icon{display:block;}
-  .cal-task-txt{font-size:14px;color:#bbb;line-height:1.5;flex:1;word-break:break-word;font-family:'DM Sans',sans-serif;font-weight:300;}
-  .cal-task-txt.striked{text-decoration:line-through;color:#444;}
-  .cal-del{background:none;border:none;cursor:pointer;color:#2a2a2a;font-size:18px;padding:1px 4px;flex-shrink:0;transition:color 0.15s;}
-  .cal-del:active{color:#8a3a3a;}
-  .cal-add-area{padding:10px 18px 16px;border-top:0.5px solid #1e1e1e;display:flex;gap:8px;background:#0d0d0d;}
-  .cal-inp{flex:1;border:0.5px solid #2a2a2a;border-radius:10px;padding:10px 13px;font-size:14px;color:#ddd;background:#141414;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.18s;}
-  .cal-inp:focus{border-color:#c9a84c55;}
-  .cal-inp::placeholder{color:#333;}
-  .cal-add-btn{background:#c9a84c;color:#0a0a0a;border:none;border-radius:10px;padding:10px 18px;font-size:13px;cursor:pointer;font-weight:500;font-family:'DM Sans',sans-serif;white-space:nowrap;}
-  .cal-add-btn:active{background:#e0c060;}
-  .cal-empty-msg{font-size:13px;color:#2a2a2a;text-align:center;margin-top:20px;font-family:'DM Sans',sans-serif;}
-  .cal-gold-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,#c9a84c,transparent);margin:0 auto 14px;}
-  .cal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:199;display:none;}
-  .cal-overlay.show{display:block;}
+  .risk-stat-block { text-align: center; padding: 15px 0; }
+  .risk-stat-num { font-size: 32px; font-weight: 700; color: var(--green); font-family: monospace; }
+  .risk-stat-label { color: #4b5875; font-size: 11px; letter-spacing: 1px; margin-top: 4px; }
+
+  /* ── COMPONENT: TRADING CALENDAR PNL ── */
+  .pnl-stats-summary {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px;
+  }
+  .pnl-mini-card {
+    background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
+    padding: 12px; text-align: center;
+  }
+  .pnl-mini-val { font-size: 16px; font-weight: 700; font-family: monospace; }
+  .pnl-mini-lbl { font-size: 9px; color: #4b5875; margin-top: 4px; letter-spacing: 0.5px; }
+
+  /* Kalendar Tarmoqlari */
+  .cal-month-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .cal-month-btn { width: 34px; height: 34px; background: var(--bg-card); border: 1px solid var(--border-color); color: #fff; border-radius: 8px; cursor: pointer; }
+  .cal-month-title-txt { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold-bright); }
+  
+  .cal-week-labels { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 6px; }
+  .cal-w-lbl { font-size: 10px; color: #4b5875; text-transform: uppercase; font-weight: 700; }
+
+  .cal-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .cal-day-box {
+    background: #090d16; border: 1px solid #141926; border-radius: 10px;
+    min-height: 52px; padding: 4px; display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .cal-day-box:active { border-color: var(--gold); }
+  .cal-day-box.empty { background: none; border: none; cursor: default; }
+  .cal-day-box.today { border-color: var(--gold); background: #121824; }
+  .cal-day-num { font-size: 11px; color: #4b5875; font-weight: 700; }
+  .cal-day-box.today .cal-day-num { color: var(--gold); }
+  .cal-day-pnl-status { font-size: 10px; font-weight: 700; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pnl-win-text { color: var(--green); }
+  .pnl-loss-text { color: var(--red); }
+
+  /* PNL Modal kiritish oynasi */
+  .pnl-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 16px;
+  }
+  .pnl-modal-box {
+    background: #0d111a; border: 1px solid var(--border-color); border-radius: 20px;
+    width: 100%; max-width: 360px; padding: 20px;
+  }
+  .modal-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .modal-close-btn {
+    width: 100%; background: #161b26; border: 1px solid var(--border-color); color: #fff;
+    padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; margin-top: 8px;
+  }
+
+  /* ── COMPONENT: KUNLIK VAZIFALAR ── */
+  .task-input-container { display: flex; gap: 8px; margin-bottom: 16px; }
+  .task-list-vertical { display: flex; flex-direction: column; gap: 8px; }
+  .task-item-card {
+    background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
+    padding: 14px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .task-left-part { display: flex; align-items: center; gap: 12px; flex: 1; }
+  .task-checkbox {
+    width: 20px; height: 20px; border-radius: 6px; border: 2px solid #334155;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+  }
+  .task-checkbox.checked { background: var(--gold); border-color: var(--gold); }
+  .task-checkbox.checked::after {
+    content: '✓'; color: #07090e; font-size: 12px; font-weight: 900;
+  }
+  .task-text-span { font-size: 14px; color: #cbd5e1; }
+  .task-text-span.done { text-decoration: line-through; color: #4b5875; }
+  .task-del-btn { background: none; border: none; color: #3a455c; font-size: 16px; cursor: pointer; }
+  .task-del-btn:active { color: var(--red); }
+
+  /* ── COMPONENT: MEDIA KUNDALIK (FOTO/VIDEO SAVDO) ── */
+  .media-upload-zone {
+    border: 2px dashed var(--border-color); border-radius: 16px; padding: 30px 16px;
+    text-align: center; cursor: pointer; background: var(--bg-card); transition: all 0.2s;
+    margin-bottom: 20px;
+  }
+  .media-upload-zone:active { border-color: var(--gold); background: #111624; }
+  .upload-icon { font-size: 32px; margin-bottom: 8px; color: var(--gold); }
+  .upload-txt { font-size: 13px; color: #7e8da8; }
+  
+  .timeline-container { display: flex; flex-direction: column; gap: 20px; position: relative; padding-left: 10px; }
+  .timeline-container::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--border-color);
+  }
+  .timeline-card {
+    background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px;
+    padding: 16px; position: relative;
+  }
+  .timeline-card::after {
+    content: ''; position: absolute; left: -14px; top: 20px; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--gold); border: 2px solid #07090e;
+  }
+  .timeline-header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .timeline-tag-status {
+    font-size: 11px; font-weight: 700; color: var(--gold); background: var(--gold-dim);
+    padding: 3px 10px; border-radius: 6px; text-transform: uppercase;
+  }
+  .timeline-date-str { font-size: 11px; color: #4b5875; }
+  .timeline-media-preview { width: 100%; border-radius: 10px; overflow: hidden; margin-bottom: 10px; background: #000; }
+  .timeline-media-preview img, .timeline-media-preview video { width: 100%; display: block; max-height: 280px; object-fit: contain; }
+  .timeline-comment-txt { font-size: 13px; color: #cbd5e1; line-height: 1.5; }
 </style>
 </head>
 <body>
 
-<!-- ══ HOME ══ -->
-<div class="home" id="home">
+<!-- ══ MAIN DASHBOARD ══ -->
+<div class="home" id="home-view">
   <div class="home-header">
     <div class="home-logo">AT</div>
-    <div class="home-title">Aslamov Trade</div>
-    <div class="home-sub">XAUUSD · GOLD/USD</div>
+    <div class="home-title">Aslamov Trade Pro</div>
+    <div class="home-sub">Natijalar va Rivojlanish jurnali</div>
   </div>
 
-  <div class="menu-grid">
-    <div class="menu-card mc1" onclick="openPage('zona')">
-      <div class="menu-icon">📊</div>
-      <div class="menu-name">Zona Kalkulyator</div>
-      <div class="menu-desc">Kirish nuqtalari</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc2" onclick="openPage('risk')">
-      <div class="menu-icon">💰</div>
-      <div class="menu-name">Risk Kalkulyator</div>
-      <div class="menu-desc">Lot va xavf</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc3" onclick="openPage('gmin')">
-      <div class="menu-icon">📈</div>
-      <div class="menu-name">Gann MIN</div>
-      <div class="menu-desc">BUY daraja</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc4" onclick="openPage('gmax')">
-      <div class="menu-icon">📉</div>
-      <div class="menu-name">Gann MAX</div>
-      <div class="menu-desc">SELL daraja</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc5" onclick="openPage('pivot')">
-      <div class="menu-icon">🎯</div>
-      <div class="menu-name">Camarilla Pivot</div>
-      <div class="menu-desc">S/R darajalar</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc6" onclick="openPage('journal')">
-      <div class="menu-icon">📓</div>
-      <div class="menu-name">Trading Jurnal</div>
-      <div class="menu-desc">Sdelka tarixi</div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-card mc7" onclick="openPage('calendar')" style="grid-column:span 2;">
-      <div class="menu-icon">📅</div>
-      <div class="menu-name">Kunlik Vazifalar</div>
-      <div class="menu-desc">Oylik jadval · Maqsadlar</div>
-      <div class="menu-arrow" style="color:rgba(201,168,76,0.4)">›</div>
-    </div>
-    <div class="menu-card" onclick="openPage('pnlcal')" style="grid-column:span 2;background:linear-gradient(135deg,#0a1a0a,#14532d);border:1px solid rgba(22,163,74,0.2);">
-      <div class="menu-icon">💹</div>
-      <div class="menu-name">Trading Calendar</div>
-      <div class="menu-desc">Kunlik PNL · Foyda/Zarar tarixi</div>
-      <div class="menu-arrow" style="color:rgba(22,163,74,0.4)">›</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ 1. ZONA ══ -->
-<div class="page-view" id="pv-zona">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📊</div>
-    <div><div class="topbar-title">Zona Kalkulyator</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="section-label">BOZOR YO'NALISHI</div>
-    <div class="dir-grid">
-      <button class="dir-btn active-buy" id="z-buy" onclick="setZDir('BUY')">▲ BUY</button>
-      <button class="dir-btn" id="z-sell" onclick="setZDir('SELL')">▼ SELL</button>
-    </div>
-    <div class="section-label">KUN DIAPAZONI</div>
-    <div class="inp-grid2">
-      <div><div class="inp-label">HIGH</div><input type="number" id="z-high" placeholder="4680" oninput="zInput()" onkeydown="if(event.key==='Enter')calcZona()"/></div>
-      <div><div class="inp-label">LOW</div><input type="number" id="z-low" placeholder="4657" oninput="zInput()" onkeydown="if(event.key==='Enter')calcZona()"/></div>
-    </div>
-    <div class="range-bar" id="z-rbar" style="display:none">
-      <span class="range-text">Range: <span class="range-val" id="z-rval"></span></span>
-      <span class="range-badge" id="z-rbadge"></span>
-    </div>
-    <div class="err-box" id="z-err"></div>
-    <button class="act-btn ab1" onclick="calcZona()">⚡ HISOBLA</button>
-    <div class="res-wrap" id="z-res">
-      <div class="res-label">KIRISH NUQTALARI</div>
-      <div class="res-row"><span class="rl rl1">Разворот</span><div class="rr"><span class="rp" id="z-p1"></span><span class="sig" id="z-s1"></span></div></div>
-      <div class="res-row"><span class="rl rl2">Коррекция</span><div class="rr"><span class="rp" id="z-p2"></span><span class="sig" id="z-s2"></span></div></div>
-      <div class="res-row"><span class="rl rl3">Консолидация</span><div class="rr"><span class="rp" id="z-p3"></span><span class="sig" id="z-s3"></span></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ 2. RISK ══ -->
-<div class="page-view" id="pv-risk">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">💰</div>
-    <div><div class="topbar-title">Risk Kalkulyator</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="inp-wrap"><div class="inp-label">DEPOSIT ($)</div><input type="number" id="r-dep" placeholder="1000"/></div>
-    <div class="inp-wrap"><div class="inp-label">RISK (%)</div><input type="number" id="r-rsk" placeholder="1"/></div>
-    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">STOP LOSS (pips)</div><input type="number" id="r-sl" placeholder="20"/></div>
-    <div class="err-box" id="r-err"></div>
-    <button class="act-btn ab2" onclick="calcRisk()">⚡ HISOBLA</button>
-    <div id="r-res" style="display:none;margin-top:14px">
-      <div class="res-label">NATIJA</div>
-      <div class="inf-card"><div class="inf-row"><span class="inf-lbl">⚠️ Xavf miqdori</span><span class="inf-val iv-r" id="r-dol"></span></div><div class="inf-sub">Depositning <span id="r-pct"></span>%</div></div>
-      <div class="inf-card"><div class="inf-row"><span class="inf-lbl">📦 Lot hajmi</span><span class="inf-val iv-g" id="r-lot"></span></div><div class="inf-sub">XAUUSD uchun optimal</div></div>
-      <div class="inf-card">
-        <div class="inf-row"><span class="inf-lbl">🎯 1:2 TP</span><span class="inf-val iv-y" id="r-tp2"></span></div>
-        <div class="divider"></div>
-        <div class="inf-row"><span class="inf-lbl">🎯 1:3 TP</span><span class="inf-val iv-y" id="r-tp3"></span></div>
+  <div class="menu-vertical">
+    <div class="menu-card-long accent-gold" onclick="navigateTo('pnlcal')">
+      <div class="menu-left">
+        <div class="menu-icon-box">💹</div>
+        <div class="menu-text-block">
+          <span class="menu-name-long">Trading Calendar</span>
+          <span class="menu-desc-long">Kunlik PNL, foyda va zarar tarixi</span>
+        </div>
       </div>
+      <div class="menu-arrow-long">›</div>
     </div>
-  </div>
-</div>
 
-<!-- ══ 3. GANN MIN ══ -->
-<div class="page-view" id="pv-gmin">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📈</div>
-    <div><div class="topbar-title">Gann MIN → BUY</div><div class="topbar-sub">Square of 9</div></div>
-  </div>
-  <div class="page-content">
-    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">H1 MINIMUM NARX</div><input type="number" id="gn-min" placeholder="4453" onkeydown="if(event.key==='Enter')calcGMin()"/></div>
-    <div class="err-box" id="gmin-err"></div>
-    <button class="act-btn ab3" onclick="calcGMin()">⚡ HISOBLA</button>
-    <div class="gann-res" id="gmin-res">
-      <div class="res-label" style="margin-top:14px">BUY DARAJA</div>
-      <div class="gann-main gm-buy"><div class="gm-lbl gc-b">📈 KEYINGI BUY DARAJA</div><div class="gann-price gp-b" id="gmin-out"></div></div>
-      <div class="gann-steps">
-        <div class="gs"><span class="gs-lbl">1️⃣ √ MIN narx</span><span class="gs-val" id="gmin-sq"></span></div>
-        <div class="gs"><span class="gs-lbl">2️⃣ + 0.50</span><span class="gs-val" id="gmin-add"></span></div>
-        <div class="gs"><span class="gs-lbl">3️⃣ ² kvadrat</span><span class="gs-val" id="gmin-sq2"></span></div>
+    <div class="menu-card-long accent-blue" onclick="navigateTo('media')">
+      <div class="menu-left">
+        <div class="menu-icon-box">📸</div>
+        <div class="menu-text-block">
+          <span class="menu-name-long">Vaqt Kundaligi (Foto/Video)</span>
+          <span class="menu-desc-long">Hozirgi va keyingi holatingizni taqqoslash</span>
+        </div>
       </div>
+      <div class="menu-arrow-long">›</div>
     </div>
-  </div>
-</div>
 
-<!-- ══ 4. GANN MAX ══ -->
-<div class="page-view" id="pv-gmax">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📉</div>
-    <div><div class="topbar-title">Gann MAX → SELL</div><div class="topbar-sub">Square of 9</div></div>
-  </div>
-  <div class="page-content">
-    <div class="inp-wrap" style="margin-bottom:14px"><div class="inp-label">H1 MAXIMUM NARX</div><input type="number" id="gn-max" placeholder="4721" onkeydown="if(event.key==='Enter')calcGMax()"/></div>
-    <div class="err-box" id="gmax-err"></div>
-    <button class="act-btn ab4" onclick="calcGMax()">⚡ HISOBLA</button>
-    <div class="gann-res" id="gmax-res">
-      <div class="res-label" style="margin-top:14px">SELL DARAJA</div>
-      <div class="gann-main gm-sell"><div class="gm-lbl gc-s">📉 KEYINGI SELL DARAJA</div><div class="gann-price gp-s" id="gmax-out"></div></div>
-      <div class="gann-steps">
-        <div class="gs"><span class="gs-lbl">1️⃣ √ MAX narx</span><span class="gs-val" id="gmax-sq"></span></div>
-        <div class="gs"><span class="gs-lbl">2️⃣ − 0.50</span><span class="gs-val" id="gmax-sub"></span></div>
-        <div class="gs"><span class="gs-lbl">3️⃣ ² kvadrat</span><span class="gs-val" id="gmax-sq2"></span></div>
+    <div class="menu-card-long accent-green" onclick="navigateTo('zona')">
+      <div class="menu-left">
+        <div class="menu-icon-box">📊</div>
+        <div class="menu-text-block">
+          <span class="menu-name-long">Zona Kalkulyator</span>
+          <span class="menu-desc-long">High / Low orqali kirish zonalari</span>
+        </div>
       </div>
+      <div class="menu-arrow-long">›</div>
     </div>
-  </div>
-</div>
 
-<!-- ══ 5. PIVOT ══ -->
-<div class="page-view" id="pv-pivot">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">🎯</div>
-    <div><div class="topbar-title">Camarilla Pivot</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="section-label">KECHA XAUUSD</div>
-    <div class="inp-grid3">
-      <div><div class="inp-label">HIGH</div><input type="number" id="c-h" placeholder="4680"/></div>
-      <div><div class="inp-label">LOW</div><input type="number" id="c-l" placeholder="4620"/></div>
-      <div><div class="inp-label">CLOSE</div><input type="number" id="c-c" placeholder="4655"/></div>
-    </div>
-    <div class="err-box" id="c-err"></div>
-    <button class="act-btn ab5" onclick="calcCam()">⚡ HISOBLA</button>
-    <div class="cam-res" id="cam-res">
-      <div class="res-label" style="margin-top:14px">BUGUNGI DARAJALAR</div>
-      <div class="cam-sec cam-r-c">▼ SELL (Resistance)</div>
-      <div class="cam-row"><span class="clvl cr4">R4</span><span class="cpv" id="c-r4"></span><span class="cdesc">Kuchli SELL</span></div>
-      <div class="cam-row"><span class="clvl cr3">R3</span><span class="cpv" id="c-r3"></span><span class="cdesc">SELL kirish</span></div>
-      <div class="cam-row" style="border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:10px 13px;margin-bottom:6px;background:rgba(6,182,212,0.04)">
-        <span class="clvl cpp">PP</span><span class="cpv" style="color:#67e8f9" id="c-pp"></span><span class="cdesc">Pivot</span>
+    <div class="menu-card-long accent-purple" onclick="navigateTo('risk')">
+      <div class="menu-left">
+        <div class="menu-icon-box">💰</div>
+        <div class="menu-text-block">
+          <span class="menu-name-long">Risk Kalkulyator</span>
+          <span class="menu-desc-long">Optimal lot o'lchami va xavf nazorati</span>
+        </div>
       </div>
-      <div class="cam-sec cam-s-c">▲ BUY (Support)</div>
-      <div class="cam-row"><span class="clvl cs3">S3</span><span class="cpv" id="c-s3"></span><span class="cdesc">BUY kirish</span></div>
-      <div class="cam-row"><span class="clvl cs4">S4</span><span class="cpv" id="c-s4"></span><span class="cdesc">Kuchli BUY</span></div>
+      <div class="menu-arrow-long">›</div>
     </div>
-  </div>
-</div>
 
-<!-- ══ 6. JURNAL ══ -->
-<div class="page-view" id="pv-journal">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📓</div>
-    <div><div class="topbar-title">Trading Jurnal</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="section-label">YANGI SDELKA</div>
-    <div class="dir-grid">
-      <button class="dir-btn active-buy" id="j-buy" onclick="setJDir('BUY')">▲ BUY</button>
-      <button class="dir-btn" id="j-sell" onclick="setJDir('SELL')">▼ SELL</button>
-    </div>
-    <div class="inp-grid3" style="margin-bottom:12px">
-      <div><div class="inp-label">KIRISH</div><input type="number" id="j-entry" placeholder="4650"/></div>
-      <div><div class="inp-label">SL</div><input type="number" id="j-sl" placeholder="4640"/></div>
-      <div><div class="inp-label">TP</div><input type="number" id="j-tp" placeholder="4670"/></div>
-    </div>
-    <div class="err-box" id="j-err"></div>
-    <button class="j-win-btn" onclick="addTrade('WIN')">✅ WIN</button>
-    <button class="j-loss-btn" onclick="addTrade('LOSS')">❌ LOSS</button>
-    <div id="j-stats" style="display:none;margin-top:16px">
-      <div class="res-label">STATISTIKA</div>
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-val iv-w" id="j-tot">0</div><div class="stat-lbl">JAMI</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:#ec4899" id="j-wr">0%</div><div class="stat-lbl">WIN RATE</div></div>
-        <div class="stat-card"><div class="stat-val iv-g" id="j-wins">0</div><div class="stat-lbl">WIN ✅</div></div>
-        <div class="stat-card"><div class="stat-val iv-r" id="j-loss">0</div><div class="stat-lbl">LOSS ❌</div></div>
+    <div class="menu-card-long" onclick="navigateTo('tasks')" style="border-color: rgba(201,168,76,0.25);">
+      <div class="menu-left">
+        <div class="menu-icon-box">📅</div>
+        <div class="menu-text-block">
+          <span class="menu-name-long">Kunlik Reja & Vazifalar</span>
+          <span class="menu-desc-long">Intizom va kunlik maqsadlar nazorati</span>
+        </div>
       </div>
-      <div class="wr-bar"><div class="wr-fill" id="j-bar" style="width:0%"></div></div>
+      <div class="menu-arrow-long">›</div>
     </div>
-    <div id="j-list" style="margin-top:8px"></div>
-    <button class="clear-btn" id="j-clr" onclick="clearTrades()" style="display:none">🗑️ Hammasini o'chirish</button>
   </div>
 </div>
 
-<!-- ══ 7. CALENDAR ══ -->
-<div class="page-view" id="pv-calendar">
-  <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">📅</div>
-    <div><div class="topbar-title">Kunlik Vazifalar</div><div class="topbar-sub">Aslamov Trade</div></div>
-  </div>
-  <div class="page-content">
-    <div class="cal-gold-line"></div>
-    <div class="cal-month-nav">
-      <button class="cal-nav-btn" onclick="calChangeMonth(-1)">‹</button>
-      <div class="cal-month-title" id="calMonthTitle"></div>
-      <button class="cal-nav-btn" onclick="calChangeMonth(1)">›</button>
-    </div>
-    <div class="cal-weekdays">
-      <div class="cal-wd">Du</div><div class="cal-wd">Se</div><div class="cal-wd">Ch</div>
-      <div class="cal-wd">Pa</div><div class="cal-wd">Ju</div><div class="cal-wd">Sh</div>
-      <div class="cal-wd" style="color:#5a2a20">Ya</div>
-    </div>
-    <div class="cal-grid" id="calGrid"></div>
-  </div>
-</div>
-
-<!-- ══ 8. PNL CALENDAR ══ -->
+<!-- ══ 1. TRADING CALENDAR PNL ══ -->
 <div class="page-view" id="pv-pnlcal">
   <div class="page-topbar">
-    <button class="back-btn" onclick="goHome()">‹</button>
-    <div class="topbar-icon">💹</div>
-    <div><div class="topbar-title">Trading Calendar</div><div class="topbar-sub">PNL · Foyda/Zarar</div></div>
+    <button class="back-btn" onclick="backToHome()">‹</button>
+    <div class="topbar-title-block">
+      <span class="topbar-title">Trading Calendar</span>
+      <span class="topbar-sub">PNL Jurnali</span>
+    </div>
   </div>
-  <div class="page-content" style="padding-bottom:100px;">
-    <!-- Tabs -->
-    <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <button id="pnl-tab-pnl" onclick="pnlSetTab('pnl')" style="flex:1;padding:9px 0;border-radius:10px;border:none;background:#16a34a;color:#fff;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">PNL</button>
-      <button id="pnl-tab-note" onclick="pnlSetTab('note')" style="flex:1;padding:9px 0;border-radius:10px;border:1px solid #1e2d42;background:#0d1420;color:#475569;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;letter-spacing:1px;">ESLATMA</button>
+  <div class="page-content">
+    <div class="pnl-stats-summary">
+      <div class="pnl-mini-card"><div class="pnl-mini-val" id="pnl-total-net">$0</div><div class="pnl-mini-lbl">Net PNL</div></div>
+      <div class="pnl-mini-card"><div class="pnl-mini-val pnl-win-text" id="pnl-total-wins">0</div><div class="pnl-mini-lbl">Yutuq Kun</div></div>
+      <div class="pnl-mini-card"><div class="pnl-mini-val pnl-loss-text" id="pnl-total-losses">0</div><div class="pnl-mini-lbl">Zarar Kun</div></div>
     </div>
-    <!-- Stats bar -->
-    <div id="pnlStatsBar" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px;">
-      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
-        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">JAMI</div>
-        <div id="pnlTotalVal" style="font-size:15px;font-weight:800;color:#e2e8f0;">$0</div>
-      </div>
-      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
-        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">WIN KUN</div>
-        <div id="pnlWinDays" style="font-size:15px;font-weight:800;color:#10b981;">0</div>
-      </div>
-      <div style="background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:10px 8px;text-align:center;">
-        <div style="font-size:10px;color:#3a4a60;letter-spacing:1px;margin-bottom:4px;">LOSS KUN</div>
-        <div id="pnlLossDays" style="font-size:15px;font-weight:800;color:#f87171;">0</div>
-      </div>
+
+    <div class="cal-month-header">
+      <button class="cal-month-btn" onclick="changeMonth(-1)">‹</button>
+      <span class="cal-month-title-txt" id="calMonthTitle">Iyun 2026</span>
+      <button class="cal-month-btn" onclick="changeMonth(1)">›</button>
     </div>
-    <!-- Month nav -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;">
-      <button class="cal-nav-btn" onclick="pnlChangeMonth(-1)">‹</button>
-      <div id="pnlMonthTitle" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#e2e8f0;min-width:160px;text-align:center;"></div>
-      <button class="cal-nav-btn" onclick="pnlChangeMonth(1)">›</button>
+
+    <div class="cal-week-labels">
+      <div class="cal-w-lbl">Du</div><div class="cal-w-lbl">Se</div><div class="cal-w-lbl">Ch</div>
+      <div class="cal-w-lbl">Pa</div><div class="cal-w-lbl">Ju</div><div class="cal-w-lbl">Sh</div><div class="cal-w-lbl">Ya</div>
     </div>
-    <!-- Weekdays -->
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">
-      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Du</div>
-      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Se</div>
-      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Ch</div>
-      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Pa</div>
-      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Ju</div>
-      <div style="text-align:center;font-size:9px;color:#3a4a60;padding:3px 0;letter-spacing:1px;">Sh</div>
-      <div style="text-align:center;font-size:9px;color:#5a2a20;padding:3px 0;letter-spacing:1px;">Ya</div>
-    </div>
-    <div id="pnlGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
+
+    <div class="cal-days-grid" id="calDaysGrid"></div>
   </div>
 </div>
 
-<!-- PNL Panel -->
-<div class="cal-overlay" id="pnlOverlay" onclick="pnlClosePanel()"></div>
-<div class="cal-panel" id="pnlPanel">
-  <div class="cal-panel-handle"></div>
-  <div class="cal-panel-header">
-    <div class="cal-panel-date" id="pnlPanelDate"></div>
-    <button class="cal-panel-close" onclick="pnlClosePanel()">✕</button>
-  </div>
-  <div style="padding:10px 18px;flex:1;overflow-y:auto;">
-    <!-- PNL input section -->
-    <div id="pnlInputSection">
-      <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">KUN PNL ($)</div>
-      <input type="number" id="pnlAmountInput" placeholder="Masalan: 150.50 yoki -80" style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:14px 12px;color:#e2e8f0;font-size:24px;font-weight:700;outline:none;font-family:inherit;margin-bottom:10px;-moz-appearance:textfield;"/>
-      <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">FOIZ (%)</div>
-      <input type="number" id="pnlPctInput" placeholder="Masalan: 2.5 yoki -1.8" style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:12px;color:#e2e8f0;font-size:18px;font-weight:700;outline:none;font-family:inherit;margin-bottom:10px;-moz-appearance:textfield;"/>
-      <!-- Note input -->
-      <div id="pnlNoteSection" style="display:none;">
-        <div style="font-size:10px;color:#3a4a60;letter-spacing:2px;margin-bottom:8px;">ESLATMA</div>
-        <textarea id="pnlNoteInput" placeholder="Bugungi savdo haqida..." style="width:100%;background:#0d1420;border:1px solid #1e2d42;border-radius:10px;padding:12px;color:#e2e8f0;font-size:14px;outline:none;font-family:inherit;resize:none;height:80px;line-height:1.5;"></textarea>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
-        <button onclick="pnlSaveDay()" style="padding:13px 0;border-radius:10px;border:none;background:linear-gradient(135deg,#065f46,#10b981);color:#fff;font-weight:900;font-size:14px;font-family:inherit;cursor:pointer;letter-spacing:1px;">💾 SAQLASH</button>
-        <button onclick="pnlDeleteDay()" style="padding:13px 0;border-radius:10px;border:1px solid rgba(220,38,38,0.3);background:rgba(220,38,38,0.07);color:#f87171;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer;">🗑️ O'chirish</button>
-      </div>
+<!-- PNL Modal Input -->
+<div class="pnl-modal-overlay" id="pnlModal">
+  <div class="pnl-modal-box">
+    <div class="section-title-gold" style="margin:0 0 14px;" id="pnlModalTitle">Kunlik PNL</div>
+    <div class="input-group">
+      <div class="input-label-custom">Natija ($ summasi)</div>
+      <input type="number" id="pnlAmountInput" placeholder="Masalan: 150 yoki -80"/>
+    </div>
+    <div class="input-group">
+      <div class="input-label-custom">Qisqa eslatma / Sabab</div>
+      <input type="text" id="pnlNoteInput" placeholder="Breakout savdo, yaxshi munosabat"/>
+    </div>
+    <button class="action-gold-btn" onclick="savePnlEntry()">Saqlash</button>
+    <div class="modal-buttons">
+      <button class="modal-close-btn" style="color: var(--red); border-color: rgba(239,68,68,0.2);" onclick="deletePnlEntry()">O'chirish</button>
+      <button class="modal-close-btn" onclick="closePnlModal()">Yopish</button>
     </div>
   </div>
 </div>
 
-<!-- Calendar panel & overlay -->
-<div class="cal-overlay" id="calOverlay" onclick="calClosePanel()"></div>
-<div class="cal-panel" id="calPanel">
-  <div class="cal-panel-handle"></div>
-  <div class="cal-panel-header">
-    <div class="cal-panel-date" id="calPanelDate"></div>
-    <button class="cal-panel-close" onclick="calClosePanel()">✕</button>
+<!-- ══ 2. MEDIA KUNDALIK (FOTO/VIDEO) ══ -->
+<div class="page-view" id="pv-media">
+  <div class="page-topbar">
+    <button class="back-btn" onclick="backToHome()">‹</button>
+    <div class="topbar-title-block">
+      <span class="topbar-title">Vaqt Kundaligi</span>
+      <span class="topbar-sub">Foto / Video Progress</span>
+    </div>
   </div>
-  <div class="cal-task-list" id="calTaskList"></div>
-  <div class="cal-add-area">
-    <input class="cal-inp" id="calTaskInput" placeholder="Vazifa yozing..." onkeydown="if(event.key==='Enter')calAddTask()"/>
-    <button class="cal-add-btn" onclick="calAddTask()">Qo'sh</button>
+  <div class="page-content">
+    <div class="media-upload-zone" onclick="triggerMediaSelector()">
+      <div class="upload-icon">📁</div>
+      <div class="upload-txt">Rasm yoki Video yuklash uchun bosing</div>
+      <div class="upload-txt" style="font-size: 10px; margin-top: 4px; color: #4b5875;">Hozirgi va kelajakdagi natijalar uchun</div>
+      <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display:none" onchange="handleMediaUpload(event)"/>
+    </div>
+
+    <!-- Yuklash jarayonida izoh yozish uchun yashirin blok -->
+    <div id="mediaCommentBlock" style="display:none; background: var(--bg-card); border:1px solid var(--border-color); padding: 14px; border-radius: 12px; margin-bottom: 20px;">
+      <div class="input-label-custom">Fayl uchun izoh (Hozirgi holat / Kelajak maqsadlar)</div>
+      <textarea id="mediaCommentInput" rows="3" placeholder="Ushbu rasm/video haqida yozing..."></textarea>
+      <button class="action-gold-btn" onclick="submitMediaToDB()">Kundalikka Qo'shish</button>
+    </div>
+
+    <div class="section-title-gold">🕒 VAQT CHIZIG'I (PROGRESS)</div>
+    <div class="timeline-container" id="mediaTimeline"></div>
+  </div>
+</div>
+
+<!-- ══ 3. ZONA KALKULYATOR ══ -->
+<div class="page-view" id="pv-zona">
+  <div class="page-topbar">
+    <button class="back-btn" onclick="backToHome()">‹</button>
+    <div class="topbar-title-block">
+      <span class="topbar-title">Zona Kalkulyator</span>
+      <span class="topbar-sub">Kirish Nuqtalari</span>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="input-label-custom">BOZOR YO'NALISHI</div>
+    <div class="dir-tabs">
+      <button class="tab-btn active-buy" id="z-tab-buy" onclick="setZonaDirection('BUY')">▲ BUY</button>
+      <button class="tab-btn" id="z-tab-sell" onclick="setZonaDirection('SELL')">▼ SELL</button>
+    </div>
+    
+    <div class="flex-grid-2">
+      <div class="input-group">
+        <div class="input-label-custom">HIGH Narx</div>
+        <input type="number" id="z-high-in" placeholder="4680.50"/>
+      </div>
+      <div class="input-group">
+        <div class="input-label-custom">LOW Narx</div>
+        <input type="number" id="z-low-in" placeholder="4650.00"/>
+      </div>
+    </div>
+
+    <button class="action-gold-btn" onclick="calculateZona()">⚡ Hisoblash</button>
+
+    <div class="calc-box-long" id="zona-result-box">
+      <div class="section-title-gold" style="margin-top:0;">🎯 STRATEGIK DARAJALAR</div>
+      <div class="result-item-row"><span class="res-tag">Burilish Nuqtasi (Reversal)</span><span class="res-val-p" id="z-res-1">0.00</span></div>
+      <div class="result-item-row"><span class="res-tag">Koreksiya Zonasi</span><span class="res-val-p" id="z-res-2">0.00</span></div>
+      <div class="result-item-row"><span class="res-tag">Konsolidatsiya Nuqtasi</span><span class="res-val-p" id="z-res-3">0.00</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4. RISK KALKULYATOR ══ -->
+<div class="page-view" id="pv-risk">
+  <div class="page-topbar">
+    <button class="back-btn" onclick="backToHome()">‹</button>
+    <div class="topbar-title-block">
+      <span class="topbar-title">Risk Kalkulyator</span>
+      <span class="topbar-sub">Lot & Xavf boshqaruvi</span>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="input-group">
+      <div class="input-label-custom">Depozit Miqdori ($)</div>
+      <input type="number" id="r-dep-in" value="1000"/>
+    </div>
+    <div class="flex-grid-2">
+      <div class="input-group">
+        <div class="input-label-custom">Maksimal Risk (%)</div>
+        <input type="number" id="r-risk-in" value="1"/>
+      </div>
+      <div class="input-group">
+        <div class="input-label-custom">Stop Loss (Pips)</div>
+        <input type="number" id="r-sl-in" value="25"/>
+      </div>
+    </div>
+
+    <button class="action-gold-btn" onclick="calculateRisk()">⚡ Hisoblash</button>
+
+    <div class="risk-card-output" id="risk-result-box">
+      <div class="risk-stat-block">
+        <div class="risk-stat-num" id="r-out-lot">0.00</div>
+        <div class="risk-stat-label">Tavsiya etilgan Lot hajmi</div>
+      </div>
+      <div style="height: 1px; background: rgba(255,255,255,0.05); margin: 10px 0;"></div>
+      <div class="result-item-row"><span class="res-tag">Xavf ostidagi mablag'</span><span class="res-val-p" id="r-out-cash" style="color:var(--red)">$0.00</span></div>
+      <div class="result-item-row"><span class="res-tag">Maqsadli TP (1:2)</span><span class="res-val-p" id="r-out-tp2" style="color:var(--green)">$0.00</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 5. KUNLIK VAZIFALAR ══ -->
+<div class="page-view" id="pv-tasks">
+  <div class="page-topbar">
+    <button class="back-btn" onclick="backToHome()">‹</button>
+    <div class="topbar-title-block">
+      <span class="topbar-title">Kunlik Reja</span>
+      <span class="topbar-sub">Intizom ustuni</span>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="task-input-container">
+      <input type="text" id="taskTextInput" placeholder="Yangi reja yozing..." style="flex:1;"/>
+      <button class="action-gold-btn" style="width: auto; margin-top:0; padding: 0 20px; border-radius:12px;" onclick="addNewTask()">+</button>
+    </div>
+
+    <div class="task-list-vertical" id="taskListContainer"></div>
   </div>
 </div>
 
 <script>
-  try{window.Telegram.WebApp.expand();window.Telegram.WebApp.setHeaderColor('#0a0d14');window.Telegram.WebApp.setBackgroundColor('#0a0d14');}catch(e){}
-
-  function openPage(id){
-    document.getElementById('home').style.display='none';
-    document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
-    document.getElementById('pv-'+id).classList.add('active');
-    if(id==='journal')renderTrades();
-    if(id==='calendar')calRender();
-    if(id==='pnlcal')pnlRender();
-    window.scrollTo(0,0);
-  }
-  function goHome(){
-    document.getElementById('home').style.display='block';
-    document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
-    window.scrollTo(0,0);
-  }
-
-  /* ── ZONA ── */
-  let zDir="BUY";
-  function setZDir(d){zDir=d;document.getElementById("z-buy").className="dir-btn"+(d==="BUY"?" active-buy":"");document.getElementById("z-sell").className="dir-btn"+(d==="SELL"?" active-sell":"");document.getElementById("z-res").style.display="none";}
-  function zInput(){
-    const h=parseFloat(document.getElementById("z-high").value),l=parseFloat(document.getElementById("z-low").value);
-    const bar=document.getElementById("z-rbar");
-    if(!isNaN(h)&&!isNaN(l)&&h!==l){
-      const r=Math.abs(h-l).toFixed(2);document.getElementById("z-rval").textContent=r;
-      const b=document.getElementById("z-rbadge");
-      if(+r>=60){b.textContent="≥60 ✓";b.className="range-badge badge-good";}else{b.textContent="<60";b.className="range-badge badge-warn";}
-      bar.style.display="flex";
-    }else{bar.style.display="none";}
-    document.getElementById("z-res").style.display="none";document.getElementById("z-err").style.display="none";
-  }
-  function sr(pid,sid,price,sig){
-    const p=document.getElementById(pid),s=document.getElementById(sid);
-    p.textContent=price.toFixed(2);p.className="rp "+(sig==="BUY"?"rp-b":"rp-s");
-    s.textContent=sig;s.className="sig "+(sig==="BUY"?"sig-b":"sig-s");
-  }
-  function calcZona(){
-    const h=parseFloat(document.getElementById("z-high").value),l=parseFloat(document.getElementById("z-low").value);
-    const e=document.getElementById("z-err");
-    if(isNaN(h)||isNaN(l)){e.textContent="HIGH va LOW kiriting!";e.style.display="block";return;}
-    if(h===l){e.textContent="HIGH va LOW bir xil bo'lmasin!";e.style.display="block";return;}
-    e.style.display="none";
-    const H=Math.max(h,l),L=Math.min(h,l),R=H-L;
-    if(zDir==="BUY"){sr("z-p1","z-s1",H+R*0.38,"SELL");sr("z-p2","z-s2",L+R*0.25,"BUY");sr("z-p3","z-s3",L+R*0.12,"BUY");}
-    else{sr("z-p1","z-s1",L-R*0.38,"BUY");sr("z-p2","z-s2",H-R*0.25,"SELL");sr("z-p3","z-s3",H-R*0.12,"SELL");}
-    document.getElementById("z-res").style.display="block";
+  // Global ilova holati va navigatsiya
+  const activeViews = ['home-view', 'pv-pnlcal', 'pv-media', 'pv-zona', 'pv-risk', 'pv-tasks'];
+  
+  function navigateTo(pageCode) {
+    document.getElementById('home-view').style.display = 'none';
+    activeViews.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.remove('active');
+    });
+    
+    if(pageCode === 'zona') document.getElementById('pv-zona').classList.add('active');
+    if(pageCode === 'risk') document.getElementById('pv-risk').classList.add('active');
+    if(pageCode === 'tasks') document.getElementById('pv-tasks').classList.add('active');
+    if(pageCode === 'pnlcal') { document.getElementById('pv-pnlcal').classList.add('active'); renderCalendar(); }
+    if(pageCode === 'media') { document.getElementById('pv-media').classList.add('active'); renderTimeline(); }
   }
 
-  /* ── RISK ── */
-  function calcRisk(){
-    const dep=parseFloat(document.getElementById("r-dep").value),rsk=parseFloat(document.getElementById("r-rsk").value),sl=parseFloat(document.getElementById("r-sl").value);
-    const e=document.getElementById("r-err");
-    if(isNaN(dep)||isNaN(rsk)||isNaN(sl)){e.textContent="Barcha maydonlarni to'ldiring!";e.style.display="block";return;}
-    if(rsk<=0||rsk>100){e.textContent="Risk 0-100% bo'lsin!";e.style.display="block";return;}
-    e.style.display="none";
-    const rd=dep*(rsk/100),lot=rd/(sl*10);
-    document.getElementById("r-dol").textContent="$"+rd.toFixed(2);
-    document.getElementById("r-pct").textContent=rsk;
-    document.getElementById("r-lot").textContent=lot.toFixed(2)+" lot";
-    document.getElementById("r-tp2").textContent="$"+(rd*2).toFixed(2);
-    document.getElementById("r-tp3").textContent="$"+(rd*3).toFixed(2);
-    document.getElementById("r-res").style.display="block";
+  function backToHome() {
+    activeViews.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.remove('active');
+    });
+    document.getElementById('home-view').style.display = 'block';
   }
 
-  /* ── GANN ── */
-  function calcGMin(){
-    const p=parseFloat(document.getElementById("gn-min").value),e=document.getElementById("gmin-err");
-    if(isNaN(p)||p<=0){e.textContent="Narxni kiriting!";e.style.display="block";return;}
-    e.style.display="none";
-    const sq=Math.sqrt(p),add=sq+0.5,res=add*add;
-    document.getElementById("gmin-sq").textContent=sq.toFixed(4);
-    document.getElementById("gmin-add").textContent=add.toFixed(4);
-    document.getElementById("gmin-sq2").textContent=res.toFixed(2);
-    document.getElementById("gmin-out").textContent=res.toFixed(2);
-    document.getElementById("gmin-res").style.display="block";
-  }
-  function calcGMax(){
-    const p=parseFloat(document.getElementById("gn-max").value),e=document.getElementById("gmax-err");
-    if(isNaN(p)||p<=0){e.textContent="Narxni kiriting!";e.style.display="block";return;}
-    e.style.display="none";
-    const sq=Math.sqrt(p),sub=sq-0.5,res=sub*sub;
-    document.getElementById("gmax-sq").textContent=sq.toFixed(4);
-    document.getElementById("gmax-sub").textContent=sub.toFixed(4);
-    document.getElementById("gmax-sq2").textContent=res.toFixed(2);
-    document.getElementById("gmax-out").textContent=res.toFixed(2);
-    document.getElementById("gmax-res").style.display="block";
+  // ── ZONA CALC LOGIC ──
+  let currentZonaDirection = 'BUY';
+  function setZonaDirection(dir) {
+    currentZonaDirection = dir;
+    document.getElementById('z-tab-buy').className = dir === 'BUY' ? 'tab-btn active-buy' : 'tab-btn';
+    document.getElementById('z-tab-sell').className = dir === 'SELL' ? 'tab-btn active-sell' : 'tab-btn';
   }
 
-  /* ── CAMARILLA ── */
-  function calcCam(){
-    const H=parseFloat(document.getElementById("c-h").value),L=parseFloat(document.getElementById("c-l").value),C=parseFloat(document.getElementById("c-c").value);
-    const e=document.getElementById("c-err");
-    if(isNaN(H)||isNaN(L)||isNaN(C)){e.textContent="HIGH, LOW va CLOSE kiriting!";e.style.display="block";return;}
-    if(H<=L){e.textContent="HIGH LOW dan katta bo'lsin!";e.style.display="block";return;}
-    e.style.display="none";
-    const r=H-L;
-    document.getElementById("c-pp").textContent=((H+L+C)/3).toFixed(2);
-    document.getElementById("c-r3").textContent=(C+r*1.1/4).toFixed(2);
-    document.getElementById("c-r4").textContent=(C+r*1.1/2).toFixed(2);
-    document.getElementById("c-s3").textContent=(C-r*1.1/4).toFixed(2);
-    document.getElementById("c-s4").textContent=(C-r*1.1/2).toFixed(2);
-    document.getElementById("cam-res").style.display="block";
-  }
+  function calculateZona() {
+    const high = parseFloat(document.getElementById('z-high-in').value);
+    const low = parseFloat(document.getElementById('z-low-in').value);
+    if(!high || !low || high <= low) { alert('Iltimos to‘g‘ri High va Low narx kiriting.'); return; }
+    
+    const range = high - low;
+    let r1, r2, r3;
 
-  /* ── JURNAL ── */
-  let jDir="BUY";
-  let trades=JSON.parse(localStorage.getItem('at_trades')||'[]');
-  function setJDir(d){jDir=d;document.getElementById("j-buy").className="dir-btn"+(d==="BUY"?" active-buy":"");document.getElementById("j-sell").className="dir-btn"+(d==="SELL"?" active-sell":"");}
-  function addTrade(result){
-    const entry=parseFloat(document.getElementById("j-entry").value);
-    const sl=parseFloat(document.getElementById("j-sl").value);
-    const tp=parseFloat(document.getElementById("j-tp").value);
-    const e=document.getElementById("j-err");
-    if(isNaN(entry)||isNaN(sl)||isNaN(tp)){e.textContent="Kirish, SL va TP kiriting!";e.style.display="block";return;}
-    e.style.display="none";
-    const now=new Date();
-    const date=now.toLocaleDateString('uz-UZ')+" "+now.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'});
-    trades.unshift({id:Date.now(),dir:jDir,entry,sl,tp,result,date});
-    localStorage.setItem('at_trades',JSON.stringify(trades));
-    document.getElementById("j-entry").value="";
-    document.getElementById("j-sl").value="";
-    document.getElementById("j-tp").value="";
-    renderTrades();
-  }
-  function deleteTrade(id){trades=trades.filter(t=>t.id!==id);localStorage.setItem('at_trades',JSON.stringify(trades));renderTrades();}
-  function clearTrades(){if(!confirm("Hammasini o'chirasizmi?"))return;trades=[];localStorage.setItem('at_trades','[]');renderTrades();}
-  function renderTrades(){
-    const list=document.getElementById("j-list"),stats=document.getElementById("j-stats"),clr=document.getElementById("j-clr");
-    if(trades.length===0){
-      stats.style.display="none";clr.style.display="none";
-      list.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div>Hali sdelka yo\'q.<br>WIN yoki LOSS bosing!</div>';return;
+    if(currentZonaDirection === 'BUY') {
+      r1 = low + (range * 0.382);
+      r2 = low + (range * 0.5);
+      r3 = low + (range * 0.618);
+    } else {
+      r1 = high - (range * 0.382);
+      r2 = high - (range * 0.5);
+      r3 = high - (range * 0.618);
     }
-    const wins=trades.filter(t=>t.result==="WIN").length,total=trades.length,wr=Math.round(wins/total*100);
-    document.getElementById("j-tot").textContent=total;
-    document.getElementById("j-wins").textContent=wins;
-    document.getElementById("j-loss").textContent=total-wins;
-    document.getElementById("j-wr").textContent=wr+"%";
-    document.getElementById("j-bar").style.width=wr+"%";
-    stats.style.display="block";clr.style.display="block";
-    list.innerHTML='<div class="res-label">SDELKALAR</div>'+trades.map(t=>`
-      <div class="trade-item ${t.result.toLowerCase()}">
-        <button class="t-del" onclick="deleteTrade(${t.id})">✕</button>
-        <div class="t-top">
-          <span class="t-dir ${t.dir==='BUY'?'td-b':'td-s'}">${t.dir==='BUY'?'▲':'▼'} ${t.dir}</span>
-          <span class="t-res ${t.result==='WIN'?'tr-w':'tr-l'}">${t.result==='WIN'?'✅ WIN':'❌ LOSS'}</span>
+
+    document.getElementById('z-res-1').innerText = r1.toFixed(2);
+    document.getElementById('z-res-2').innerText = r2.toFixed(2);
+    document.getElementById('z-res-3').innerText = r3.toFixed(2);
+    document.getElementById('zona-result-box').style.display = 'block';
+  }
+
+  // ── RISK CALC LOGIC ──
+  function calculateRisk() {
+    const dep = parseFloat(document.getElementById('r-dep-in').value);
+    const riskPct = parseFloat(document.getElementById('r-risk-in').value);
+    const slPips = parseFloat(document.getElementById('r-sl-in').value);
+
+    if(!dep || !riskPct || !slPips) { alert('Barcha maydonlarni to‘ldiring.'); return; }
+
+    const cashRisk = dep * (riskPct / 100);
+    // Oltin (XAUUSD) standarti bo'yicha: 1 lotda 1 pip o'zgarishi = $1. (Standart shartli formula)
+    const optimalLot = cashRisk / slPips;
+    const targetTp2 = cashRisk * 2;
+
+    document.getElementById('r-out-lot').innerText = optimalLot.toFixed(2);
+    document.getElementById('r-out-cash').innerText = '$' + cashRisk.toFixed(2);
+    document.getElementById('r-out-tp2').innerText = '$' + targetTp2.toFixed(2);
+    document.getElementById('risk-result-box').style.display = 'block';
+  }
+
+  // ── KUNLIK VAZIFALAR LOGIC ──
+  let tasksArray = JSON.parse(localStorage.getItem('at_tasks_pro')) || [];
+  function renderTasks() {
+    const container = document.getElementById('taskListContainer');
+    container.innerHTML = '';
+    if(tasksArray.length === 0) {
+      container.innerHTML = `<div style="text-align:center; color:#4b5875; padding: 20px; font-size:13px;">Hozircha vazifalar yo'q.</div>`;
+      return;
+    }
+    tasksArray.forEach((task, index) => {
+      const card = document.createElement('div');
+      card.className = 'task-item-card';
+      card.innerHTML = `
+        <div class="task-left-part">
+          <div class="task-checkbox ${task.done ? 'checked' : ''}" onclick="toggleTask(${index})"></div>
+          <span class="task-text-span ${task.done ? 'done' : ''}">${task.text}</span>
         </div>
-        <div class="t-prices">
-          <div class="t-pi">Kirish: <span>${t.entry}</span></div>
-          <div class="t-pi">SL: <span>${t.sl}</span></div>
-          <div class="t-pi">TP: <span>${t.tp}</span></div>
-        </div>
-        <div class="t-date">${t.date}</div>
-      </div>`).join('');
-  }
-
-  /* ══ PNL CALENDAR ══ */
-  const now3=new Date();
-  let pnlYear=now3.getFullYear(),pnlMonth=now3.getMonth(),pnlSelDay=null,pnlTab='pnl';
-
-  function pnlKey(y,m,d){return 'at_pnl_'+y+'_'+(m+1)+'_'+d;}
-  function pnlLoad(y,m,d){try{return JSON.parse(localStorage.getItem(pnlKey(y,m,d))||'null');}catch(e){return null;}}
-  function pnlSaveData(y,m,d,obj){localStorage.setItem(pnlKey(y,m,d),JSON.stringify(obj));}
-  function pnlDeleteData(y,m,d){localStorage.removeItem(pnlKey(y,m,d));}
-
-  function pnlSetTab(tab){
-    pnlTab=tab;
-    const isPnl=tab==='pnl';
-    document.getElementById('pnl-tab-pnl').style.background=isPnl?'#16a34a':'#0d1420';
-    document.getElementById('pnl-tab-pnl').style.color=isPnl?'#fff':'#475569';
-    document.getElementById('pnl-tab-pnl').style.border=isPnl?'none':'1px solid #1e2d42';
-    document.getElementById('pnl-tab-note').style.background=!isPnl?'#c9a84c':'#0d1420';
-    document.getElementById('pnl-tab-note').style.color=!isPnl?'#0a0a0a':'#475569';
-    document.getElementById('pnl-tab-note').style.border=!isPnl?'none':'1px solid #1e2d42';
-    document.getElementById('pnlNoteSection').style.display=!isPnl?'block':'none';
-  }
-
-  function pnlChangeMonth(dir){
-    pnlMonth+=dir;
-    if(pnlMonth>11){pnlMonth=0;pnlYear++;}
-    if(pnlMonth<0){pnlMonth=11;pnlYear--;}
-    pnlRender();
-  }
-
-  function pnlRender(){
-    document.getElementById('pnlMonthTitle').textContent=UZ_MONTHS[pnlMonth]+' '+pnlYear;
-    const grid=document.getElementById('pnlGrid');
-    grid.innerHTML='';
-    const first=new Date(pnlYear,pnlMonth,1);
-    let startDay=first.getDay();startDay=startDay===0?6:startDay-1;
-    const dim=new Date(pnlYear,pnlMonth+1,0).getDate();
-    const today=new Date();
-
-    let totalPnl=0,winDays=0,lossDays=0;
-    for(let d=1;d<=dim;d++){const data=pnlLoad(pnlYear,pnlMonth,d);if(data&&data.pnl!=null){totalPnl+=data.pnl;if(data.pnl>0)winDays++;else if(data.pnl<0)lossDays++;}}
-    const tv=document.getElementById('pnlTotalVal');
-    tv.textContent=(totalPnl>=0?'+':'')+totalPnl.toFixed(2)+'$';
-    tv.style.color=totalPnl>0?'#10b981':totalPnl<0?'#f87171':'#e2e8f0';
-    document.getElementById('pnlWinDays').textContent=winDays;
-    document.getElementById('pnlLossDays').textContent=lossDays;
-
-    for(let i=0;i<startDay;i++){const el=document.createElement('div');el.style.cssText='background:none;';grid.appendChild(el);}
-
-    for(let d=1;d<=dim;d++){
-      const el=document.createElement('div');
-      const data=pnlLoad(pnlYear,pnlMonth,d);
-      const isToday=today.getDate()===d&&today.getMonth()===pnlMonth&&today.getFullYear()===pnlYear;
-      const isSel=pnlSelDay&&pnlSelDay.d===d;
-      const dow=new Date(pnlYear,pnlMonth,d).getDay();
-      const hasWin=data&&data.pnl>0;const hasLoss=data&&data.pnl<0;const hasNote=data&&data.note;
-
-      let bg='#0d1420',border='#1e2d42';
-      if(hasWin){bg='rgba(22,163,74,0.12)';border='rgba(22,163,74,0.4)';}
-      else if(hasLoss){bg='rgba(220,38,38,0.12)';border='rgba(220,38,38,0.4)';}
-      if(isToday){border='#c9a84c';}
-      if(isSel){border='#fff';}
-
-      el.style.cssText=`background:${bg};border:1px solid ${border};border-radius:7px;min-height:54px;padding:5px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:1px;position:relative;`;
-
-      const num=document.createElement('div');
-      num.style.cssText=`font-size:11px;font-weight:500;color:${dow===0?'#6a3a2a':(isToday?'#c9a84c':'#777')};`;
-      num.textContent=d;el.appendChild(num);
-
-      if(data&&data.pnl!=null){
-        const pv=document.createElement('div');
-        pv.style.cssText=`font-size:9px;font-weight:800;color:${data.pnl>0?'#4ade80':'#f87171'};line-height:1.2;margin-top:1px;`;
-        pv.textContent=(data.pnl>0?'+':'')+data.pnl.toFixed(0)+'$';
-        el.appendChild(pv);
-        if(data.pct!=null){
-          const pp=document.createElement('div');
-          pp.style.cssText=`font-size:9px;color:${data.pnl>0?'#4ade80':'#f87171'};opacity:0.75;`;
-          pp.textContent=(data.pct>0?'+':'')+data.pct.toFixed(1)+'%';
-          el.appendChild(pp);
-        }
-      }
-      if(hasNote){
-        const nd=document.createElement('div');
-        nd.style.cssText='position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:#c9a84c;';
-        el.appendChild(nd);
-      }
-      el.onclick=()=>pnlOpenPanel(d);
-      grid.appendChild(el);
-    }
-  }
-
-  function pnlOpenPanel(d){
-    pnlSelDay={d,m:pnlMonth,y:pnlYear};
-    document.getElementById('pnlPanelDate').textContent=d+' '+UZ_MONTHS[pnlMonth]+' '+pnlYear;
-    const data=pnlLoad(pnlYear,pnlMonth,d);
-    document.getElementById('pnlAmountInput').value=data&&data.pnl!=null?data.pnl:'';
-    document.getElementById('pnlPctInput').value=data&&data.pct!=null?data.pct:'';
-    document.getElementById('pnlNoteInput').value=data&&data.note?data.note:'';
-    document.getElementById('pnlPanel').classList.add('open');
-    document.getElementById('pnlOverlay').classList.add('show');
-    setTimeout(()=>document.getElementById('pnlAmountInput').focus(),350);
-  }
-
-  function pnlClosePanel(){
-    document.getElementById('pnlPanel').classList.remove('open');
-    document.getElementById('pnlOverlay').classList.remove('show');
-    pnlSelDay=null;pnlRender();
-  }
-
-  function pnlSaveDay(){
-    if(!pnlSelDay)return;
-    const pnl=parseFloat(document.getElementById('pnlAmountInput').value);
-    const pct=parseFloat(document.getElementById('pnlPctInput').value);
-    const note=document.getElementById('pnlNoteInput').value.trim();
-    if(isNaN(pnl)){alert('PNL miqdorini kiriting!');return;}
-    const obj={pnl,pct:isNaN(pct)?null:pct,note:note||null};
-    pnlSaveData(pnlSelDay.y,pnlSelDay.m,pnlSelDay.d,obj);
-    pnlClosePanel();
-  }
-
-  function pnlDeleteDay(){
-    if(!pnlSelDay)return;
-    pnlDeleteData(pnlSelDay.y,pnlSelDay.m,pnlSelDay.d);
-    pnlClosePanel();
-  }
-
-  const UZ_MONTHS=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
-  const now2=new Date();
-  let calYear=now2.getFullYear(),calMonth=now2.getMonth(),calSelected=null;
-
-  function calKey(y,m,d){return 'at_cal_'+y+'_'+(m+1)+'_'+d;}
-  function calLoad(y,m,d){try{return JSON.parse(localStorage.getItem(calKey(y,m,d))||'[]');}catch(e){return[];}}
-  function calSave(y,m,d,arr){localStorage.setItem(calKey(y,m,d),JSON.stringify(arr));}
-
-  function calChangeMonth(dir){
-    calMonth+=dir;
-    if(calMonth>11){calMonth=0;calYear++;}
-    if(calMonth<0){calMonth=11;calYear--;}
-    calRender();
-  }
-
-  function calRender(){
-    document.getElementById('calMonthTitle').textContent=UZ_MONTHS[calMonth]+' '+calYear;
-    const grid=document.getElementById('calGrid');
-    grid.innerHTML='';
-    const first=new Date(calYear,calMonth,1);
-    let startDay=first.getDay();
-    startDay=startDay===0?6:startDay-1;
-    const dim=new Date(calYear,calMonth+1,0).getDate();
-    const today=new Date();
-
-    for(let i=0;i<startDay;i++){
-      const el=document.createElement('div');el.className='cal-cell cal-empty';grid.appendChild(el);
-    }
-    for(let d=1;d<=dim;d++){
-      const el=document.createElement('div');
-      const tasks=calLoad(calYear,calMonth,d);
-      const isToday=today.getDate()===d&&today.getMonth()===calMonth&&today.getFullYear()===calYear;
-      const isSel=calSelected&&calSelected.d===d&&calSelected.m===calMonth&&calSelected.y===calYear;
-      const dow=new Date(calYear,calMonth,d).getDay();
-      el.className='cal-cell'+(isToday?' cal-today':'')+(isSel?' cal-selected':'')+(dow===0?' cal-sunday':'');
-      const num=document.createElement('div');num.className='cal-num';num.textContent=d;el.appendChild(num);
-      if(tasks.length>0){
-        const dw=document.createElement('div');dw.className='cal-dots';
-        tasks.slice(0,6).forEach(t=>{const dot=document.createElement('div');dot.className='cal-dot'+(t.done?' done':'');dw.appendChild(dot);});
-        el.appendChild(dw);
-      }
-      el.onclick=()=>calOpenPanel(d);
-      grid.appendChild(el);
-    }
-  }
-
-  function calOpenPanel(d){
-    calSelected={d,m:calMonth,y:calYear};
-    document.getElementById('calPanelDate').textContent=d+' '+UZ_MONTHS[calMonth]+' '+calYear;
-    document.getElementById('calPanel').classList.add('open');
-    document.getElementById('calOverlay').classList.add('show');
-    calRenderTasks();
-    setTimeout(()=>document.getElementById('calTaskInput').focus(),350);
-    calRender();
-  }
-
-  function calClosePanel(){
-    document.getElementById('calPanel').classList.remove('open');
-    document.getElementById('calOverlay').classList.remove('show');
-    calSelected=null;
-    calRender();
-  }
-
-  function calRenderTasks(){
-    if(!calSelected)return;
-    const tasks=calLoad(calSelected.y,calSelected.m,calSelected.d);
-    const list=document.getElementById('calTaskList');
-    list.innerHTML='';
-    if(tasks.length===0){
-      list.innerHTML='<div class="cal-empty-msg">📋<br>Hali vazifa yo\'q</div>';return;
-    }
-    tasks.forEach((t,i)=>{
-      const item=document.createElement('div');
-      item.className='cal-task-item'+(t.done?' done-t':'');
-      const chk=document.createElement('div');
-      chk.className='cal-chk'+(t.done?' checked':'');
-      chk.innerHTML='<span class="cal-chk-icon">✓</span>';
-      chk.onclick=()=>{tasks[i].done=!tasks[i].done;calSave(calSelected.y,calSelected.m,calSelected.d,tasks);calRenderTasks();};
-      const txt=document.createElement('div');
-      txt.className='cal-task-txt'+(t.done?' striked':'');
-      txt.textContent=t.text;
-      const del=document.createElement('button');
-      del.className='cal-del';del.textContent='✕';
-      del.onclick=()=>{tasks.splice(i,1);calSave(calSelected.y,calSelected.m,calSelected.d,tasks);calRenderTasks();};
-      item.appendChild(chk);item.appendChild(txt);item.appendChild(del);
-      list.appendChild(item);
+        <button class="task-del-btn" onclick="deleteTask(${index})">🗑️</button>
+      `;
+      container.appendChild(card);
     });
   }
 
-  function calAddTask(){
-    if(!calSelected)return;
-    const inp=document.getElementById('calTaskInput');
-    const text=inp.value.trim();if(!text)return;
-    const tasks=calLoad(calSelected.y,calSelected.m,calSelected.d);
-    tasks.push({text,done:false});
-    calSave(calSelected.y,calSelected.m,calSelected.d,tasks);
-    inp.value='';
-    calRenderTasks();
+  function addNewTask() {
+    const input = document.getElementById('taskTextInput');
+    if(!input.value.trim()) return;
+    tasksArray.push({ text: input.value.trim(), done: false });
+    localStorage.setItem('at_tasks_pro', JSON.stringify(tasksArray));
+    input.value = '';
+    renderTasks();
+  }
+
+  function toggleTask(index) {
+    tasksArray[index].done = !tasksArray[index].done;
+    localStorage.setItem('at_tasks_pro', JSON.stringify(tasksArray));
+    renderTasks();
+  }
+
+  function deleteTask(index) {
+    tasksArray.splice(index, 1);
+    localStorage.setItem('at_tasks_pro', JSON.stringify(tasksArray));
+    renderTasks();
+  }
+  renderTasks();
+
+  // ── TRADING CALENDAR PNL LOGIC ──
+  let currentDate = new Date();
+  let pnlData = JSON.parse(localStorage.getItem('at_pnl_calendar_data')) || {};
+  let selectedDateStr = '';
+
+  const uzbMonths = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
+
+  function renderCalendar() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    
+    document.getElementById('calMonthTitle').innerText = `${uzbMonths[month]} ${year}`;
+    
+    const firstDayIndex = new Date(year, month, 1).getDay();
+    const currentMonthDays = new Date(year, month + 1, 0).getDate();
+    
+    // Haftaning boshlanish kunini Dushanbaga moslash
+    let startOffset = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+    
+    const gridContainer = document.getElementById('calDaysGrid');
+    gridContainer.innerHTML = '';
+    
+    // Bo'sh kataklar (oldingi oydan qolgan joylar)
+    for(let i = 0; i < startOffset; i++) {
+      const emptyBox = document.createElement('div');
+      emptyBox.className = 'cal-day-box empty';
+      gridContainer.appendChild(emptyBox);
+    }
+    
+    const todayObj = new Date();
+    
+    // Joriy oy kunlari
+    for(let day = 1; day <= currentMonthDays; day++) {
+      const dayBox = document.createElement('div');
+      dayBox.className = 'cal-day-box';
+      
+      if(day === todayObj.getDate() && month === todayObj.getMonth() && year === todayObj.getFullYear()) {
+        dayBox.classList.add('today');
+      }
+      
+      const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      
+      let dayHtml = `<span class="cal-day-num">${day}</span>`;
+      
+      if(pnlData[dateKey]) {
+        const entry = pnlData[dateKey];
+        const pnlNum = parseFloat(entry.amount);
+        if(pnlNum > 0) {
+          dayHtml += `<span class="cal-day-pnl-status pnl-win-text">+${pnlNum}</span>`;
+        } else if(pnlNum < 0) {
+          dayHtml += `<span class="cal-day-pnl-status pnl-loss-text">${pnlNum}</span>`;
+        } else {
+          dayHtml += `<span class="cal-day-pnl-status" style="color:#64748b">0</span>`;
+        }
+      }
+      
+      dayBox.innerHTML = dayHtml;
+      dayBox.onclick = () => openPnlModal(dateKey);
+      gridContainer.appendChild(dayBox);
+    }
+    
+    calculatePnlStats();
+  }
+
+  function changeMonth(dir) {
+    currentDate.setMonth(currentDate.getMonth() + dir);
+    renderCalendar();
+  }
+
+  function openPnlModal(dateKey) {
+    selectedDateStr = dateKey;
+    document.getElementById('pnlModalTitle').innerText = `${dateKey} - PNL Kiritish`;
+    
+    if(pnlData[dateKey]) {
+      document.getElementById('pnlAmountInput').value = pnlData[dateKey].amount;
+      document.getElementById('pnlNoteInput').value = pnlData[dateKey].note || '';
+    } else {
+      document.getElementById('pnlAmountInput').value = '';
+      document.getElementById('pnlNoteInput').value = '';
+    }
+    
+    document.getElementById('pnlModal').style.display = 'flex';
+  }
+
+  function closePnlModal() {
+    document.getElementById('pnlModal').style.display = 'none';
+  }
+
+  function savePnlEntry() {
+    const amt = document.getElementById('pnlAmountInput').value;
+    const note = document.getElementById('pnlNoteInput').value;
+    if(amt === '') return;
+
+    pnlData[selectedDateStr] = { amount: parseFloat(amt), note: note };
+    localStorage.setItem('at_pnl_calendar_data', JSON.stringify(pnlData));
+    closePnlModal();
+    renderCalendar();
+  }
+
+  function deletePnlEntry() {
+    if(pnlData[selectedDateStr]) {
+      delete pnlData[selectedDateStr];
+      localStorage.setItem('at_pnl_calendar_data', JSON.stringify(pnlData));
+    }
+    closePnlModal();
+    renderCalendar();
+  }
+
+  function calculatePnlStats() {
+    let net = 0; let wins = 0; let losses = 0;
+    Object.values(pnlData).forEach(item => {
+      const val = parseFloat(item.amount);
+      net += val;
+      if(val > 0) wins++;
+      if(val < 0) losses++;
+    });
+    document.getElementById('pnl-total-net').innerText = (net >= 0 ? '+$' : '-$') + Math.abs(net).toFixed(1);
+    document.getElementById('pnl-total-wins').innerText = wins;
+    document.getElementById('pnl-total-losses').innerText = losses;
+  }
+
+
+  // ── INDEXEDDB TIZIMI (RASM VA VIDEOLARNI BRAUZERDA SAQLASH) ──
+  let db;
+  const dbRequest = indexedDB.open("AslamovTradeDB", 1);
+
+  dbRequest.onupgradeneeded = function(e) {
+    let database = e.target.result;
+    if (!database.objectStoreNames.contains("media_journal")) {
+      database.createObjectStore("media_journal", { keyPath: "id", autoIncrement: true });
+    }
+  };
+
+  dbRequest.onsuccess = function(e) {
+    db = e.target.result;
+    if(document.getElementById('pv-media').classList.contains('active')) {
+      renderTimeline();
+    }
+  };
+
+  function triggerMediaSelector() {
+    document.getElementById('mediaFileInput').click();
+  }
+
+  let base64MediaTemp = null;
+  let fileTypeTemp = "";
+
+  function handleMediaUpload(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    fileTypeTemp = file.type;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      base64MediaTemp = e.target.result;
+      document.getElementById('mediaCommentBlock').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function submitMediaToDB() {
+    if(!base64MediaTemp) return;
+    const comment = document.getElementById('mediaCommentInput').value.trim();
+    const today = new Date();
+    const timeStr = `${today.getDate()}-${uzbMonths[today.getMonth()]}, ${today.getFullYear()}`;
+
+    const transaction = db.transaction(["media_journal"], "readwrite");
+    const store = transaction.objectStore("media_journal");
+
+    const record = {
+      mediaData: base64MediaTemp,
+      type: fileTypeTemp,
+      comment: comment || "Izoh qoldirilmagan.",
+      date: timeStr,
+      timestamp: Date.now()
+    };
+
+    store.add(record);
+
+    transaction.oncomplete = function() {
+      base64MediaTemp = null;
+      fileTypeTemp = "";
+      document.getElementById('mediaCommentInput').value = '';
+      document.getElementById('mediaCommentBlock').style.display = 'none';
+      renderTimeline();
+    };
+  }
+
+  function renderTimeline() {
+    if(!db) return;
+    const container = document.getElementById('mediaTimeline');
+    container.innerHTML = '';
+
+    const transaction = db.transaction(["media_journal"], "readonly");
+    const store = transaction.objectStore("media_journal");
+    const request = store.getAll();
+
+    request.onsuccess = function() {
+      const data = request.result;
+      // Eng yangi yuklangan fayllar yuqorida turishi uchun sorting
+      data.sort((a,b) => b.timestamp - a.timestamp);
+
+      if(data.length === 0) {
+        container.innerHTML = `<div style="text-align:center; color:#4b5875; padding:20px; font-size:13px;">Hozircha hech narsa yuklanmagan.</div>`;
+        return;
+      }
+
+      data.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'timeline-card';
+        
+        let mediaHtml = "";
+        if(item.type.startsWith('image/')) {
+          mediaHtml = `<img src="${item.mediaData}" alt="Savdo Rivojlanishi"/>`;
+        } else if(item.type.startsWith('video/')) {
+          mediaHtml = `<video src="${item.mediaData}" controls></video>`;
+        }
+
+        // Birinchi va oxirgi holat belgisini dinamik aniqlash
+        let statusTag = index === data.length - 1 ? "Boshlang'ich Holat" : "Joriy Progress";
+        if(index === 0 && data.length > 1) statusTag = "Eng So'nggi Natija";
+
+        card.innerHTML = `
+          <div class="timeline-header-meta">
+            <span class="timeline-tag-status">${statusTag}</span>
+            <span class="timeline-date-str">${item.date}</span>
+          </div>
+          <div class="timeline-media-preview">${mediaHtml}</div>
+          <p class="timeline-comment-txt">${item.comment}</p>
+          <button onclick="deleteMedia(${item.id})" style="background:none; border:none; color:var(--red); font-size:11px; margin-top:10px; cursor:pointer;">O'chirish</button>
+        `;
+        container.appendChild(card);
+      });
+    };
+  }
+
+  function deleteMedia(id) {
+    if(!confirm("Ushbu xotirani o'chirib tashlamoqchimisiz?")) return;
+    const transaction = db.transaction(["media_journal"], "readwrite");
+    const store = transaction.objectStore("media_journal");
+    store.delete(id);
+    transaction.oncomplete = function() {
+      renderTimeline();
+    };
   }
 </script>
 </body>
